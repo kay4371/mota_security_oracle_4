@@ -713,51 +713,51 @@
 // // // // const serverWebSocket = new WebSocket.Server({ port: 8081 });
 
 
-// serverWebSocket.on('connection', (ws) => {
-//   console.log('WebSocket connection established');
+// // // // serverWebSocket.on('connection', (ws) => {
+// // // //   console.log('WebSocket connection established');
 
-//   // Handle incoming WebSocket messages from clients
-//   ws.on('message', (message) => {
-//     console.log(`Received: ${message}`);
-//   });
+// // // //   // Handle incoming WebSocket messages from clients
+// // // //   ws.on('message', (message) => {
+// // // //     console.log(`Received: ${message}`);
+// // // //   });
 
-//   // Handle WebSocket errors
-//   ws.on('error', (error) => {
-//     console.error('WebSocket error:', error);
-//     // Optionally, you can close the connection or perform any other cleanup here
-//   });
+// // // //   // Handle WebSocket errors
+// // // //   ws.on('error', (error) => {
+// // // //     console.error('WebSocket error:', error);
+// // // //     // Optionally, you can close the connection or perform any other cleanup here
+// // // //   });
 
-//   // Add the client to the appropriate client list based on the purpose
-//   ws.on('close', () => {
-//     console.log('WebSocket connection closed');
-//     // Add logic here to remove the client from the appropriate client list
-//   });
-// });
+// // // //   // Add the client to the appropriate client list based on the purpose
+// // // //   ws.on('close', () => {
+// // // //     console.log('WebSocket connection closed');
+// // // //     // Add logic here to remove the client from the appropriate client list
+// // // //   });
+// // // // });
 
-// // correct second2
-// app.get('/events', (req, res) => {
-//   res.setHeader('Content-Type', 'text/event-stream');
-//   res.setHeader('Cache-Control', 'no-cache');
-//   res.setHeader('Connection', 'keep-alive');
+// // // // // correct second2
+// // // // app.get('/events', (req, res) => {
+// // // //   res.setHeader('Content-Type', 'text/event-stream');
+// // // //   res.setHeader('Cache-Control', 'no-cache');
+// // // //   res.setHeader('Connection', 'keep-alive');
 
-//   // Add the response object to the SSE clients array
-//   sseClients.push(res);
+// // // //   // Add the response object to the SSE clients array
+// // // //   sseClients.push(res);
 
-//   req.on('close', () => {
-//     // Remove the closed response object from the SSE clients array
-//     const index = sseClients.indexOf(res);
-//     if (index !== -1) {
-//       sseClients.splice(index, 1);
-//     }
-//     // Close the response stream
-//     res.end();
-//   });
-//  // Handle SSE errors
-//  res.on('error', (error) => {
-//   console.error('SSE error:', error);
-//   // Optionally, you can close the connection or perform any other cleanup here
-// });
-// });
+// // // //   req.on('close', () => {
+// // // //     // Remove the closed response object from the SSE clients array
+// // // //     const index = sseClients.indexOf(res);
+// // // //     if (index !== -1) {
+// // // //       sseClients.splice(index, 1);
+// // // //     }
+// // // //     // Close the response stream
+// // // //     res.end();
+// // // //   });
+// // // //  // Handle SSE errors
+// // // //  res.on('error', (error) => {
+// // // //   console.error('SSE error:', error);
+// // // //   // Optionally, you can close the connection or perform any other cleanup here
+// // // // });
+// // // // });
 
 
 
@@ -5335,9 +5335,96 @@ wss.on('connection', (ws) => {
       clearInterval(queryInterval);
     });
   });
+
+
+
+////////////////////////////////////////////////////////////////
   
   const serverWebSocket = new WebSocket.Server({ port: 8081 });
-  
+  // WebSocket server logic
+serverWebSocket.on('connection', (ws) => {
+  console.log('WebSocket connection established');
+
+  // Handle incoming WebSocket messages from clients
+  ws.on('message', (message) => {
+    console.log(`Received: ${message}`);
+  });
+
+  // Add the client to the appropriate client list based on the purpose
+  ws.on('close', () => {
+    console.log('WebSocket connection closed');
+  });
+});
+
+// correct second2
+const sseClients = [];
+app.get('/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  // Add the response object to the SSE clients array
+  sseClients.push(res);
+
+  req.on('close', () => {
+    // Remove the closed response object from the SSE clients array
+    const index = sseClients.indexOf(res);
+    if (index !== -1) {
+      sseClients.splice(index, 1);
+    }
+  });
+});
+
+////////////////////////////////////////////////////////////////
+
+// // // serverWebSocket.on('connection', (ws) => {
+// // //   console.log('WebSocket connection established');
+
+// // //   // Handle incoming WebSocket messages from clients
+// // //   ws.on('message', (message) => {
+// // //     console.log(`Received: ${message}`);
+// // //   });
+
+// // //   // Handle WebSocket errors
+// // //   ws.on('error', (error) => {
+// // //     console.error('WebSocket error:', error);
+// // //     // Optionally, you can close the connection or perform any other cleanup here
+// // //   });
+
+// // //   // Add the client to the appropriate client list based on the purpose
+// // //   ws.on('close', () => {
+// // //     console.log('WebSocket connection closed');
+// // //     // Add logic here to remove the client from the appropriate client list
+// // //   });
+// // // });
+
+// // // // correct second2
+// // // app.get('/events', (req, res) => {
+// // //   res.setHeader('Content-Type', 'text/event-stream');
+// // //   res.setHeader('Cache-Control', 'no-cache');
+// // //   res.setHeader('Connection', 'keep-alive');
+
+// // //   // Add the response object to the SSE clients array
+// // //   sseClients.push(res);
+
+// // //   req.on('close', () => {
+// // //     // Remove the closed response object from the SSE clients array
+// // //     const index = sseClients.indexOf(res);
+// // //     if (index !== -1) {
+// // //       sseClients.splice(index, 1);
+// // //     }
+// // //     // Close the response stream
+// // //     res.end();
+// // //   });
+// // //  // Handle SSE errors
+// // //  res.on('error', (error) => {
+// // //   console.error('SSE error:', error);
+// // //   // Optionally, you can close the connection or perform any other cleanup here
+// // // });
+// // // });
+
+
+
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
 server.keepAliveTimeout = 120 * 1000;
