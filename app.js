@@ -814,57 +814,57 @@
 // });
 
 
-// function sendSSEMessage(endpoint, message) {
-//   const formattedMessage = `data: ${JSON.stringify(message)}\n\n`;
-//   let clientsArray;
+// // // // function sendSSEMessage(endpoint, message) {
+// // // //   const formattedMessage = `data: ${JSON.stringify(message)}\n\n`;
+// // // //   let clientsArray;
 
-//   if (endpoint === 'sse_visitor_upload') {
-//     clientsArray = sseVisitorClients;
-//   } else if (endpoint === 'sse_driver_authorization') {
-//     clientsArray = sseDriverClients;
-//   }
+// // // //   if (endpoint === 'sse_visitor_upload') {
+// // // //     clientsArray = sseVisitorClients;
+// // // //   } else if (endpoint === 'sse_driver_authorization') {
+// // // //     clientsArray = sseDriverClients;
+// // // //   }
 
-//   clientsArray.forEach(client => {
-//     try {
-//       // Check if the client is still writable
-//       if (!client.writableEnded) {
-//         client.write(formattedMessage);
-//       } else {
-//         // If client is no longer writable, remove it from the clients array
-//         const index = clientsArray.indexOf(client);
-//         if (index !== -1) {
-//           clientsArray.splice(index, 1);
-//         }
-//       }
-//     } catch (error) {
-//       console.error('Error sending SSE message:', error);
-//     }
-//   });
-// }
+// // // //   clientsArray.forEach(client => {
+// // // //     try {
+// // // //       // Check if the client is still writable
+// // // //       if (!client.writableEnded) {
+// // // //         client.write(formattedMessage);
+// // // //       } else {
+// // // //         // If client is no longer writable, remove it from the clients array
+// // // //         const index = clientsArray.indexOf(client);
+// // // //         if (index !== -1) {
+// // // //           clientsArray.splice(index, 1);
+// // // //         }
+// // // //       }
+// // // //     } catch (error) {
+// // // //       console.error('Error sending SSE message:', error);
+// // // //     }
+// // // //   });
+// // // // }
 
-// // app.use(express.json());
-// // SSE route for the receptionist
-// app.get('/sse_receptionist', (req, res) => {
-//   res.setHeader('Content-Type', 'text/event-stream');
-//   res.setHeader('Cache-Control', 'no-cache');
-//   res.setHeader('Connection', 'keep-alive');
-//   res.flushHeaders();
+// // // // // app.use(express.json());
+// // // // // SSE route for the receptionist
+// // // // app.get('/sse_receptionist', (req, res) => {
+// // // //   res.setHeader('Content-Type', 'text/event-stream');
+// // // //   res.setHeader('Cache-Control', 'no-cache');
+// // // //   res.setHeader('Connection', 'keep-alive');
+// // // //   res.flushHeaders();
 
-//   const sseStream = new Readable({
-//     read() { },
-//   });
+// // // //   const sseStream = new Readable({
+// // // //     read() { },
+// // // //   });
 
-//   sseStream.pipe(res);
+// // // //   sseStream.pipe(res);
 
-//   // Add the SSE stream to the set of clients
-//   sseClients.add(sseStream);
+// // // //   // Add the SSE stream to the set of clients
+// // // //   sseClients.add(sseStream);
 
-//   // Remove the SSE stream when the client disconnects
-//   req.on('close', () => {
-//     sseClients.delete(sseStream);
-//     sseStream.destroy();
-//   });
-// });
+// // // //   // Remove the SSE stream when the client disconnects
+// // // //   req.on('close', () => {
+// // // //     sseClients.delete(sseStream);
+// // // //     sseStream.destroy();
+// // // //   });
+// // // // });
 
 
 
@@ -5382,6 +5382,72 @@ app.get('/events', (req, res) => {
 });
 
 ////////////////////////////////////////////////////////////////
+
+async function main() {
+  try {
+    const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db(dbName);
+    const collectionName = 'drivers_details';
+    const collection = db.collection(collectionName);
+
+    const changeStream = collection.watch();
+
+    changeStream.on('change', (next) => {
+      console.log('Change detected:', next);
+
+      if (next.operationType === 'insert') {
+        const newEntry = next.fullDocument;
+
+        // Send the new entry to all connected SSE clients
+        sseClients.forEach((client) => {
+          client.write(`data: ${JSON.stringify(newEntry)}\n\n`);
+        });
+      }
+    });
+
+    console.log('Change stream is running...');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Call the main function to start the change stream
+main();
+// ///////////////////////
+
+
+const sseVisitorClients = [];
+app.get('/sse_visitor_upload', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  sseVisitorClients.push(res);
+
+  req.on('close', () => {
+    const index = sseVisitorClients.indexOf(res);
+    if (index !== -1) {
+      sseVisitorClients.splice(index, 1);
+    }
+  });
+});
+
+function sendSSEMessage(endpoint, message) {
+  const formattedMessage = `data: ${JSON.stringify(message)}\n\n`;
+  let clientsArray;
+
+  if (endpoint === 'sse_visitor_upload') {
+    clientsArray = sseVisitorClients;
+  } else if (endpoint === 'sse_driver_authorization') {
+    clientsArray = sseDriverClients;
+  }
+
+  clientsArray.forEach(client => {
+    client.write(formattedMessage);
+  });
+}
 
 // // // serverWebSocket.on('connection', (ws) => {
 // // //   console.log('WebSocket connection established');
