@@ -762,38 +762,38 @@
 
 
 
-// async function main() {
-//   try {
-//     const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-//     await client.connect();
-//     const db = client.db(dbName);
-//     const collectionName = 'drivers_details';
-//     const collection = db.collection(collectionName);
+// // // // async function main() {
+// // // //   try {
+// // // //     const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+// // // //     await client.connect();
+// // // //     const db = client.db(dbName);
+// // // //     const collectionName = 'drivers_details';
+// // // //     const collection = db.collection(collectionName);
 
-//     const changeStream = collection.watch();
+// // // //     const changeStream = collection.watch();
 
-//     changeStream.on('change', (next) => {
-//       console.log('Change detected:', next);
+// // // //     changeStream.on('change', (next) => {
+// // // //       console.log('Change detected:', next);
 
-//       if (next.operationType === 'insert') {
-//         const newEntry = next.fullDocument;
+// // // //       if (next.operationType === 'insert') {
+// // // //         const newEntry = next.fullDocument;
 
-//         // Send the new entry to all connected SSE clients
-//         sseClients.forEach((client) => {
-//           client.write(`data: ${JSON.stringify(newEntry)}\n\n`);
-//         });
-//       }
-//     });
+// // // //         // Send the new entry to all connected SSE clients
+// // // //         sseClients.forEach((client) => {
+// // // //           client.write(`data: ${JSON.stringify(newEntry)}\n\n`);
+// // // //         });
+// // // //       }
+// // // //     });
 
-//     console.log('Change stream is running...');
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// }
+// // // //     console.log('Change stream is running...');
+// // // //   } catch (error) {
+// // // //     console.error('Error:', error);
+// // // //   }
+// // // // }
 
-// // Call the main function to start the change stream
-// main();
-// // ///////////////////////
+// // // // // Call the main function to start the change stream
+// // // // main();
+// // // // // ///////////////////////
 
 
 // const sseVisitorClients = [];
@@ -4672,6 +4672,10 @@
 //   console.log(`Server listening on port ${port}`);
 
 // });
+const unirest = require('unirest');
+const cheerio = require('cheerio');
+const logger = require('morgan');
+const cors = require('cors');
 require('dotenv').config();
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
@@ -4746,6 +4750,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 app.use(helmet());
+app.use(logger('dev'));
+app.use(cors());
 
 
 app.use((req, res, next) => {
@@ -5422,7 +5428,149 @@ app.get('/events', (req, res) => {
 // // //   // Optionally, you can close the connection or perform any other cleanup here
 // // // });
 // // // });
+////////////////////////////////////////////////////////////
 
+// async function main() {
+//   try {
+//     const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collectionName = 'drivers_details';
+//     const collection = db.collection(collectionName);
+
+//     const changeStream = collection.watch();
+
+//     changeStream.on('change', (next) => {
+//       console.log('Change detected:', next);
+
+//       if (next.operationType === 'insert') {
+//         const newEntry = next.fullDocument;
+
+//         // Send the new entry to all connected SSE clients
+//         sseClients.forEach((client) => {
+//           client.write(`data: ${JSON.stringify(newEntry)}\n\n`);
+//         });
+//       }
+//     });
+
+//     console.log('Change stream is running...');
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// }
+
+// // Call the main function to start the change stream
+// main();
+// /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// app.post('/checkname', (req, res) => {
+//   const userName = req.body.name.toLowerCase();
+  
+//   if (userName === 'homer') {
+//     res.status(401).send({ message: "Sorry, no Homer's!" });
+//     return;
+//   }
+
+//   // Fetch organic data and send response
+//   getOrganicData(userName)
+//     .then((organicResults) => {
+//       res.json({ organicResults });
+//     })
+//     .catch((error) => {
+//       console.error('Error fetching organic data:', error);
+//       res.status(500).send({ message: 'Internal server error' });
+//     });
+// });
+
+// // Function to fetch organic search results
+// function getOrganicData(userName) {
+//   return new Promise((resolve, reject) => {
+//     const userLocation = userName; // Assuming user's location details come from the name
+//     const userSpecific = 'crime' + userLocation;
+//     const webLink = `https://www.google.com/search?q=${encodeURIComponent(userSpecific)}&gl=us&hl=en`;
+
+//     unirest
+//       .get(webLink)
+//       .headers({
+//         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
+//       })
+//       .then((response) => {
+//         const $ = cheerio.load(response.body);
+//         const organicResults = [];
+
+//         $(".yuRUbf > a").each((i, el) => {
+//           const title = $(el).find('h3').text();
+//           const link = $(el).attr('href');
+//           const snippet = $(el).parent().find('.IsZvec').text(); // Assuming this class is for snippets
+//           const displayedLink = $(el).find('.tjvcx').text(); // Assuming this class is for displayed links
+          
+//           organicResults.push({
+//             title,
+//             link,
+//             snippet,
+//             displayedLink,
+//           });
+//         });
+
+//         resolve(organicResults);
+//       })
+//       .catch((error) => {
+//         reject(error);
+//       });
+//   });
+// }
+///////////////////////////////////////////////////////////////
+
+
+function fetchDataForName(name, callback) {
+  // Assume name is already validated and sanitized
+  const userLocation = name; // Assuming user's location details come from the name
+  // const userSpecific = 'crime' + userLocation;
+  // const userSpecific = 'crime' + "nigeria";
+  const userSpecific = "crime";
+  const webLink = `https://www.google.com/search?q=${encodeURIComponent(userSpecific)}&gl=us&hl=en`;
+
+  unirest
+    .get(webLink)
+    .headers({
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
+    })
+    .then((response) => {
+      const $ = cheerio.load(response.body);
+      const organicResults = [];
+
+      $(".yuRUbf > a").each((i, el) => {
+        const title = $(el).find('h3').text();
+        const link = $(el).attr('href');
+        const snippet = $(el).parent().find('.IsZvec').text(); // Assuming this class is for snippets
+        const displayedLink = $(el).find('.tjvcx').text(); // Assuming this class is for displayed links
+        
+        organicResults.push({
+          title,
+          link,
+          snippet,
+          displayedLink,
+        });
+      });
+
+      callback(null, organicResults); // Pass the fetched data to the callback function
+    })
+    .catch((error) => {
+      callback(error, null); // Pass any errors to the callback function
+    });
+}
+
+// Example usage:
+fetchDataForName('homer', (error, data) => {
+  if (error) {
+    console.error('Error fetching data:', error);
+  } else {
+    console.log('Fetched data:', data);
+  }
+});
 
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));
