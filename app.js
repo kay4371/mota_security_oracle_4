@@ -2224,498 +2224,498 @@
 // // // // }
 // // // // })
 
-// // ////////////////////pdf//////////////////////////////////////////////////////////////
-
-
-// //////////////////////////////////////////////////////////////
-// app.post('/receive_gate_pass', async function (req, res) {
-//   const gatePassTicket = req.body;
-
-//   try {
-//     await client.connect(); // Connect to the MongoDB client
-//     const database = client.db('olukayode_sage');
-//     const kaydata = database.collection('drivers_details');
-
-//     // Generate the gate pass ticket from the previously sent driver data
-//     const driverData = await collection.findOne({ _id: gatePassTicket.driverId });
-//     const generatedTicket = generateGatePassTicket(driverData);
-
-//     // Save the gate pass ticket to the database
-//     const result = await collection.insertOne(generatedTicket);
-
-//     // Generate the ticket in PDF format
-//     const ticketPath = await generateTicketPDF(generatedTicket);
-
-//     res.send('Gate pass ticket received successfully');
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while receiving gate pass ticket');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
-
-// // Helper function to generate gate pass ticket from driver data
-// function generateGatePassTicket(driverData) {
-//   // Generate the ticket using driver data
-//   const gatePassTicket = {
-//     driverName: driverData.name,
-//     vehicleDetails: driverData.vehicleDetails,
-//     accessAuthorization: 'Authorized', // Set the access authorization status
-//     // Include additional ticket information
-//     // ...
-//   };
-
-//   // Return the generated ticket object
-//   return gatePassTicket;
-// }
-
-// // Helper function to generate the gate pass ticket in PDF format
-// function generateTicketPDF(ticketData) {
-//   return new Promise((resolve, reject) => {
-//     const doc = new PDFDocument();
-
-//     // Set the PDF document properties
-//     doc.info.Title = 'Gate Pass Ticket';
-//     doc.info.Author = 'Your Company';
-
-//     // Create the PDF content
-//     doc.font('Helvetica-Bold').fontSize(14).text('Gate Pass Ticket', { align: 'center' });
-//     doc.moveDown();
-//     doc.font('Helvetica').fontSize(12).text(`Driver Name: ${ticketData.driverName}`);
-//     doc.moveDown();
-//     doc.font('Helvetica').fontSize(12).text(`Vehicle Details: ${ticketData.vehicleDetails}`);
-//     doc.moveDown();
-//     doc.font('Helvetica').fontSize(12).text(`Access Authorization: ${ticketData.accessAuthorization}`);
-//     // Include additional ticket information
-//     // ...
-
-//     // Generate the ticket file
-//     const ticketPath = 'gate_pass_ticket.pdf';
-//     const stream = fs.createWriteStream(ticketPath);
-//     doc.pipe(stream);
-//     doc.end();
-
-//     stream.on('finish', () => {
-//       resolve(ticketPath);
-//     });
-
-//     stream.on('error', (error) => {
-//       reject(error);
-//     });
-//   });
-// }
-
-
-// app.delete('/deleteDriver/:id', async function (req, res) {
-//   const driverId = req.params.id;
-
-//   try {
-//     const client = new MongoClient(uri);
-//     await client.connect();
-
-//     const database = client.db('olukayode_sage');
-//     const driversCollection = database.collection('drivers_details');
-//     const driversHistoryCollection = database.collection('drivershistory');
-
-//     // Find the driver data by ID
-//     const driver = await driversCollection.findOne({ _id: new ObjectId(driverId) });
-
-//     if (!driver) {
-//       res.status(404).json({ message: 'Driver not found' });
-//       return;
-//     }
-
-//     // Delete the driver data from the drivers collection
-//     const deleteResult = await driversCollection.deleteOne({ _id: new ObjectId(driverId) });
-
-//     if (deleteResult.deletedCount === 0) {
-//       res.status(404).json({ message: 'Driver not found in the drivers collection' });
-//       return;
-//     }
-
-//     res.status(200).json({ message: 'Driver deleted successfully', _id: driverId });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while deleting the driver');
-//   } finally {
-//     await client.close();
-//   }
-// });
-
-// app.post('/addDriverToHistory', async function (req, res) {
-//   const driverData = req.body;
-
-//   try {
-//     const client = new MongoClient(uri);
-//     await client.connect();
-
-//     const database = client.db('olukayode_sage');
-//     const driversHistoryCollection = database.collection('drivershistory');
-
-//     // Insert the driver data into the drivers history collection
-//     const result = await driversHistoryCollection.insertOne(driverData);
-//     console.log('Driver added to history:', result);
-
-//     res.status(200).json({ message: 'Driver added to history' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while adding the driver to history');
-//   } finally {
-//     await client.close();
-//   }
-// });
-
-
-// // Security guard portal: Return driver
-// app.post('/return_driver/:driverId', async function (req, res) {
-//   const driverId = req.params.driverId;
-
-//   try {
-//     await client.connect(); // Connect to the MongoDB client
-//     const database = client.db('olukayode_sage');
-//     const kaydata = database.collection('olukayode_collection');
-
-//     // Mark the driver as returned in the database
-//     const result = await collection.updateOne(
-//       { _id: driverId },
-//       { $set: { returned: true } }
-//     );
-
-
-
-//     res.send('Driver returned successfully');
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while returning driver');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
-
-
-// app.get('/get_visitor_history', async function (req, res) {
-//   try {
-//     await client.connect();
-//     const database = client.db('olukayode_sage');
-//     // const collection = database.collection('olukayode_collection');
-//     const collection = database.collection('Visitorshistory');
-//     const visithistory = await collection.find({}).toArray();
-//     console.log(' History :', visithistory);
-
-//     res.json(visithistory);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while retrieving History');
-//   } finally {
-//     await client.close();
-//   }
-// })
-
-// app.post('/send_driver_details', async function (req, res) {
-//   const MovementData = req.body; // Assuming the visitor data is sent in the request body
-
-//   try {
-//     const client = new MongoClient(uri); // Create a new MongoClient instance
-
-//     // Connect to the MongoDB client
-//     await client.connect();
-
-//     const database = client.db('olukayode_sage');
-//     const movementCollection = database.collection('Visitors_details_Database');
-//     const movementDatas = database.collection('movementData');
-
-//     // Insert the visitor data into the history collection
-//     const result = await movementCollection.insertOne(MovementData);
-//     console.log('Movement Data:', result);
-
-//     res.status(200).json({ message: 'Visitor added to history and deleted from visitors successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
-
-
-
-// // app.post('/addVisitorHistory', async function (req, res) {
-// //   const visitorData = req.body; // Assuming the visitor data is sent in the request body
-
-// //   try {
-// //     const client = new MongoClient(uri); // Create a new MongoClient instance
-
-// //     // Connect to the MongoDB client
-// //     await client.connect();
-
-// //     const database = client.db('olukayode_sage');
-// //     const visitorsCollection = database.collection('Visitors_details_Database');
-// //     const historyCollection = database.collection('Visitorshistory');
-
-// //     // Check if a similar visitor entry exists in the history collection within the past 15 minutes
-// //     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000); // Get the timestamp 15 minutes ago
-// //     const existingEntry = await historyCollection.findOne({
-// //       name: visitorData.name,
-// //       whomToSee: visitorData.whomToSee,
-// //       date: { $gte: fifteenMinutesAgo },
-// //     });
-
-// //     if (existingEntry) {
-// //       res.status(409).json({ message: 'Visitor already exists in history within the last 15 minutes' });
-// //       return;
-// //     }
-
-// //     // Insert the visitor data into the history collection
-// //     const result = await historyCollection.insertOne(visitorData);
-// //     console.log('Visitor added to history:', result);
-
-// //     // Remove the visitor data from the visitors_details collection based on the visitor name
-// //     const visitorName = visitorData.name; // Assuming the visitor name is present in visitorData
-// //     const deleteResult = await visitorsCollection.deleteOne({ name: visitorName });
-
-// //     if (deleteResult.deletedCount === 0) {
-// //       res.status(404).json({ message: 'Visitor not found in the visitors collection' });
-// //       return;
-// //     }
-
-// //     res.status(200).json({ message: 'Visitor added to history and deleted from visitors successfully', name: visitorName });
-
-// //   } catch (error) {
-// //     console.error(error);
-// //     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
-// //   } finally {
-// //     await client.close(); // Close the MongoDB client connection
-// //   }
-// // });
-
-
-// app.post('/addVisitorHistory', async function (req, res) {
-//   const visitorData = req.body; // Assuming the visitor data is sent in the request body
-
-//   try {
-//     const client = new MongoClient(uri); // Create a new MongoClient instance
-
-//     // Connect to the MongoDB client
-//     await client.connect();
-
-//     const database = client.db('olukayode_sage');
-//     const visitorsCollection = database.collection('Visitors_details_Database');
-//     const historyCollection = database.collection('Visitorshistory');
-//     const expatriatesCollection = database.collection('expatriates_collection');
-
-//     // const collection = database.collection('Visitors_details_Database');
+// // // // // ////////////////////pdf//////////////////////////////////////////////////////////////
+
+
+// // // // //////////////////////////////////////////////////////////////
+// // // // app.post('/receive_gate_pass', async function (req, res) {
+// // // //   const gatePassTicket = req.body;
+
+// // // //   try {
+// // // //     await client.connect(); // Connect to the MongoDB client
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const kaydata = database.collection('drivers_details');
+
+// // // //     // Generate the gate pass ticket from the previously sent driver data
+// // // //     const driverData = await collection.findOne({ _id: gatePassTicket.driverId });
+// // // //     const generatedTicket = generateGatePassTicket(driverData);
+
+// // // //     // Save the gate pass ticket to the database
+// // // //     const result = await collection.insertOne(generatedTicket);
+
+// // // //     // Generate the ticket in PDF format
+// // // //     const ticketPath = await generateTicketPDF(generatedTicket);
+
+// // // //     res.send('Gate pass ticket received successfully');
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while receiving gate pass ticket');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+
+// // // // // Helper function to generate gate pass ticket from driver data
+// // // // function generateGatePassTicket(driverData) {
+// // // //   // Generate the ticket using driver data
+// // // //   const gatePassTicket = {
+// // // //     driverName: driverData.name,
+// // // //     vehicleDetails: driverData.vehicleDetails,
+// // // //     accessAuthorization: 'Authorized', // Set the access authorization status
+// // // //     // Include additional ticket information
+// // // //     // ...
+// // // //   };
+
+// // // //   // Return the generated ticket object
+// // // //   return gatePassTicket;
+// // // // }
+
+// // // // // Helper function to generate the gate pass ticket in PDF format
+// // // // function generateTicketPDF(ticketData) {
+// // // //   return new Promise((resolve, reject) => {
+// // // //     const doc = new PDFDocument();
+
+// // // //     // Set the PDF document properties
+// // // //     doc.info.Title = 'Gate Pass Ticket';
+// // // //     doc.info.Author = 'Your Company';
+
+// // // //     // Create the PDF content
+// // // //     doc.font('Helvetica-Bold').fontSize(14).text('Gate Pass Ticket', { align: 'center' });
+// // // //     doc.moveDown();
+// // // //     doc.font('Helvetica').fontSize(12).text(`Driver Name: ${ticketData.driverName}`);
+// // // //     doc.moveDown();
+// // // //     doc.font('Helvetica').fontSize(12).text(`Vehicle Details: ${ticketData.vehicleDetails}`);
+// // // //     doc.moveDown();
+// // // //     doc.font('Helvetica').fontSize(12).text(`Access Authorization: ${ticketData.accessAuthorization}`);
+// // // //     // Include additional ticket information
+// // // //     // ...
+
+// // // //     // Generate the ticket file
+// // // //     const ticketPath = 'gate_pass_ticket.pdf';
+// // // //     const stream = fs.createWriteStream(ticketPath);
+// // // //     doc.pipe(stream);
+// // // //     doc.end();
+
+// // // //     stream.on('finish', () => {
+// // // //       resolve(ticketPath);
+// // // //     });
+
+// // // //     stream.on('error', (error) => {
+// // // //       reject(error);
+// // // //     });
+// // // //   });
+// // // // }
+
+
+// // // // app.delete('/deleteDriver/:id', async function (req, res) {
+// // // //   const driverId = req.params.id;
+
+// // // //   try {
+// // // //     const client = new MongoClient(uri);
+// // // //     await client.connect();
+
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const driversCollection = database.collection('drivers_details');
+// // // //     const driversHistoryCollection = database.collection('drivershistory');
+
+// // // //     // Find the driver data by ID
+// // // //     const driver = await driversCollection.findOne({ _id: new ObjectId(driverId) });
+
+// // // //     if (!driver) {
+// // // //       res.status(404).json({ message: 'Driver not found' });
+// // // //       return;
+// // // //     }
+
+// // // //     // Delete the driver data from the drivers collection
+// // // //     const deleteResult = await driversCollection.deleteOne({ _id: new ObjectId(driverId) });
+
+// // // //     if (deleteResult.deletedCount === 0) {
+// // // //       res.status(404).json({ message: 'Driver not found in the drivers collection' });
+// // // //       return;
+// // // //     }
+
+// // // //     res.status(200).json({ message: 'Driver deleted successfully', _id: driverId });
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while deleting the driver');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // });
+
+// // // // app.post('/addDriverToHistory', async function (req, res) {
+// // // //   const driverData = req.body;
+
+// // // //   try {
+// // // //     const client = new MongoClient(uri);
+// // // //     await client.connect();
+
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const driversHistoryCollection = database.collection('drivershistory');
+
+// // // //     // Insert the driver data into the drivers history collection
+// // // //     const result = await driversHistoryCollection.insertOne(driverData);
+// // // //     console.log('Driver added to history:', result);
+
+// // // //     res.status(200).json({ message: 'Driver added to history' });
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while adding the driver to history');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // });
+
+
+// // // // // Security guard portal: Return driver
+// // // // app.post('/return_driver/:driverId', async function (req, res) {
+// // // //   const driverId = req.params.driverId;
+
+// // // //   try {
+// // // //     await client.connect(); // Connect to the MongoDB client
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const kaydata = database.collection('olukayode_collection');
+
+// // // //     // Mark the driver as returned in the database
+// // // //     const result = await collection.updateOne(
+// // // //       { _id: driverId },
+// // // //       { $set: { returned: true } }
+// // // //     );
+
+
+
+// // // //     res.send('Driver returned successfully');
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while returning driver');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+
+
+// // // // app.get('/get_visitor_history', async function (req, res) {
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const database = client.db('olukayode_sage');
+// // // //     // const collection = database.collection('olukayode_collection');
+// // // //     const collection = database.collection('Visitorshistory');
+// // // //     const visithistory = await collection.find({}).toArray();
+// // // //     console.log(' History :', visithistory);
+
+// // // //     res.json(visithistory);
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while retrieving History');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // })
+
+// // // // app.post('/send_driver_details', async function (req, res) {
+// // // //   const MovementData = req.body; // Assuming the visitor data is sent in the request body
+
+// // // //   try {
+// // // //     const client = new MongoClient(uri); // Create a new MongoClient instance
+
+// // // //     // Connect to the MongoDB client
+// // // //     await client.connect();
+
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const movementCollection = database.collection('Visitors_details_Database');
+// // // //     const movementDatas = database.collection('movementData');
+
+// // // //     // Insert the visitor data into the history collection
+// // // //     const result = await movementCollection.insertOne(MovementData);
+// // // //     console.log('Movement Data:', result);
+
+// // // //     res.status(200).json({ message: 'Visitor added to history and deleted from visitors successfully' });
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+
+
+
+// // // // // app.post('/addVisitorHistory', async function (req, res) {
+// // // // //   const visitorData = req.body; // Assuming the visitor data is sent in the request body
+
+// // // // //   try {
+// // // // //     const client = new MongoClient(uri); // Create a new MongoClient instance
+
+// // // // //     // Connect to the MongoDB client
+// // // // //     await client.connect();
+
+// // // // //     const database = client.db('olukayode_sage');
+// // // // //     const visitorsCollection = database.collection('Visitors_details_Database');
+// // // // //     const historyCollection = database.collection('Visitorshistory');
+
+// // // // //     // Check if a similar visitor entry exists in the history collection within the past 15 minutes
+// // // // //     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000); // Get the timestamp 15 minutes ago
+// // // // //     const existingEntry = await historyCollection.findOne({
+// // // // //       name: visitorData.name,
+// // // // //       whomToSee: visitorData.whomToSee,
+// // // // //       date: { $gte: fifteenMinutesAgo },
+// // // // //     });
+
+// // // // //     if (existingEntry) {
+// // // // //       res.status(409).json({ message: 'Visitor already exists in history within the last 15 minutes' });
+// // // // //       return;
+// // // // //     }
+
+// // // // //     // Insert the visitor data into the history collection
+// // // // //     const result = await historyCollection.insertOne(visitorData);
+// // // // //     console.log('Visitor added to history:', result);
+
+// // // // //     // Remove the visitor data from the visitors_details collection based on the visitor name
+// // // // //     const visitorName = visitorData.name; // Assuming the visitor name is present in visitorData
+// // // // //     const deleteResult = await visitorsCollection.deleteOne({ name: visitorName });
+
+// // // // //     if (deleteResult.deletedCount === 0) {
+// // // // //       res.status(404).json({ message: 'Visitor not found in the visitors collection' });
+// // // // //       return;
+// // // // //     }
+
+// // // // //     res.status(200).json({ message: 'Visitor added to history and deleted from visitors successfully', name: visitorName });
+
+// // // // //   } catch (error) {
+// // // // //     console.error(error);
+// // // // //     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
+// // // // //   } finally {
+// // // // //     await client.close(); // Close the MongoDB client connection
+// // // // //   }
+// // // // // });
+
+
+// // // // app.post('/addVisitorHistory', async function (req, res) {
+// // // //   const visitorData = req.body; // Assuming the visitor data is sent in the request body
+
+// // // //   try {
+// // // //     const client = new MongoClient(uri); // Create a new MongoClient instance
+
+// // // //     // Connect to the MongoDB client
+// // // //     await client.connect();
+
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const visitorsCollection = database.collection('Visitors_details_Database');
+// // // //     const historyCollection = database.collection('Visitorshistory');
+// // // //     const expatriatesCollection = database.collection('expatriates_collection');
+
+// // // //     // const collection = database.collection('Visitors_details_Database');
    
-//     // Check if a similar visitor entry exists in the history collection within the past 15 minutes
-//     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000); // Get the timestamp 15 minutes ago
-//     const existingEntry = await historyCollection.findOne({
-//       name: visitorData.name,
-//       whomToSee: visitorData.whomToSee,
-//       date: { $gte: fifteenMinutesAgo },
-//     });
+// // // //     // Check if a similar visitor entry exists in the history collection within the past 15 minutes
+// // // //     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000); // Get the timestamp 15 minutes ago
+// // // //     const existingEntry = await historyCollection.findOne({
+// // // //       name: visitorData.name,
+// // // //       whomToSee: visitorData.whomToSee,
+// // // //       date: { $gte: fifteenMinutesAgo },
+// // // //     });
 
-//     if (existingEntry) {
-//       res.status(409).json({ message: 'Visitor already exists in history within the last 15 minutes' });
-//       return;
-//     }
+// // // //     if (existingEntry) {
+// // // //       res.status(409).json({ message: 'Visitor already exists in history within the last 15 minutes' });
+// // // //       return;
+// // // //     }
 
-//     // Insert the visitor data into the history collection
-//     const result = await historyCollection.insertOne(visitorData);
-//     console.log('Visitor added to history:', result);
+// // // //     // Insert the visitor data into the history collection
+// // // //     const result = await historyCollection.insertOne(visitorData);
+// // // //     console.log('Visitor added to history:', result);
 
-//     // Remove the visitor data from the visitors_details collection based on the visitor name
-//     const visitorName = visitorData.name; // Assuming the visitor name is present in visitorData
-//     const deleteResult = await visitorsCollection.deleteOne({ name: visitorName });
+// // // //     // Remove the visitor data from the visitors_details collection based on the visitor name
+// // // //     const visitorName = visitorData.name; // Assuming the visitor name is present in visitorData
+// // // //     const deleteResult = await visitorsCollection.deleteOne({ name: visitorName });
 
-//     if (deleteResult.deletedCount === 0) {
-//       res.status(404).json({ message: 'Visitor not found in the visitors collection' });
-//       return;
-//     }
+// // // //     if (deleteResult.deletedCount === 0) {
+// // // //       res.status(404).json({ message: 'Visitor not found in the visitors collection' });
+// // // //       return;
+// // // //     }
 
-//  // Fetch the expatriate document
-//       const expatriate = await expatriatesCollection.findOne({
-//         name: { $regex: new RegExp(visitorData.whomToSee, 'i') } // Case-insensitive regex match
-//       });
+// // // //  // Fetch the expatriate document
+// // // //       const expatriate = await expatriatesCollection.findOne({
+// // // //         name: { $regex: new RegExp(visitorData.whomToSee, 'i') } // Case-insensitive regex match
+// // // //       });
 
 
-//     if (expatriate) {
-//       // Extract phone number if name matches at least two words
-//       const expatriateNameWords = expatriate.name.split(' ');
-//       const visitorWhomToSeeWords = visitorData.whomToSee.split(' ');
+// // // //     if (expatriate) {
+// // // //       // Extract phone number if name matches at least two words
+// // // //       const expatriateNameWords = expatriate.name.split(' ');
+// // // //       const visitorWhomToSeeWords = visitorData.whomToSee.split(' ');
   
-//       // Count the number of words from the expatriate's name that match the visitor's "whomToSee"
-//       const matchedWords = expatriateNameWords.filter(word => visitorWhomToSeeWords.includes(word));
+// // // //       // Count the number of words from the expatriate's name that match the visitor's "whomToSee"
+// // // //       const matchedWords = expatriateNameWords.filter(word => visitorWhomToSeeWords.includes(word));
   
-//       // Check if at least two words match
-//       if (matchedWords.length >= 2) {
-//           // Phone number extraction
-//           const HostphoneNumber = expatriate.phoneNumber;
-//           console.log('Expatriate phone number:', HostphoneNumber);
-//     const cleanedHostNumber = cleanPhoneNumber2(HostphoneNumber);
-//     console.log('Cleaned host number:', cleanedHostNumber);
+// // // //       // Check if at least two words match
+// // // //       if (matchedWords.length >= 2) {
+// // // //           // Phone number extraction
+// // // //           const HostphoneNumber = expatriate.phoneNumber;
+// // // //           console.log('Expatriate phone number:', HostphoneNumber);
+// // // //     const cleanedHostNumber = cleanPhoneNumber2(HostphoneNumber);
+// // // //     console.log('Cleaned host number:', cleanedHostNumber);
 
-//     const arrivalMessage = `Hi ${visitorData.whomToSee}, 
-// your guest ${visitorData.name} from ${visitorData.company} is here! 
-// He arrived at about ${visitorData.time}. 
-// Kindly reach out to the receptionist to meet them.`;
+// // // //     const arrivalMessage = `Hi ${visitorData.whomToSee}, 
+// // // // your guest ${visitorData.name} from ${visitorData.company} is here! 
+// // // // He arrived at about ${visitorData.time}. 
+// // // // Kindly reach out to the receptionist to meet them.`;
 
-//     // const token2 = "notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX"; // Replace with your actual token
-//     const token2 = process.env.TOKEN;
+// // // //     // const token2 = "notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX"; // Replace with your actual token
+// // // //     const token2 = process.env.TOKEN;
 
 
-//     const sendMessageToHost = async (cleanedHostNumber, arrivalMessage) => {
-//       try {
-//         const response = await axios.post(
-//           'https://gate.whapi.cloud/messages/text',
-//           {
-//             to: cleanedHostNumber,
-//             body: arrivalMessage,
-//             typing_time: 0,
-//           },
-//           {
-//             headers: {
-//               Accept: 'application/json',
-//               'Content-Type': 'application/json',
-//               Authorization: `Bearer ${token2}`,
-//             },
-//           }
-//         );
+// // // //     const sendMessageToHost = async (cleanedHostNumber, arrivalMessage) => {
+// // // //       try {
+// // // //         const response = await axios.post(
+// // // //           'https://gate.whapi.cloud/messages/text',
+// // // //           {
+// // // //             to: cleanedHostNumber,
+// // // //             body: arrivalMessage,
+// // // //             typing_time: 0,
+// // // //           },
+// // // //           {
+// // // //             headers: {
+// // // //               Accept: 'application/json',
+// // // //               'Content-Type': 'application/json',
+// // // //               Authorization: `Bearer ${token2}`,
+// // // //             },
+// // // //           }
+// // // //         );
 
-//         console.log('Message sent successfully:', response.data);
-//       } catch (error) {
-//         console.error('Error sending message:', error.message);
-//       }
-//     };
+// // // //         console.log('Message sent successfully:', response.data);
+// // // //       } catch (error) {
+// // // //         console.error('Error sending message:', error.message);
+// // // //       }
+// // // //     };
 
-//     // Send arrival message to the host
-//     if (cleanedHostNumber) {
-//       sendMessageToHost(cleanedHostNumber, arrivalMessage);
-//     }
+// // // //     // Send arrival message to the host
+// // // //     if (cleanedHostNumber) {
+// // // //       sendMessageToHost(cleanedHostNumber, arrivalMessage);
+// // // //     }
   
-//         }
-//       }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
+// // // //         }
+// // // //       }
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
 
 
 
 
-// app.post('/receptionist_newVisitor_entry', (req, res) => {
-//   // Handle saving visitor details logic here
-//   // Render the "awaiting visitor" page
-//   res.render('receptionist_newVisitor_entry.html'); // Replace with your template engine logic
-// });
+// // // // app.post('/receptionist_newVisitor_entry', (req, res) => {
+// // // //   // Handle saving visitor details logic here
+// // // //   // Render the "awaiting visitor" page
+// // // //   res.render('receptionist_newVisitor_entry.html'); // Replace with your template engine logic
+// // // // });
 
 
 
-// app.post('/new_visitor', (req, res) => {
-//   // Handle saving visitor details logic here
-//   // Render the "awaiting visitor" page
-//   res.render('new_visitor.html'); // Replace with your template engine logic
-// });
+// // // // app.post('/new_visitor', (req, res) => {
+// // // //   // Handle saving visitor details logic here
+// // // //   // Render the "awaiting visitor" page
+// // // //   res.render('new_visitor.html'); // Replace with your template engine logic
+// // // // });
 
-// // app.get('/new_visitor', (req, res) => {
-// //   res.sendFile(__dirname + '/new_visitor.html');
-// // });
-// // HR portal: WebSocket connection
-// app.get('/hr_portal', (req, res) => {
-//   res.sendFile(__dirname + '/hr_portal.html');
-// });
+// // // // // app.get('/new_visitor', (req, res) => {
+// // // // //   res.sendFile(__dirname + '/new_visitor.html');
+// // // // // });
+// // // // // HR portal: WebSocket connection
+// // // // app.get('/hr_portal', (req, res) => {
+// // // //   res.sendFile(__dirname + '/hr_portal.html');
+// // // // });
 
-// // Security guard portal: WebSocket connection
-// app.get('/security_portal', (req, res) => {
-//   res.sendFile(__dirname + '/security_portal.html');
-// });
+// // // // // Security guard portal: WebSocket connection
+// // // // app.get('/security_portal', (req, res) => {
+// // // //   res.sendFile(__dirname + '/security_portal.html');
+// // // // });
 
-// // Handle WebSocket upgrade requests for HR and security portals
-// app.on('upgrade', (req, socket, head) => {
-//   const pathname = req.url;
-//   const isHRPortal = pathname === '/hr_portal';
-//   const isSecurityPortal = pathname === '/security_portal';
+// // // // // Handle WebSocket upgrade requests for HR and security portals
+// // // // app.on('upgrade', (req, socket, head) => {
+// // // //   const pathname = req.url;
+// // // //   const isHRPortal = pathname === '/hr_portal';
+// // // //   const isSecurityPortal = pathname === '/security_portal';
 
-//   if (isHRPortal) {
-//     wss.handleUpgrade(req, socket, head, (ws) => {
-//       wss.emit('connection', ws);
-//       hrClients.push(ws);
-//     });
-//   } else if (isSecurityPortal) {
-//     wss.handleUpgrade(req, socket, head, (ws) => {
-//       wss.emit('connection', ws);
-//       securityClients.push(ws);
-//     });
-//   } else {
-//     socket.destroy();
-//   }
-// });
-
-
+// // // //   if (isHRPortal) {
+// // // //     wss.handleUpgrade(req, socket, head, (ws) => {
+// // // //       wss.emit('connection', ws);
+// // // //       hrClients.push(ws);
+// // // //     });
+// // // //   } else if (isSecurityPortal) {
+// // // //     wss.handleUpgrade(req, socket, head, (ws) => {
+// // // //       wss.emit('connection', ws);
+// // // //       securityClients.push(ws);
+// // // //     });
+// // // //   } else {
+// // // //     socket.destroy();
+// // // //   }
+// // // // });
 
 
-// app.delete('/delete_visitor_details/:id', async function (req, res) {
-//   const visitorId = req.params.id; // Get the visitor's ID from the request parameters
-
-//   try {
-//     await client.connect(); // Connect to the MongoDB client
-//     const database = client.db('olukayode_sage');
-//     const collection = database.collection('Visitors_details_Database');
-
-//     // Delete the visitor details from the database based on the ID
-//     const result = await collection.deleteOne({ _id: ObjectId(visitorId) });
-
-//     if (result.deletedCount === 1) {
-//       res.send('Visitor details deleted successfully');
-//     } else {
-//       res.status(404).send('Visitor not found');
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while deleting visitor details');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
 
 
-// app.put('/edit_visitor_details/:id', async function (req, res) {
-//   const visitorId = req.params.id; // Get the visitor's ID from the request parameters
-//   const updatedVisitorDetails = {
-//     // Fields to be updated based on the request body
-//     name: req.body.name,
-//     address: req.body.address,
-//     whomToSee: req.body.whomToSee,
-//     purposeOfVisit: req.body.purposeOfVisit,
-//     phoneNumber: req.body.phoneNumber
-//   };
+// // // // app.delete('/delete_visitor_details/:id', async function (req, res) {
+// // // //   const visitorId = req.params.id; // Get the visitor's ID from the request parameters
 
-//   try {
-//     await client.connect(); // Connect to the MongoDB client
-//     const database = client.db('olukayode_sage');
-//     const collection = database.collection('Visitors_details_Database');
+// // // //   try {
+// // // //     await client.connect(); // Connect to the MongoDB client
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const collection = database.collection('Visitors_details_Database');
 
-//     // Update the visitor details in the database based on the ID
-//     const result = await collection.updateOne(
-//       { _id: ObjectId(visitorId) },
-//       { $set: updatedVisitorDetails }
-//     );
+// // // //     // Delete the visitor details from the database based on the ID
+// // // //     const result = await collection.deleteOne({ _id: ObjectId(visitorId) });
 
-//     if (result.matchedCount === 1) {
-//       res.send('Visitor details updated successfully');
-//     } else {
-//       res.status(404).send('Visitor not found');
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while updating visitor details');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
-// ///////////////////////////////////////////////////////////////////////////////////////////////
+// // // //     if (result.deletedCount === 1) {
+// // // //       res.send('Visitor details deleted successfully');
+// // // //     } else {
+// // // //       res.status(404).send('Visitor not found');
+// // // //     }
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while deleting visitor details');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+
+
+// // // // app.put('/edit_visitor_details/:id', async function (req, res) {
+// // // //   const visitorId = req.params.id; // Get the visitor's ID from the request parameters
+// // // //   const updatedVisitorDetails = {
+// // // //     // Fields to be updated based on the request body
+// // // //     name: req.body.name,
+// // // //     address: req.body.address,
+// // // //     whomToSee: req.body.whomToSee,
+// // // //     purposeOfVisit: req.body.purposeOfVisit,
+// // // //     phoneNumber: req.body.phoneNumber
+// // // //   };
+
+// // // //   try {
+// // // //     await client.connect(); // Connect to the MongoDB client
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const collection = database.collection('Visitors_details_Database');
+
+// // // //     // Update the visitor details in the database based on the ID
+// // // //     const result = await collection.updateOne(
+// // // //       { _id: ObjectId(visitorId) },
+// // // //       { $set: updatedVisitorDetails }
+// // // //     );
+
+// // // //     if (result.matchedCount === 1) {
+// // // //       res.send('Visitor details updated successfully');
+// // // //     } else {
+// // // //       res.status(404).send('Visitor not found');
+// // // //     }
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while updating visitor details');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+// // // // ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // app.post('/add_new_driver', async (req, res) => {
@@ -6800,6 +6800,496 @@ if (escortCommanderRecord) {
 }
 })
 ////////////////////////////////////////////////////////////////////////
+
+// // ////////////////////pdf//////////////////////////////////////////////////////////////
+app.post('/receive_gate_pass', async function (req, res) {
+  const gatePassTicket = req.body;
+
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db('olukayode_sage');
+    const kaydata = database.collection('drivers_details');
+
+    // Generate the gate pass ticket from the previously sent driver data
+    const driverData = await collection.findOne({ _id: gatePassTicket.driverId });
+    const generatedTicket = generateGatePassTicket(driverData);
+
+    // Save the gate pass ticket to the database
+    const result = await collection.insertOne(generatedTicket);
+
+    // Generate the ticket in PDF format
+    const ticketPath = await generateTicketPDF(generatedTicket);
+
+    res.send('Gate pass ticket received successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while receiving gate pass ticket');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+// Helper function to generate gate pass ticket from driver data
+function generateGatePassTicket(driverData) {
+  // Generate the ticket using driver data
+  const gatePassTicket = {
+    driverName: driverData.name,
+    vehicleDetails: driverData.vehicleDetails,
+    accessAuthorization: 'Authorized', // Set the access authorization status
+    // Include additional ticket information
+    // ...
+  };
+
+  // Return the generated ticket object
+  return gatePassTicket;
+}
+
+// Helper function to generate the gate pass ticket in PDF format
+function generateTicketPDF(ticketData) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument();
+
+    // Set the PDF document properties
+    doc.info.Title = 'Gate Pass Ticket';
+    doc.info.Author = 'Your Company';
+
+    // Create the PDF content
+    doc.font('Helvetica-Bold').fontSize(14).text('Gate Pass Ticket', { align: 'center' });
+    doc.moveDown();
+    doc.font('Helvetica').fontSize(12).text(`Driver Name: ${ticketData.driverName}`);
+    doc.moveDown();
+    doc.font('Helvetica').fontSize(12).text(`Vehicle Details: ${ticketData.vehicleDetails}`);
+    doc.moveDown();
+    doc.font('Helvetica').fontSize(12).text(`Access Authorization: ${ticketData.accessAuthorization}`);
+    // Include additional ticket information
+    // ...
+
+    // Generate the ticket file
+    const ticketPath = 'gate_pass_ticket.pdf';
+    const stream = fs.createWriteStream(ticketPath);
+    doc.pipe(stream);
+    doc.end();
+
+    stream.on('finish', () => {
+      resolve(ticketPath);
+    });
+
+    stream.on('error', (error) => {
+      reject(error);
+    });
+  });
+}
+
+
+app.delete('/deleteDriver/:id', async function (req, res) {
+  const driverId = req.params.id;
+
+  try {
+    const client = new MongoClient(uri);
+    await client.connect();
+
+    const database = client.db('olukayode_sage');
+    const driversCollection = database.collection('drivers_details');
+    const driversHistoryCollection = database.collection('drivershistory');
+
+    // Find the driver data by ID
+    const driver = await driversCollection.findOne({ _id: new ObjectId(driverId) });
+
+    if (!driver) {
+      res.status(404).json({ message: 'Driver not found' });
+      return;
+    }
+
+    // Delete the driver data from the drivers collection
+    const deleteResult = await driversCollection.deleteOne({ _id: new ObjectId(driverId) });
+
+    if (deleteResult.deletedCount === 0) {
+      res.status(404).json({ message: 'Driver not found in the drivers collection' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Driver deleted successfully', _id: driverId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while deleting the driver');
+  } finally {
+    await client.close();
+  }
+});
+
+app.post('/addDriverToHistory', async function (req, res) {
+  const driverData = req.body;
+
+  try {
+    const client = new MongoClient(uri);
+    await client.connect();
+
+    const database = client.db('olukayode_sage');
+    const driversHistoryCollection = database.collection('drivershistory');
+
+    // Insert the driver data into the drivers history collection
+    const result = await driversHistoryCollection.insertOne(driverData);
+    console.log('Driver added to history:', result);
+
+    res.status(200).json({ message: 'Driver added to history' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while adding the driver to history');
+  } finally {
+    await client.close();
+  }
+});
+
+
+// Security guard portal: Return driver
+app.post('/return_driver/:driverId', async function (req, res) {
+  const driverId = req.params.driverId;
+
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db('olukayode_sage');
+    const kaydata = database.collection('olukayode_collection');
+
+    // Mark the driver as returned in the database
+    const result = await collection.updateOne(
+      { _id: driverId },
+      { $set: { returned: true } }
+    );
+
+
+
+    res.send('Driver returned successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while returning driver');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+
+app.get('/get_visitor_history', async function (req, res) {
+  try {
+    await client.connect();
+    const database = client.db('olukayode_sage');
+    // const collection = database.collection('olukayode_collection');
+    const collection = database.collection('Visitorshistory');
+    const visithistory = await collection.find({}).toArray();
+    console.log(' History :', visithistory);
+
+    res.json(visithistory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while retrieving History');
+  } finally {
+    await client.close();
+  }
+})
+
+app.post('/send_driver_details', async function (req, res) {
+  const MovementData = req.body; // Assuming the visitor data is sent in the request body
+
+  try {
+    const client = new MongoClient(uri); // Create a new MongoClient instance
+
+    // Connect to the MongoDB client
+    await client.connect();
+
+    const database = client.db('olukayode_sage');
+    const movementCollection = database.collection('Visitors_details_Database');
+    const movementDatas = database.collection('movementData');
+
+    // Insert the visitor data into the history collection
+    const result = await movementCollection.insertOne(MovementData);
+    console.log('Movement Data:', result);
+
+    res.status(200).json({ message: 'Visitor added to history and deleted from visitors successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+
+
+// app.post('/addVisitorHistory', async function (req, res) {
+//   const visitorData = req.body; // Assuming the visitor data is sent in the request body
+
+//   try {
+//     const client = new MongoClient(uri); // Create a new MongoClient instance
+
+//     // Connect to the MongoDB client
+//     await client.connect();
+
+//     const database = client.db('olukayode_sage');
+//     const visitorsCollection = database.collection('Visitors_details_Database');
+//     const historyCollection = database.collection('Visitorshistory');
+
+//     // Check if a similar visitor entry exists in the history collection within the past 15 minutes
+//     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000); // Get the timestamp 15 minutes ago
+//     const existingEntry = await historyCollection.findOne({
+//       name: visitorData.name,
+//       whomToSee: visitorData.whomToSee,
+//       date: { $gte: fifteenMinutesAgo },
+//     });
+
+//     if (existingEntry) {
+//       res.status(409).json({ message: 'Visitor already exists in history within the last 15 minutes' });
+//       return;
+//     }
+
+//     // Insert the visitor data into the history collection
+//     const result = await historyCollection.insertOne(visitorData);
+//     console.log('Visitor added to history:', result);
+
+//     // Remove the visitor data from the visitors_details collection based on the visitor name
+//     const visitorName = visitorData.name; // Assuming the visitor name is present in visitorData
+//     const deleteResult = await visitorsCollection.deleteOne({ name: visitorName });
+
+//     if (deleteResult.deletedCount === 0) {
+//       res.status(404).json({ message: 'Visitor not found in the visitors collection' });
+//       return;
+//     }
+
+//     res.status(200).json({ message: 'Visitor added to history and deleted from visitors successfully', name: visitorName });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
+//   } finally {
+//     await client.close(); // Close the MongoDB client connection
+//   }
+// });
+
+
+app.post('/addVisitorHistory', async function (req, res) {
+  const visitorData = req.body; // Assuming the visitor data is sent in the request body
+
+  try {
+    const client = new MongoClient(uri); // Create a new MongoClient instance
+
+    // Connect to the MongoDB client
+    await client.connect();
+
+    const database = client.db('olukayode_sage');
+    const visitorsCollection = database.collection('Visitors_details_Database');
+    const historyCollection = database.collection('Visitorshistory');
+    const expatriatesCollection = database.collection('expatriates_collection');
+
+    // const collection = database.collection('Visitors_details_Database');
+   
+    // Check if a similar visitor entry exists in the history collection within the past 15 minutes
+    const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000); // Get the timestamp 15 minutes ago
+    const existingEntry = await historyCollection.findOne({
+      name: visitorData.name,
+      whomToSee: visitorData.whomToSee,
+      date: { $gte: fifteenMinutesAgo },
+    });
+
+    if (existingEntry) {
+      res.status(409).json({ message: 'Visitor already exists in history within the last 15 minutes' });
+      return;
+    }
+
+    // Insert the visitor data into the history collection
+    const result = await historyCollection.insertOne(visitorData);
+    console.log('Visitor added to history:', result);
+
+    // Remove the visitor data from the visitors_details collection based on the visitor name
+    const visitorName = visitorData.name; // Assuming the visitor name is present in visitorData
+    const deleteResult = await visitorsCollection.deleteOne({ name: visitorName });
+
+    if (deleteResult.deletedCount === 0) {
+      res.status(404).json({ message: 'Visitor not found in the visitors collection' });
+      return;
+    }
+
+ // Fetch the expatriate document
+      const expatriate = await expatriatesCollection.findOne({
+        name: { $regex: new RegExp(visitorData.whomToSee, 'i') } // Case-insensitive regex match
+      });
+
+
+    if (expatriate) {
+      // Extract phone number if name matches at least two words
+      const expatriateNameWords = expatriate.name.split(' ');
+      const visitorWhomToSeeWords = visitorData.whomToSee.split(' ');
+  
+      // Count the number of words from the expatriate's name that match the visitor's "whomToSee"
+      const matchedWords = expatriateNameWords.filter(word => visitorWhomToSeeWords.includes(word));
+  
+      // Check if at least two words match
+      if (matchedWords.length >= 2) {
+          // Phone number extraction
+          const HostphoneNumber = expatriate.phoneNumber;
+          console.log('Expatriate phone number:', HostphoneNumber);
+    const cleanedHostNumber = cleanPhoneNumber2(HostphoneNumber);
+    console.log('Cleaned host number:', cleanedHostNumber);
+
+    const arrivalMessage = `Hi ${visitorData.whomToSee}, 
+your guest ${visitorData.name} from ${visitorData.company} is here! 
+He arrived at about ${visitorData.time}. 
+Kindly reach out to the receptionist to meet them.`;
+
+    // const token2 = "notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX"; // Replace with your actual token
+    const token2 = process.env.TOKEN;
+
+
+    const sendMessageToHost = async (cleanedHostNumber, arrivalMessage) => {
+      try {
+        const response = await axios.post(
+          'https://gate.whapi.cloud/messages/text',
+          {
+            to: cleanedHostNumber,
+            body: arrivalMessage,
+            typing_time: 0,
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token2}`,
+            },
+          }
+        );
+
+        console.log('Message sent successfully:', response.data);
+      } catch (error) {
+        console.error('Error sending message:', error.message);
+      }
+    };
+
+    // Send arrival message to the host
+    if (cleanedHostNumber) {
+      sendMessageToHost(cleanedHostNumber, arrivalMessage);
+    }
+  
+        }
+      }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while adding the visitor to history and deleting from visitors');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+
+
+
+app.post('/receptionist_newVisitor_entry', (req, res) => {
+  // Handle saving visitor details logic here
+  // Render the "awaiting visitor" page
+  res.render('receptionist_newVisitor_entry.html'); // Replace with your template engine logic
+});
+
+
+
+app.post('/new_visitor', (req, res) => {
+  // Handle saving visitor details logic here
+  // Render the "awaiting visitor" page
+  res.render('new_visitor.html'); // Replace with your template engine logic
+});
+
+// app.get('/new_visitor', (req, res) => {
+//   res.sendFile(__dirname + '/new_visitor.html');
+// });
+// HR portal: WebSocket connection
+app.get('/hr_portal', (req, res) => {
+  res.sendFile(__dirname + '/hr_portal.html');
+});
+
+// Security guard portal: WebSocket connection
+app.get('/security_portal', (req, res) => {
+  res.sendFile(__dirname + '/security_portal.html');
+});
+
+// Handle WebSocket upgrade requests for HR and security portals
+app.on('upgrade', (req, socket, head) => {
+  const pathname = req.url;
+  const isHRPortal = pathname === '/hr_portal';
+  const isSecurityPortal = pathname === '/security_portal';
+
+  if (isHRPortal) {
+    wss.handleUpgrade(req, socket, head, (ws) => {
+      wss.emit('connection', ws);
+      hrClients.push(ws);
+    });
+  } else if (isSecurityPortal) {
+    wss.handleUpgrade(req, socket, head, (ws) => {
+      wss.emit('connection', ws);
+      securityClients.push(ws);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
+
+
+
+app.delete('/delete_visitor_details/:id', async function (req, res) {
+  const visitorId = req.params.id; // Get the visitor's ID from the request parameters
+
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db('olukayode_sage');
+    const collection = database.collection('Visitors_details_Database');
+
+    // Delete the visitor details from the database based on the ID
+    const result = await collection.deleteOne({ _id: ObjectId(visitorId) });
+
+    if (result.deletedCount === 1) {
+      res.send('Visitor details deleted successfully');
+    } else {
+      res.status(404).send('Visitor not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while deleting visitor details');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+
+app.put('/edit_visitor_details/:id', async function (req, res) {
+  const visitorId = req.params.id; // Get the visitor's ID from the request parameters
+  const updatedVisitorDetails = {
+    // Fields to be updated based on the request body
+    name: req.body.name,
+    address: req.body.address,
+    whomToSee: req.body.whomToSee,
+    purposeOfVisit: req.body.purposeOfVisit,
+    phoneNumber: req.body.phoneNumber
+  };
+
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db('olukayode_sage');
+    const collection = database.collection('Visitors_details_Database');
+
+    // Update the visitor details in the database based on the ID
+    const result = await collection.updateOne(
+      { _id: ObjectId(visitorId) },
+      { $set: updatedVisitorDetails }
+    );
+
+    if (result.matchedCount === 1) {
+      res.send('Visitor details updated successfully');
+    } else {
+      res.status(404).send('Visitor not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while updating visitor details');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
