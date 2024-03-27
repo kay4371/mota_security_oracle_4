@@ -796,22 +796,22 @@
 // // // // // ///////////////////////
 
 
-// const sseVisitorClients = [];
-// app.get('/sse_visitor_upload', (req, res) => {
-//   res.setHeader('Content-Type', 'text/event-stream');
-//   res.setHeader('Cache-Control', 'no-cache');
-//   res.setHeader('Connection', 'keep-alive');
-//   res.flushHeaders();
+// // // // const sseVisitorClients = [];
+// // // // app.get('/sse_visitor_upload', (req, res) => {
+// // // //   res.setHeader('Content-Type', 'text/event-stream');
+// // // //   res.setHeader('Cache-Control', 'no-cache');
+// // // //   res.setHeader('Connection', 'keep-alive');
+// // // //   res.flushHeaders();
 
-//   sseVisitorClients.push(res);
+// // // //   sseVisitorClients.push(res);
 
-//   req.on('close', () => {
-//     const index = sseVisitorClients.indexOf(res);
-//     if (index !== -1) {
-//       sseVisitorClients.splice(index, 1);
-//     }
-//   });
-// });
+// // // //   req.on('close', () => {
+// // // //     const index = sseVisitorClients.indexOf(res);
+// // // //     if (index !== -1) {
+// // // //       sseVisitorClients.splice(index, 1);
+// // // //     }
+// // // //   });
+// // // // });
 
 
 // // // // function sendSSEMessage(endpoint, message) {
@@ -4727,6 +4727,8 @@ function generateUniqueCode() {
 
 // Generate the code when the app is initialized
 const generatedCode = generateUniqueCode();
+const token = process.env.TOKEN
+const token2 = process.env.TOKEN2
 
 // const options = {
 //   key: fs.readFileSync('C:\\Users\\motaSecure\\private.key'),
@@ -4758,7 +4760,6 @@ app.use((req, res, next) => {
   req.generatedCode = generatedCode;
   next();
 });
-
 // Set up S3 client
 const s3 = new aws.S3({
    accessKeyId : process.env.AWS_ACCESS_KEY_ID,
@@ -5448,7 +5449,194 @@ function sendSSEMessage(endpoint, message) {
     client.write(formattedMessage);
   });
 }
+////////////////////////////////////////////////////////////
 
+
+// SSE route for the receptionist
+app.get('https://mota-security-oracle.onrender.com/sse_receptionist', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const sseStream = new Readable({
+    read() { },
+  });
+
+  sseStream.pipe(res);
+
+  // Add the SSE stream to the set of clients
+  sseClients.add(sseStream);
+
+  // Remove the SSE stream when the client disconnects
+  req.on('close', () => {
+    sseClients.delete(sseStream);
+    sseStream.destroy();
+  });
+});
+
+
+
+const apiUrl = `https://gate.whapi.cloud/messages/text?token=${token}`;
+
+const cleanAndFormatPhoneNumber = (phoneNumber) => {
+  const cleanedNumber = phoneNumber.replace(/\D/g, '');
+
+  // Check if cleanedNumber starts with '234', if not, replace the first '0' with '234'
+  const formattedNumber = cleanedNumber.startsWith('234') ? cleanedNumber : `234${cleanedNumber.slice(1)}`;
+
+  return formattedNumber;
+};
+
+// Function to generate a random message from a list
+const getRandomMessage = (firstName, accessCode, password, validityPeriodFormatted) => {
+  // const accessCodes = ["2368", "7890", "1234", "5678", "9876"];
+  // const passwords = ["Pink Horse", "Blue Sky", "Golden Key", "Silver Star", "Green Leaf"];
+
+  const messages = [
+    `Hi ${firstName},\n\nYour access code for Mota-Engil Lagos office is **${accessCode}** and the password is **${password}**. Kindly use this information at the security checkpoint. Access is valid until ${validityPeriodFormatted}.\n\nRegards,\nMota Engil Security`,
+    `Dear ${firstName},\n\nYour access code: **${accessCode}**\nPassword: **${password}**\nThis information is valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+    `Hello ${firstName},\n\nYour access code (${accessCode}) and password (${password}) are required for entry at Mota-Engil Lagos office. This access is valid until ${validityPeriodFormatted}.\n\nSincerely,\nMota Engil Security`,
+    `Dear ${firstName},\n\nAccess Code: **${accessCode}**\nPassword: **${password}**\nKindly use these credentials for entry at Mota-Engil Lagos office. Valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+    `Hi ${firstName},\n\nPlease be informed that your access code for Mota-Engil Lagos office is **${accessCode}** and the password is **${password}**. Use this information at the security checkpoint. Access is valid until ${validityPeriodFormatted}.\n\nKind regards,\nMota Engil Security`,
+    // Add 5 more different formatted messages here
+    `Greetings ${firstName},\n\nYour access to Mota-Engil Lagos office is granted with access code **${accessCode}** and password **${password}**. Ensure you use this information by ${validityPeriodFormatted}.\n\nWarm regards,\nMota Engil Security`,
+    `Dear ${firstName},\n\nAccess has been granted to Mota-Engil Lagos office. Your access code is **${accessCode}** and the password is **${password}**. Valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+    `Hello ${firstName},\n\nYour access to Mota-Engil Lagos office is secured with access code **${accessCode}** and password **${password}**. Utilize this information before ${validityPeriodFormatted}.\n\nKind regards,\nMota Engil Security`,
+    `Hi ${firstName},\n\nAccess has been provisioned for Mota-Engil Lagos office. Your access code (**${accessCode}**) and password (**${password}**) are valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+    `Dear ${firstName},\n\nYour access to Mota-Engil Lagos office is confirmed. Use access code **${accessCode}** and password **${password}**. Access valid until ${validityPeriodFormatted}.\n\nWarm regards,\nMota Engil Security`
+  ];
+
+  const randomIndex = Math.floor(Math.random() * messages.length);
+  return messages[randomIndex];
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/upload_visitor_details', async (req, res) => {
+  const fullName = req.body.name;
+  const firstName = fullName.split(' ')[0]; // Extract the first word
+
+  const visitorDetails = {
+    registrationDate: new Date(),
+    name: firstName,
+    company: req.body.company,
+    whomToSee: req.body.whomToSee,
+    purposeOfVisit: req.body.purposeOfVisit,
+    phoneNumber: cleanAndFormatPhoneNumber(req.body.phone_number),
+    datetime: new Date(req.body.datetime)
+  };
+
+  try {
+    await client.connect();
+    const database = client.db('olukayode_sage');
+    const collection = database.collection('Visitors_details_Database');
+
+    // Save the visitor details to the database
+    const result = await collection.insertOne(visitorDetails);
+
+    // Notify SSE clients with a message
+    const message = {
+      type: 'visitor_upload',
+      visitorDetails,
+    };
+    sendSSEMessage('sse_visitor_upload', message);
+    console.log('Sending SSE message:', message);
+
+    // Message details
+    const to = cleanAndFormatPhoneNumber(req.body.phone_number); // Clean and format the phone number
+    // const accessCodes = ["2368", "7890", "1234", "5678", "9876"];
+    // const passwords = ["Pink Horse", "Blue Sky", "Golden Key", "Silver Star", "Green Leaf"];
+
+
+    // Function to generate a random access code
+    const generateAccessCode = () => {
+      const randomCode = crypto.randomBytes(2).toString('hex').toUpperCase();
+      return randomCode;
+    };
+
+
+    // Function to generate a secure password (combination of two words)
+    const generatePassword = () => {
+      const getRandomPhrase = () => {
+        const phrases = [
+          "Blue Sky",
+          "Dry Lake",
+          "Green Forest",
+          "Red Rose",
+          "Ocean Wave",
+          "Sunset Glow",
+          "Silent Moon",
+          "Misty Mountain",
+          "Golden Sand",
+          "Crystal Clear",
+          "Whispering Wind",
+          "Starry Night",
+          "Rustic Charm",
+          "Enchanted Garden",
+          "Rolling Hills",
+          "Silver Stream",
+          "Purple Haze",
+          "Autumn Leaves",
+          "Snowy Peak",
+          "Serene Lake",
+          "Blue Ocean",
+          "Desert Mirage",
+          "Emerald Forest",
+          "Crimson Rose",
+          "Wave of Tranquility",
+          "Sunset Horizon",
+          "Lunar Serenity",
+          "Misty Valley",
+          "Golden Meadow",
+          "Crystal Lagoon",
+          "Whispering Canyon",
+          "Starlit Sky",
+          "Rustic Oasis",
+          "Enchanted Oasis",
+          "Rolling Thunder",
+          "Silver Breeze",
+          "Purple Nebula",
+          "Autumn Breeze",
+          "Snowy Silence",
+          "Serene Sanctuary"
+        ];;
+        const randomIndex = Math.floor(Math.random() * phrases.length);
+        return phrases[randomIndex];
+      };
+
+      const password = getRandomPhrase().replace(/\s+/g, '').toLowerCase(); // Remove spaces and convert to lowercase
+      return password;
+    };
+
+    const accessCode = generateAccessCode();
+    const password = generatePassword();
+
+    // Calculate validity period (maximum of 1 hour after the provided datetime)
+    const validityPeriod = new Date(visitorDetails.datetime.getTime() + (60 * 60 * 1000));
+    const validityPeriodFormatted = validityPeriod.toLocaleDateString() + ' ' + validityPeriod.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const formattedMessage = getRandomMessage(firstName, accessCode, password, validityPeriodFormatted);
+
+    // Make API request
+    const response = await axios.post(apiUrl, {
+      to,
+      body: formattedMessage,
+      view_once: true
+    });
+
+    // Log response
+    console.log(response.data);
+
+    res.status(200).send('Visitor details uploaded successfully and message sent.');
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while uploading visitor details');
+  } finally {
+    await client.close();
+  }
+});
 // // // serverWebSocket.on('connection', (ws) => {
 // // //   console.log('WebSocket connection established');
 
