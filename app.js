@@ -7570,104 +7570,104 @@ const cleanPhoneNumber = (phoneNumber) => {
 app.use(session({ secret: secretKey, resave: true, saveUninitialized: true }));
 
 
-// Login endpoint
-app.post('/login', async (req, res) => {
-  const { phoneNumber, password } = req.body;
-  const cleanedPhoneNumber = cleanPhoneNumber(phoneNumber);
-  const code = req.generatedCode;
+// // Login endpoint
+// app.post('/login', async (req, res) => {
+//   const { phoneNumber, password } = req.body;
+//   const cleanedPhoneNumber = cleanPhoneNumber(phoneNumber);
+//   const code = req.generatedCode;
 
-  // Use the code in your logic
-  // res.json({ message: 'Using generated code', code });
+//   // Use the code in your logic
+//   // res.json({ message: 'Using generated code', code });
   
-  try {
-    // Connect to MongoDB
-    await client.connect();
+//   try {
+//     // Connect to MongoDB
+//     await client.connect();
 
-    const database = client.db('olukayode_sage');
-    const userCollection = database.collection('registered_user_config_database');
-    const configCollection = database.collection('user_config_databse');
-    const userIdCollection = database.collection('user_id_collection');
+//     const database = client.db('olukayode_sage');
+//     const userCollection = database.collection('registered_user_config_database');
+//     const configCollection = database.collection('user_config_databse');
+//     const userIdCollection = database.collection('user_id_collection');
 
-    // Find user by phoneNumber instead of cleaned one
-    const user = await userCollection.findOne({ phoneNumber: cleanedPhoneNumber });
-    console.log('Using generated code 1', code)
-    // Check if the user is found
-    if (!user) {
-      res.status(404).json({ message: 'Account not registered. Please register an account.' });
-      return; // Return to avoid further processing
-    }
+//     // Find user by phoneNumber instead of cleaned one
+//     const user = await userCollection.findOne({ phoneNumber: cleanedPhoneNumber });
+//     console.log('Using generated code 1', code)
+//     // Check if the user is found
+//     if (!user) {
+//       res.status(404).json({ message: 'Account not registered. Please register an account.' });
+//       return; // Return to avoid further processing
+//     }
 
-    // Ensure that user._id is defined before accessing it
-    if (user._id) {
-        // Use the same customId generation logic as in the middleware
-        const generatedCustomId = code;
-        console.log('Generated CustomId:', generatedCustomId);
+//     // Ensure that user._id is defined before accessing it
+//     if (user._id) {
+//         // Use the same customId generation logic as in the middleware
+//         const generatedCustomId = code;
+//         console.log('Generated CustomId:', generatedCustomId);
       
-        // Save user_id mapping in user_id_collection
-        await userIdCollection.updateOne(
-          { _id: user._id },
-          { $set: { customId: generatedCustomId, phoneNumber: cleanedPhoneNumber } },
-          { upsert: true }
-        );
+//         // Save user_id mapping in user_id_collection
+//         await userIdCollection.updateOne(
+//           { _id: user._id },
+//           { $set: { customId: generatedCustomId, phoneNumber: cleanedPhoneNumber } },
+//           { upsert: true }
+//         );
       
 
-      // Inside the login endpoint
-      if (await bcrypt.compare(password, user.passwordHash)) {
-        // Store user's unique identifier and name in the session
-        req.session.userId = user._id;
-        req.session.userName = user.name;
+//       // Inside the login endpoint
+//       if (await bcrypt.compare(password, user.passwordHash)) {
+//         // Store user's unique identifier and name in the session
+//         req.session.userId = user._id;
+//         req.session.userName = user.name;
 
-        // Fetch user role from the config collection
-        const config = await configCollection.findOne({ phoneNumber: user.phoneNumber });
+//         // Fetch user role from the config collection
+//         const config = await configCollection.findOne({ phoneNumber: user.phoneNumber });
 
-        if (config) {
-          // Passwords match, generate a JWT token
-          const token = jwt.sign(
-            { phoneNumber: user.phoneNumber, role: config.configuredRole },
-            secretKey,
-            { expiresIn: '1h' }
-          );
+//         if (config) {
+//           // Passwords match, generate a JWT token
+//           const token = jwt.sign(
+//             { phoneNumber: user.phoneNumber, role: config.configuredRole },
+//             secretKey,
+//             { expiresIn: '1h' }
+//           );
 
-          // Redirect based on user role
-          switch (config.configuredRole) {
-            case 'security':
-              res.json({ redirect: '/security_portal.html', token });
-              break;
-            case 'receptionist':
-              res.json({ redirect: '/receptionist.html', token });
-              break;
-            case 'transport':
-              res.json({ redirect: '/transport_unit.html', token });
-              break;
-            // Add more cases for other roles if needed
-            default:
-              res.status(400).json({ message: 'Unknown role' });
-              return;
-          }
-        } else {
-          console.log('User configuration not found.');
-          res.status(400).json({ message: 'User configuration not found' });
-        }
-      } else {
-        // Invalid credentials
-        console.log('Invalid credentials.');
-        res.status(401).json({ message: 'Invalid credentials...' });
-      }
-    } else {
-      console.log('User id not found.');
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  } finally {
-    // Close the MongoDB connection
-    await client.close();
-  }
-});
-// const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
-// Fetch user name endpoint
-// Fetch user name endpoint
+//           // Redirect based on user role
+//           switch (config.configuredRole) {
+//             case 'security':
+//               res.json({ redirect: '/security_portal.html', token });
+//               break;
+//             case 'receptionist':
+//               res.json({ redirect: '/receptionist.html', token });
+//               break;
+//             case 'transport':
+//               res.json({ redirect: '/transport_unit.html', token });
+//               break;
+//             // Add more cases for other roles if needed
+//             default:
+//               res.status(400).json({ message: 'Unknown role' });
+//               return;
+//           }
+//         } else {
+//           console.log('User configuration not found.');
+//           res.status(400).json({ message: 'User configuration not found' });
+//         }
+//       } else {
+//         // Invalid credentials
+//         console.log('Invalid credentials.');
+//         res.status(401).json({ message: 'Invalid credentials...' });
+//       }
+//     } else {
+//       console.log('User id not found.');
+//       res.status(500).json({ message: 'Internal server error' });
+//     }
+//   } catch (error) {
+//     console.error('Error during login:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   } finally {
+//     // Close the MongoDB connection
+//     await client.close();
+//   }
+// });
+// // const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+// // Fetch user name endpoint
+// // Fetch user name endpoint
 app.post('/registered_user_name', async (req, res) => {
   const userId = req.session.userId;
 
