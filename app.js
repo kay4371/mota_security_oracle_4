@@ -5639,6 +5639,68 @@ fetchDataForName('homer', (error, data) => {
 });
 
 
+//////////////////////////////////////////////////////////////////////////////////////
+
+async function scrapeWebPage(url) {
+  try {
+      // Fetch HTML content of the webpage
+      const response = await axios.get(url);
+      const html = response.data;
+
+      // Load HTML content into cheerio
+      const $ = cheerio.load(html);
+
+      // Extract information based on CSS selectors
+      const title = $('title').text();
+      const paragraphs = $('p').map((index, element) => $(element).text()).get();
+
+      // Return the extracted information
+      return {
+          title: title,
+          paragraphs: paragraphs
+      };
+  } catch (error) {
+      console.error("Error scraping web page:", error);
+      return null;
+  }
+}
+
+// Example usage:
+const url3 = "https://example.com";
+scrapeWebPage(url3)
+  .then(data => {
+      if (data) {
+          console.log("Title:", data.title);
+          console.log("Paragraphs:", data.paragraphs);
+      } else {
+          console.log("Failed to scrape web page.");
+      }
+  })
+  .catch(error => console.error("Error:", error));
+
+
+async function getPageText(url3) {
+  try {
+      const response = await axios.get(url3);
+      return response.data;
+  } catch (error) {
+      console.error("Error fetching page:", error);
+      return null;
+  }
+}
+
+// Example usage:
+const url4 = "https://example.com";
+getPageText(url4)
+  .then(html => {
+      if (html) {
+          console.log(html);
+      } else {
+          console.log("Failed to fetch page content.");
+      }
+  })
+  .catch(error => console.error("Error:", error));
+
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
 server.keepAliveTimeout = 120 * 1000;
