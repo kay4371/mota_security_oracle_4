@@ -869,1360 +869,1360 @@
 
 
 
-// // Second whapi account:
+// // // // // Second whapi account:
 
-// // testmyitproject@gmail.com:
+// // // // // testmyitproject@gmail.com:
 
-// // Token:
-// // S36GOqY9anD6SGA7KPynscPVxdju24fN
+// // // // // Token:
+// // // // // S36GOqY9anD6SGA7KPynscPVxdju24fN
 
 
-// // WhatsApp chat link:
-// // https://wa.me/2349010400099?text=start
+// // // // // WhatsApp chat link:
+// // // // // https://wa.me/2349010400099?text=start
 
 
-// // Channel:
-
-// // GAMORA-TPCJD
-
-
-// ////////////////visitor messaging/////////////////////////////////////////////////////////////
-// // const axios = require('axios');
-// //Whatsapp messages to visitors
-// // API credentials
-// // const token = "S36GOqY9anD6SGA7KPynscPVxdju24fN"
-// // const token = "notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX";
-// // API endpoint
-// const token = process.env.TOKEN;
-
-// const apiUrl = `https://gate.whapi.cloud/messages/text?token=${token}`;
-
-// const cleanAndFormatPhoneNumber = (phoneNumber) => {
-//   const cleanedNumber = phoneNumber.replace(/\D/g, '');
-
-//   // Check if cleanedNumber starts with '234', if not, replace the first '0' with '234'
-//   const formattedNumber = cleanedNumber.startsWith('234') ? cleanedNumber : `234${cleanedNumber.slice(1)}`;
-
-//   return formattedNumber;
-// };
-
-// // Function to generate a random message from a list
-// const getRandomMessage = (firstName, accessCode, password, validityPeriodFormatted) => {
-//   // const accessCodes = ["2368", "7890", "1234", "5678", "9876"];
-//   // const passwords = ["Pink Horse", "Blue Sky", "Golden Key", "Silver Star", "Green Leaf"];
-
-//   const messages = [
-//     `Hi ${firstName},\n\nYour access code for Mota-Engil Lagos office is **${accessCode}** and the password is **${password}**. Kindly use this information at the security checkpoint. Access is valid until ${validityPeriodFormatted}.\n\nRegards,\nMota Engil Security`,
-//     `Dear ${firstName},\n\nYour access code: **${accessCode}**\nPassword: **${password}**\nThis information is valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
-//     `Hello ${firstName},\n\nYour access code (${accessCode}) and password (${password}) are required for entry at Mota-Engil Lagos office. This access is valid until ${validityPeriodFormatted}.\n\nSincerely,\nMota Engil Security`,
-//     `Dear ${firstName},\n\nAccess Code: **${accessCode}**\nPassword: **${password}**\nKindly use these credentials for entry at Mota-Engil Lagos office. Valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
-//     `Hi ${firstName},\n\nPlease be informed that your access code for Mota-Engil Lagos office is **${accessCode}** and the password is **${password}**. Use this information at the security checkpoint. Access is valid until ${validityPeriodFormatted}.\n\nKind regards,\nMota Engil Security`,
-//     // Add 5 more different formatted messages here
-//     `Greetings ${firstName},\n\nYour access to Mota-Engil Lagos office is granted with access code **${accessCode}** and password **${password}**. Ensure you use this information by ${validityPeriodFormatted}.\n\nWarm regards,\nMota Engil Security`,
-//     `Dear ${firstName},\n\nAccess has been granted to Mota-Engil Lagos office. Your access code is **${accessCode}** and the password is **${password}**. Valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
-//     `Hello ${firstName},\n\nYour access to Mota-Engil Lagos office is secured with access code **${accessCode}** and password **${password}**. Utilize this information before ${validityPeriodFormatted}.\n\nKind regards,\nMota Engil Security`,
-//     `Hi ${firstName},\n\nAccess has been provisioned for Mota-Engil Lagos office. Your access code (**${accessCode}**) and password (**${password}**) are valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
-//     `Dear ${firstName},\n\nYour access to Mota-Engil Lagos office is confirmed. Use access code **${accessCode}** and password **${password}**. Access valid until ${validityPeriodFormatted}.\n\nWarm regards,\nMota Engil Security`
-//   ];
-
-//   const randomIndex = Math.floor(Math.random() * messages.length);
-//   return messages[randomIndex];
-// };
-
-
-
-// app.post('/upload_visitor_details', async (req, res) => {
-//   const fullName = req.body.name;
-//   const firstName = fullName.split(' ')[0]; // Extract the first word
-
-//   const visitorDetails = {
-//     registrationDate: new Date(),
-//     name: firstName,
-//     company: req.body.company,
-//     whomToSee: req.body.whomToSee,
-//     purposeOfVisit: req.body.purposeOfVisit,
-//     phoneNumber: cleanAndFormatPhoneNumber(req.body.phone_number),
-//     datetime: new Date(req.body.datetime)
-//   };
-
-//   try {
-//     await client.connect();
-//     const database = client.db('olukayode_sage');
-//     const collection = database.collection('Visitors_details_Database');
-
-//     // Save the visitor details to the database
-//     const result = await collection.insertOne(visitorDetails);
-
-//     // Notify SSE clients with a message
-//     const message = {
-//       type: 'visitor_upload',
-//       visitorDetails,
-//     };
-//     sendSSEMessage('sse_visitor_upload', message);
-//     console.log('Sending SSE message:', message);
-
-//     // Message details
-//     const to = cleanAndFormatPhoneNumber(req.body.phone_number); // Clean and format the phone number
-//     // const accessCodes = ["2368", "7890", "1234", "5678", "9876"];
-//     // const passwords = ["Pink Horse", "Blue Sky", "Golden Key", "Silver Star", "Green Leaf"];
-
-
-//     // Function to generate a random access code
-//     const generateAccessCode = () => {
-//       const randomCode = crypto.randomBytes(2).toString('hex').toUpperCase();
-//       return randomCode;
-//     };
-
-
-//     // Function to generate a secure password (combination of two words)
-//     const generatePassword = () => {
-//       const getRandomPhrase = () => {
-//         const phrases = [
-//           "Blue Sky",
-//           "Dry Lake",
-//           "Green Forest",
-//           "Red Rose",
-//           "Ocean Wave",
-//           "Sunset Glow",
-//           "Silent Moon",
-//           "Misty Mountain",
-//           "Golden Sand",
-//           "Crystal Clear",
-//           "Whispering Wind",
-//           "Starry Night",
-//           "Rustic Charm",
-//           "Enchanted Garden",
-//           "Rolling Hills",
-//           "Silver Stream",
-//           "Purple Haze",
-//           "Autumn Leaves",
-//           "Snowy Peak",
-//           "Serene Lake",
-//           "Blue Ocean",
-//           "Desert Mirage",
-//           "Emerald Forest",
-//           "Crimson Rose",
-//           "Wave of Tranquility",
-//           "Sunset Horizon",
-//           "Lunar Serenity",
-//           "Misty Valley",
-//           "Golden Meadow",
-//           "Crystal Lagoon",
-//           "Whispering Canyon",
-//           "Starlit Sky",
-//           "Rustic Oasis",
-//           "Enchanted Oasis",
-//           "Rolling Thunder",
-//           "Silver Breeze",
-//           "Purple Nebula",
-//           "Autumn Breeze",
-//           "Snowy Silence",
-//           "Serene Sanctuary"
-//         ];;
-//         const randomIndex = Math.floor(Math.random() * phrases.length);
-//         return phrases[randomIndex];
-//       };
-
-//       const password = getRandomPhrase().replace(/\s+/g, '').toLowerCase(); // Remove spaces and convert to lowercase
-//       return password;
-//     };
-
-//     const accessCode = generateAccessCode();
-//     const password = generatePassword();
-
-//     // Calculate validity period (maximum of 1 hour after the provided datetime)
-//     const validityPeriod = new Date(visitorDetails.datetime.getTime() + (60 * 60 * 1000));
-//     const validityPeriodFormatted = validityPeriod.toLocaleDateString() + ' ' + validityPeriod.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-//     const formattedMessage = getRandomMessage(firstName, accessCode, password, validityPeriodFormatted);
-
-//     // Make API request
-//     const response = await axios.post(apiUrl, {
-//       to,
-//       body: formattedMessage,
-//       view_once: true
-//     });
-
-//     // Log response
-//     console.log(response.data);
-
-//     res.status(200).send('Visitor details uploaded successfully and message sent.');
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while uploading visitor details');
-//   } finally {
-//     await client.close();
-//   }
-// });
-
-
-// app.post('/authorize_driver', async (req, res) => {
-//   const driverData = req.body;
-
-//   try {
-//     await client.connect();
-//     const database = client.db(dbName);
-//     const collection = database.collection('authorize_driver');
-
-//     // Save the driver data to the "authorize_driver" collection
-//     const result = await collection.insertOne(driverData);
-
-//     // Notify HR unit with a message using SSE
-//     sseClients.forEach(client => {
-//       const message = {
-//         type: 'authorization',
-//         driverName: driverData.driver_name,
-//         timeOut: driverData.time_out,
-//         destination: driverData.target_location,
-//         passenger: driverData.passenger,
-//       };
-//       client.write(`data: ${JSON.stringify(message)}\n\n`);
-//     });
-
-//     res.json({ success: true, message: 'Driver details authorized successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ success: false, message: 'An error occurred while authorizing driver details' });
-//   } finally {
-//     await client.close();
-//   }
-// });
-
-
-
-// app.get('/sse', (req, res) => {
-//   res.writeHead(200, {
-//     'Content-Type': 'text/event-stream',
-//     'Cache-Control': 'no-cache',
-//     'Connection': 'keep-alive',
-//   });
-
-//   res.write('\n');
-
-//   // Add the client to the array
-//   sseClients.push(res);
-
-//   // Remove the client when the connection is closed
-//   req.on('close', () => {
-//     const index = sseClients.indexOf(res);
-//     if (index !== -1) {
-//       sseClients.splice(index, 1);
-//     }
-//   });
-// });
-// // Function to send SSE updates to all connected clients
-// function sendSSEUpdate(message) {
-//   sseClients.forEach(client => {
-//     client.write(`data: ${JSON.stringify(message)}\n\n`);
-//   });
-// }
-
-
-
-// app.post('/awaiting_visitor', async function (req, res) {
-//   const registrationDate = new Date();
-
-//   // Format the registration date
-//   const formattedDate = registrationDate.toLocaleString('en-US', {
-//     hour: 'numeric',
-//     minute: 'numeric',
-//     hour12: true,
-//     day: 'numeric',
-//     month: 'short', // Use 'short' to get abbreviated month names
-//     year: '2-digit',
-//   });
-
-//   const awaiting_visitorDetails = {
-//     registrationDate: formattedDate, // Save the formatted date to the database
-//     name: req.body.name,
-//     address: req.body.company,
-//     whomToSee: req.body.whomToSee,
-//     purposeOfVisit: req.body.purposeOfVisit,
-//   };
-
-//   try {
-//     await client.connect(); // Connect to the MongoDB client
-//     const database = client.db("olukayode_sage");
-//     const collection = database.collection('New_visitors_details_Database');
-
-//     // Save the visitor details to the database
-//     const result = await collection.insertOne(awaiting_visitorDetails);
-
-//     console.log(' New visitors :', result);
-
-//     // Send SSE to receptionist page
-//     sendSSEUpdate({
-//       type: 'new_visitor',
-//       visitorName: awaiting_visitorDetails.name,
-//       registrationDate: formattedDate,
-//       whomToSee: awaiting_visitorDetails.whomToSee,
-//       purposeOfVisit: awaiting_visitorDetails.purposeOfVisit,
-//     });
-
-//     res.send(`Visitor details uploaded successfully at ${formattedDate}`);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while uploading awaiting visitor details');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
-
-
-// app.get('/get_new__visitor_details', async function (req, res) {
-//   try {
-//     await client.connect(); // Connect to the MongoDB client
-//     const database = client.db('olukayode_sage');
-//     const collection = database.collection('New_visitors_details_Database');
-
-//     // Fetch all visitor details from the database
-//     const visitorDetails = await collection.find().toArray();
-
-//     res.json(visitorDetails); // Send the visitor details as a JSON response
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while fetching visitor details');
-//   } finally {
-//     await client.close(); // Close the MongoDB client connection
-//   }
-// });
-
-
-
-
-// app.get('/get_expected_visitors', async function (req, res) {
-//   try {
-//     await client.connect();
-//     const database = client.db('olukayode_sage');
-//     // const collection = database.collection('olukayode_collection');
-//     const collection = database.collection('Visitors_details_Database');
-//     const expectedVisitors = await collection.find({}).toArray();
-//     console.log(' Expected visitors :', expectedVisitors);
-
-//     res.json(expectedVisitors);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while retrieving expected visitors');
-//   } finally {
-//     await client.close();
-//   }
-// })
-//   ;
-
-
-
-
-// app.post('/notify_the_host', (req, res) => {
-//   // Extract data from the request body
-//   const { name, whomToSee, company, purposeOfVisit, phoneNumber, status, date, time } = req.body;
-
-//   // You can do something with the received data here, for example, logging it
-//   console.log('Received notification:');
-//   console.log('Name:', name);
-//   console.log('Whom to See:', whomToSee);
-//   console.log('Address:', company);
-//   console.log('Purpose of Visit:', purposeOfVisit);
-//   console.log('Phone Number:', phoneNumber);
-//   console.log('Status:', status);
-//   console.log('Date:', date);
-//   console.log('Time:', time);
-
-//   // Send a response back to the client
-//   res.status(200).json({ message: 'Notification received successfully' });
-// });
-
-
-
-// app.get('/get_driver_details', async function (req, res) {
-//   try {
-//     await client.connect();
-//     const database = client.db('olukayode_sage');
-//     const collection = database.collection('drivers_details');
-//     // const collection = database.collection('Visitors_details_Database');
-//     const drivers_details = await collection.find({}).toArray();
-//     console.log(' Expected visitors :', drivers_details);
-
-//     res.json(drivers_details);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while retrieving drivers details');
-//   } finally {
-//     await client.close();
-//   }
-// })
-
-
-// ////////////////////////perfect use
-
-// app.post('/movement_history', async function (req, res) {
-//   const driverDetails = {
-//     driver_name: req.body.driver_name,
-//     armed_guard: req.body.armed_guard,
-//     target_location: req.body.target_location,
-//     passenger: req.body.passenger,
-//     vehicle_number: req.body.vehicle_number,
-//     time_out: req.body.time_out,
-//   };
-
-//   try {
-//     const client = new MongoClient(uri);
-//     await client.connect();
-
-//     const database = client.db('olukayode_sage');
-//     const kaydata = database.collection('movement_history_database');
-//     const drivers_details = database.collection('drivers_details');
-
-//     const result = await kaydata.insertOne(driverDetails);
-
-//     console.log('Movement added to history:', result.insertedId);
-
-//     console.log('Before deletion: Trying to delete', driverDetails.driver_name);
-//     const deleteResult = await drivers_details.deleteOne({ driver_name: driverDetails.driver_name });
-//     console.log('Deletion result:', deleteResult);
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while adding the movement to history and deleting from drivers');
-//   } finally {
-//     await client.close();
-//   }
-// });
-
-
-
-// app.get('/get_movement_history', async function (req, res) {
-//   try {
-//     await client.connect();
-//     const database = client.db('olukayode_sage');
-//     // const collection = database.collection('olukayode_collection');
-//     const collection = database.collection('movement_history_database');
-//     const movementHistory = await collection.find({}).toArray();
-//     console.log(' movement History :', movementHistory);
-
-//     res.json(movementHistory);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while retrieving emovementHistory');
-//   } finally {
-//     await client.close();
-//   }
-// })
-
-
-
-// client.connect();
-// const database = client.db('olukayode_sage');
-// const visitorDataCollection = database.collection('Visitorshistory');
-// const movementDataCollection = database.collection('movement_history_database');
-
-// // Set up the Express app
-
-
-// app.get('/get_visitor_counts', async (req, res) => {
-//   try {
-//     await client.connect();
-//     const totalCount = await visitorDataCollection.countDocuments();
-
-//     const today = new Date();
-//     today.setHours(0, 0, 0, 0);
-
-//     const todayCount = await visitorDataCollection.countDocuments({ date: { $gte: today } });
-//     const weekAgo = new Date(today);
-//     weekAgo.setDate(today.getDate() - 7);
-//     const weekCount = await visitorDataCollection.countDocuments({ date: { $gte: weekAgo } });
-
-//     res.json({ todayCount, weekCount, totalCount });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while fetching visitor counts.');
-//   }
-// });
-
-
-
-// app.get('/get_movements_counts', async (req, res) => {
-//   try {
-//     await client.connect();
-//     const totalCount = await movementDataCollection.countDocuments();
-
-//     const today = new Date();
-//     today.setHours(0, 0, 0, 0);
-
-//     const todayCount = await movementDataCollection.countDocuments({ date: { $gte: today } });
-//     const weekAgo = new Date(today);
-//     weekAgo.setDate(today.getDate() - 7);
-//     const weekCount = await movementDataCollection.countDocuments({ date: { $gte: weekAgo } });
-
-//     res.json({ todayCount, weekCount, totalCount });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('An error occurred while fetching movement counts.');
-//   }
-// });
-
-
-
-
-// // Function to query MongoDB for all data and log entries
-// async function queryMongoForAllDataAndLog() {
-//   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-
-//   try {
-//     // Connect to MongoDB
-//     await client.connect();
-
-//     // Select the database and collection
-//     const db = client.db(dbName);
-//     const collectionName = 'movement_history_database'; // Replace with your collection name
-//     const collection = db.collection(collectionName);
-
-//     // Your query logic here
-//     // For example, you might query for all documents
-//     const allData = await collection.find({}).toArray();
-
-//     // Log all entries to the console
-//     allData.forEach((entry) => {
-//       console.log('Entry:', entry);
-//     });
-
-//     return allData;
-//   } catch (error) {
-//     console.error('Error querying MongoDB:', error);
-//     throw error;
-//   } finally {
-//     // Close the MongoDB connection when done
-//     client.close();
-//   }
-// }
-
-// // WebSocket server logic for HR namespace
-// wss.on('connection', (ws, req) => {
-//   const pathname = req.url;
-//   const isHRNamespace = pathname === '/hr_namespace';
-//   const isSecurityNamespace = pathname === '/security_namespace';
-
-//   if (isHRNamespace) {
-//     console.log('HR unit connected.');
-
-//     // Listen for messages from HR unit
-//     ws.on('message', (message) => {
-//       // Handle HR unit's messages
-//       console.log(`Received HR message: ${message}`);
-//     });
-//   // Handle errors on WebSocket connection
-//   ws.on('error', (error) => {
-//     console.error('WebSocket error:', error);
-//   });
-
-//     // Handle disconnection
-//     ws.on('close', () => {
-//       console.log('HR unit disconnected.');
-//       hrClients.delete(ws); // Remove the client from the HR set
-//     });
-//   } else if (isSecurityNamespace) {
-//     console.log('Security unit connected.');
-
-//     // Listen for messages from security unit
-//     ws.on('message', (message) => {
-//       // Handle security unit's messages
-//       console.log(`Received security message: ${message}`);
-//     });
-// // Handle errors on WebSocket connection
-// ws.on('error', (error) => {
-//   console.error('WebSocket error:', error);
-// });
-//     // Handle disconnection
-//     ws.on('close', () => {
-//       console.log('Security unit disconnected.');
-//       securityClients.delete(ws); // Remove the client from the security set
-//     });
-//   }
-// });
-
-
-
-
-// function formatTime(hours, minutes) {
-//   // Convert hours to 12-hour format and determine AM/PM
-//   const ampm = hours >= 12 ? 'pm' : 'am';
-//   const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
-
-//   // Pad minutes with leading zero if needed
-//   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-//   // Get the current date for the month and year
-//   const currentDate = new Date();
-//   const month = currentDate.getMonth() + 1; // Month is zero-indexed
-//   const year = currentDate.getFullYear().toString().slice(-2);
-
-//   // Format the date in MM/DD/YY format
-//   const formattedDate = `${month}/${formattedHours}/${year}`;
-
-//   // Combine the formatted time and date
-//   const formattedTime = `${formattedHours}:${formattedMinutes}${ampm} ${formattedDate}`;
-
-//   return formattedTime;
-// }
-
-
-// // Hardcoded group ID
-// //const groupId = '120363194020948049@g.us';
-// // const groupId = groupID;
-// ////////////////////////////////////////////////////////////////////////
-// let userName;
-// app.post('/receive_driver_details', async function (req, res) {
-//   const driverDetails = {
-//     driver_name: req.body.driver_name,
-//     armed_guard: req.body.armed_guard,
-//     target_location: req.body.target_location,
-//     passenger: req.body.passenger,
-//     time_out: req.body.time_out,
-//     vehicle_number: req.body.vehicle_number,
-//     pick_up: req.body.pick_up,
-//   };
-//   const code = req.generatedCode;
-
-//   try {
-//     // Connect to the MongoDB client
-//     await client.connect();
-//     const database = client.db('olukayode_sage');
-//     const kaydata = database.collection('drivers_details');
-
-//     // Save the driver details to the database
-//     const result = await kaydata.insertOne(driverDetails);
-
-//     // Fetch the driver's phone number from the drivers_parameters database
-//     const driversParameters = database.collection('drivers_parameters');
-
-//     // Use driverDetails.driver_name instead of driver_name
-//     const driverRecord = await driversParameters.findOne({ driver_name: driverDetails.driver_name });
-//     // const securityManagerRecord = await expatriatesCollection.findOne({ name: securityManagerName });
-//     const expatriatesCollection = database.collection('expatriates_collection'); // Define expatriatesCollection
-//     // const securityManagerRecord = await expatriatesCollection.findOne({ name: { $regex: new RegExp("^Vitor Leite$", "i") } });
-//     // const securityManagerRecord = await expatriatesCollection.findOne({ name: { $regex: new RegExp("^Vitor Leite$", "i") } });
-//     const securityManagerRecord = manager.phoneNumber
-//     const expatriateName = req.body.passenger;
+// // // // // Channel:
+
+// // // // // GAMORA-TPCJD
+
+
+// // // // ////////////////visitor messaging/////////////////////////////////////////////////////////////
+// // // // // const axios = require('axios');
+// // // // //Whatsapp messages to visitors
+// // // // // API credentials
+// // // // // const token = "S36GOqY9anD6SGA7KPynscPVxdju24fN"
+// // // // // const token = "notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX";
+// // // // // API endpoint
+// // // // const token = process.env.TOKEN;
+
+// // // // const apiUrl = `https://gate.whapi.cloud/messages/text?token=${token}`;
+
+// // // // const cleanAndFormatPhoneNumber = (phoneNumber) => {
+// // // //   const cleanedNumber = phoneNumber.replace(/\D/g, '');
+
+// // // //   // Check if cleanedNumber starts with '234', if not, replace the first '0' with '234'
+// // // //   const formattedNumber = cleanedNumber.startsWith('234') ? cleanedNumber : `234${cleanedNumber.slice(1)}`;
+
+// // // //   return formattedNumber;
+// // // // };
+
+// // // // // Function to generate a random message from a list
+// // // // const getRandomMessage = (firstName, accessCode, password, validityPeriodFormatted) => {
+// // // //   // const accessCodes = ["2368", "7890", "1234", "5678", "9876"];
+// // // //   // const passwords = ["Pink Horse", "Blue Sky", "Golden Key", "Silver Star", "Green Leaf"];
+
+// // // //   const messages = [
+// // // //     `Hi ${firstName},\n\nYour access code for Mota-Engil Lagos office is **${accessCode}** and the password is **${password}**. Kindly use this information at the security checkpoint. Access is valid until ${validityPeriodFormatted}.\n\nRegards,\nMota Engil Security`,
+// // // //     `Dear ${firstName},\n\nYour access code: **${accessCode}**\nPassword: **${password}**\nThis information is valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+// // // //     `Hello ${firstName},\n\nYour access code (${accessCode}) and password (${password}) are required for entry at Mota-Engil Lagos office. This access is valid until ${validityPeriodFormatted}.\n\nSincerely,\nMota Engil Security`,
+// // // //     `Dear ${firstName},\n\nAccess Code: **${accessCode}**\nPassword: **${password}**\nKindly use these credentials for entry at Mota-Engil Lagos office. Valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+// // // //     `Hi ${firstName},\n\nPlease be informed that your access code for Mota-Engil Lagos office is **${accessCode}** and the password is **${password}**. Use this information at the security checkpoint. Access is valid until ${validityPeriodFormatted}.\n\nKind regards,\nMota Engil Security`,
+// // // //     // Add 5 more different formatted messages here
+// // // //     `Greetings ${firstName},\n\nYour access to Mota-Engil Lagos office is granted with access code **${accessCode}** and password **${password}**. Ensure you use this information by ${validityPeriodFormatted}.\n\nWarm regards,\nMota Engil Security`,
+// // // //     `Dear ${firstName},\n\nAccess has been granted to Mota-Engil Lagos office. Your access code is **${accessCode}** and the password is **${password}**. Valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+// // // //     `Hello ${firstName},\n\nYour access to Mota-Engil Lagos office is secured with access code **${accessCode}** and password **${password}**. Utilize this information before ${validityPeriodFormatted}.\n\nKind regards,\nMota Engil Security`,
+// // // //     `Hi ${firstName},\n\nAccess has been provisioned for Mota-Engil Lagos office. Your access code (**${accessCode}**) and password (**${password}**) are valid until ${validityPeriodFormatted}.\n\nBest regards,\nMota Engil Security`,
+// // // //     `Dear ${firstName},\n\nYour access to Mota-Engil Lagos office is confirmed. Use access code **${accessCode}** and password **${password}**. Access valid until ${validityPeriodFormatted}.\n\nWarm regards,\nMota Engil Security`
+// // // //   ];
+
+// // // //   const randomIndex = Math.floor(Math.random() * messages.length);
+// // // //   return messages[randomIndex];
+// // // // };
+
+
+
+// // // // app.post('/upload_visitor_details', async (req, res) => {
+// // // //   const fullName = req.body.name;
+// // // //   const firstName = fullName.split(' ')[0]; // Extract the first word
+
+// // // //   const visitorDetails = {
+// // // //     registrationDate: new Date(),
+// // // //     name: firstName,
+// // // //     company: req.body.company,
+// // // //     whomToSee: req.body.whomToSee,
+// // // //     purposeOfVisit: req.body.purposeOfVisit,
+// // // //     phoneNumber: cleanAndFormatPhoneNumber(req.body.phone_number),
+// // // //     datetime: new Date(req.body.datetime)
+// // // //   };
+
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const collection = database.collection('Visitors_details_Database');
+
+// // // //     // Save the visitor details to the database
+// // // //     const result = await collection.insertOne(visitorDetails);
+
+// // // //     // Notify SSE clients with a message
+// // // //     const message = {
+// // // //       type: 'visitor_upload',
+// // // //       visitorDetails,
+// // // //     };
+// // // //     sendSSEMessage('sse_visitor_upload', message);
+// // // //     console.log('Sending SSE message:', message);
+
+// // // //     // Message details
+// // // //     const to = cleanAndFormatPhoneNumber(req.body.phone_number); // Clean and format the phone number
+// // // //     // const accessCodes = ["2368", "7890", "1234", "5678", "9876"];
+// // // //     // const passwords = ["Pink Horse", "Blue Sky", "Golden Key", "Silver Star", "Green Leaf"];
+
+
+// // // //     // Function to generate a random access code
+// // // //     const generateAccessCode = () => {
+// // // //       const randomCode = crypto.randomBytes(2).toString('hex').toUpperCase();
+// // // //       return randomCode;
+// // // //     };
+
+
+// // // //     // Function to generate a secure password (combination of two words)
+// // // //     const generatePassword = () => {
+// // // //       const getRandomPhrase = () => {
+// // // //         const phrases = [
+// // // //           "Blue Sky",
+// // // //           "Dry Lake",
+// // // //           "Green Forest",
+// // // //           "Red Rose",
+// // // //           "Ocean Wave",
+// // // //           "Sunset Glow",
+// // // //           "Silent Moon",
+// // // //           "Misty Mountain",
+// // // //           "Golden Sand",
+// // // //           "Crystal Clear",
+// // // //           "Whispering Wind",
+// // // //           "Starry Night",
+// // // //           "Rustic Charm",
+// // // //           "Enchanted Garden",
+// // // //           "Rolling Hills",
+// // // //           "Silver Stream",
+// // // //           "Purple Haze",
+// // // //           "Autumn Leaves",
+// // // //           "Snowy Peak",
+// // // //           "Serene Lake",
+// // // //           "Blue Ocean",
+// // // //           "Desert Mirage",
+// // // //           "Emerald Forest",
+// // // //           "Crimson Rose",
+// // // //           "Wave of Tranquility",
+// // // //           "Sunset Horizon",
+// // // //           "Lunar Serenity",
+// // // //           "Misty Valley",
+// // // //           "Golden Meadow",
+// // // //           "Crystal Lagoon",
+// // // //           "Whispering Canyon",
+// // // //           "Starlit Sky",
+// // // //           "Rustic Oasis",
+// // // //           "Enchanted Oasis",
+// // // //           "Rolling Thunder",
+// // // //           "Silver Breeze",
+// // // //           "Purple Nebula",
+// // // //           "Autumn Breeze",
+// // // //           "Snowy Silence",
+// // // //           "Serene Sanctuary"
+// // // //         ];;
+// // // //         const randomIndex = Math.floor(Math.random() * phrases.length);
+// // // //         return phrases[randomIndex];
+// // // //       };
+
+// // // //       const password = getRandomPhrase().replace(/\s+/g, '').toLowerCase(); // Remove spaces and convert to lowercase
+// // // //       return password;
+// // // //     };
+
+// // // //     const accessCode = generateAccessCode();
+// // // //     const password = generatePassword();
+
+// // // //     // Calculate validity period (maximum of 1 hour after the provided datetime)
+// // // //     const validityPeriod = new Date(visitorDetails.datetime.getTime() + (60 * 60 * 1000));
+// // // //     const validityPeriodFormatted = validityPeriod.toLocaleDateString() + ' ' + validityPeriod.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+// // // //     const formattedMessage = getRandomMessage(firstName, accessCode, password, validityPeriodFormatted);
+
+// // // //     // Make API request
+// // // //     const response = await axios.post(apiUrl, {
+// // // //       to,
+// // // //       body: formattedMessage,
+// // // //       view_once: true
+// // // //     });
+
+// // // //     // Log response
+// // // //     console.log(response.data);
+
+// // // //     res.status(200).send('Visitor details uploaded successfully and message sent.');
+
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while uploading visitor details');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // });
+
+
+// // // // app.post('/authorize_driver', async (req, res) => {
+// // // //   const driverData = req.body;
+
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const database = client.db(dbName);
+// // // //     const collection = database.collection('authorize_driver');
+
+// // // //     // Save the driver data to the "authorize_driver" collection
+// // // //     const result = await collection.insertOne(driverData);
+
+// // // //     // Notify HR unit with a message using SSE
+// // // //     sseClients.forEach(client => {
+// // // //       const message = {
+// // // //         type: 'authorization',
+// // // //         driverName: driverData.driver_name,
+// // // //         timeOut: driverData.time_out,
+// // // //         destination: driverData.target_location,
+// // // //         passenger: driverData.passenger,
+// // // //       };
+// // // //       client.write(`data: ${JSON.stringify(message)}\n\n`);
+// // // //     });
+
+// // // //     res.json({ success: true, message: 'Driver details authorized successfully' });
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).json({ success: false, message: 'An error occurred while authorizing driver details' });
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // });
+
+
+
+// // // // app.get('/sse', (req, res) => {
+// // // //   res.writeHead(200, {
+// // // //     'Content-Type': 'text/event-stream',
+// // // //     'Cache-Control': 'no-cache',
+// // // //     'Connection': 'keep-alive',
+// // // //   });
+
+// // // //   res.write('\n');
+
+// // // //   // Add the client to the array
+// // // //   sseClients.push(res);
+
+// // // //   // Remove the client when the connection is closed
+// // // //   req.on('close', () => {
+// // // //     const index = sseClients.indexOf(res);
+// // // //     if (index !== -1) {
+// // // //       sseClients.splice(index, 1);
+// // // //     }
+// // // //   });
+// // // // });
+// // // // // Function to send SSE updates to all connected clients
+// // // // function sendSSEUpdate(message) {
+// // // //   sseClients.forEach(client => {
+// // // //     client.write(`data: ${JSON.stringify(message)}\n\n`);
+// // // //   });
+// // // // }
+
+
+
+// // // // app.post('/awaiting_visitor', async function (req, res) {
+// // // //   const registrationDate = new Date();
+
+// // // //   // Format the registration date
+// // // //   const formattedDate = registrationDate.toLocaleString('en-US', {
+// // // //     hour: 'numeric',
+// // // //     minute: 'numeric',
+// // // //     hour12: true,
+// // // //     day: 'numeric',
+// // // //     month: 'short', // Use 'short' to get abbreviated month names
+// // // //     year: '2-digit',
+// // // //   });
+
+// // // //   const awaiting_visitorDetails = {
+// // // //     registrationDate: formattedDate, // Save the formatted date to the database
+// // // //     name: req.body.name,
+// // // //     address: req.body.company,
+// // // //     whomToSee: req.body.whomToSee,
+// // // //     purposeOfVisit: req.body.purposeOfVisit,
+// // // //   };
+
+// // // //   try {
+// // // //     await client.connect(); // Connect to the MongoDB client
+// // // //     const database = client.db("olukayode_sage");
+// // // //     const collection = database.collection('New_visitors_details_Database');
+
+// // // //     // Save the visitor details to the database
+// // // //     const result = await collection.insertOne(awaiting_visitorDetails);
+
+// // // //     console.log(' New visitors :', result);
+
+// // // //     // Send SSE to receptionist page
+// // // //     sendSSEUpdate({
+// // // //       type: 'new_visitor',
+// // // //       visitorName: awaiting_visitorDetails.name,
+// // // //       registrationDate: formattedDate,
+// // // //       whomToSee: awaiting_visitorDetails.whomToSee,
+// // // //       purposeOfVisit: awaiting_visitorDetails.purposeOfVisit,
+// // // //     });
+
+// // // //     res.send(`Visitor details uploaded successfully at ${formattedDate}`);
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while uploading awaiting visitor details');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+
+
+// // // // app.get('/get_new__visitor_details', async function (req, res) {
+// // // //   try {
+// // // //     await client.connect(); // Connect to the MongoDB client
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const collection = database.collection('New_visitors_details_Database');
+
+// // // //     // Fetch all visitor details from the database
+// // // //     const visitorDetails = await collection.find().toArray();
+
+// // // //     res.json(visitorDetails); // Send the visitor details as a JSON response
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while fetching visitor details');
+// // // //   } finally {
+// // // //     await client.close(); // Close the MongoDB client connection
+// // // //   }
+// // // // });
+
+
+
+
+// // // // app.get('/get_expected_visitors', async function (req, res) {
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const database = client.db('olukayode_sage');
+// // // //     // const collection = database.collection('olukayode_collection');
+// // // //     const collection = database.collection('Visitors_details_Database');
+// // // //     const expectedVisitors = await collection.find({}).toArray();
+// // // //     console.log(' Expected visitors :', expectedVisitors);
+
+// // // //     res.json(expectedVisitors);
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while retrieving expected visitors');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // })
+// // // //   ;
+
+
+
+
+// // // // app.post('/notify_the_host', (req, res) => {
+// // // //   // Extract data from the request body
+// // // //   const { name, whomToSee, company, purposeOfVisit, phoneNumber, status, date, time } = req.body;
+
+// // // //   // You can do something with the received data here, for example, logging it
+// // // //   console.log('Received notification:');
+// // // //   console.log('Name:', name);
+// // // //   console.log('Whom to See:', whomToSee);
+// // // //   console.log('Address:', company);
+// // // //   console.log('Purpose of Visit:', purposeOfVisit);
+// // // //   console.log('Phone Number:', phoneNumber);
+// // // //   console.log('Status:', status);
+// // // //   console.log('Date:', date);
+// // // //   console.log('Time:', time);
+
+// // // //   // Send a response back to the client
+// // // //   res.status(200).json({ message: 'Notification received successfully' });
+// // // // });
+
+
+
+// // // // app.get('/get_driver_details', async function (req, res) {
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const collection = database.collection('drivers_details');
+// // // //     // const collection = database.collection('Visitors_details_Database');
+// // // //     const drivers_details = await collection.find({}).toArray();
+// // // //     console.log(' Expected visitors :', drivers_details);
+
+// // // //     res.json(drivers_details);
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while retrieving drivers details');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // })
+
+
+// // // // ////////////////////////perfect use
+
+// // // // app.post('/movement_history', async function (req, res) {
+// // // //   const driverDetails = {
+// // // //     driver_name: req.body.driver_name,
+// // // //     armed_guard: req.body.armed_guard,
+// // // //     target_location: req.body.target_location,
+// // // //     passenger: req.body.passenger,
+// // // //     vehicle_number: req.body.vehicle_number,
+// // // //     time_out: req.body.time_out,
+// // // //   };
+
+// // // //   try {
+// // // //     const client = new MongoClient(uri);
+// // // //     await client.connect();
+
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const kaydata = database.collection('movement_history_database');
+// // // //     const drivers_details = database.collection('drivers_details');
+
+// // // //     const result = await kaydata.insertOne(driverDetails);
+
+// // // //     console.log('Movement added to history:', result.insertedId);
+
+// // // //     console.log('Before deletion: Trying to delete', driverDetails.driver_name);
+// // // //     const deleteResult = await drivers_details.deleteOne({ driver_name: driverDetails.driver_name });
+// // // //     console.log('Deletion result:', deleteResult);
+
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while adding the movement to history and deleting from drivers');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // });
+
+
+
+// // // // app.get('/get_movement_history', async function (req, res) {
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const database = client.db('olukayode_sage');
+// // // //     // const collection = database.collection('olukayode_collection');
+// // // //     const collection = database.collection('movement_history_database');
+// // // //     const movementHistory = await collection.find({}).toArray();
+// // // //     console.log(' movement History :', movementHistory);
+
+// // // //     res.json(movementHistory);
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while retrieving emovementHistory');
+// // // //   } finally {
+// // // //     await client.close();
+// // // //   }
+// // // // })
+
+
+
+// // // // client.connect();
+// // // // const database = client.db('olukayode_sage');
+// // // // const visitorDataCollection = database.collection('Visitorshistory');
+// // // // const movementDataCollection = database.collection('movement_history_database');
+
+// // // // // Set up the Express app
+
+
+// // // // app.get('/get_visitor_counts', async (req, res) => {
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const totalCount = await visitorDataCollection.countDocuments();
+
+// // // //     const today = new Date();
+// // // //     today.setHours(0, 0, 0, 0);
+
+// // // //     const todayCount = await visitorDataCollection.countDocuments({ date: { $gte: today } });
+// // // //     const weekAgo = new Date(today);
+// // // //     weekAgo.setDate(today.getDate() - 7);
+// // // //     const weekCount = await visitorDataCollection.countDocuments({ date: { $gte: weekAgo } });
+
+// // // //     res.json({ todayCount, weekCount, totalCount });
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while fetching visitor counts.');
+// // // //   }
+// // // // });
+
+
+
+// // // // app.get('/get_movements_counts', async (req, res) => {
+// // // //   try {
+// // // //     await client.connect();
+// // // //     const totalCount = await movementDataCollection.countDocuments();
+
+// // // //     const today = new Date();
+// // // //     today.setHours(0, 0, 0, 0);
+
+// // // //     const todayCount = await movementDataCollection.countDocuments({ date: { $gte: today } });
+// // // //     const weekAgo = new Date(today);
+// // // //     weekAgo.setDate(today.getDate() - 7);
+// // // //     const weekCount = await movementDataCollection.countDocuments({ date: { $gte: weekAgo } });
+
+// // // //     res.json({ todayCount, weekCount, totalCount });
+// // // //   } catch (error) {
+// // // //     console.error(error);
+// // // //     res.status(500).send('An error occurred while fetching movement counts.');
+// // // //   }
+// // // // });
+
+
+
+
+// // // // // Function to query MongoDB for all data and log entries
+// // // // async function queryMongoForAllDataAndLog() {
+// // // //   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// // // //   try {
+// // // //     // Connect to MongoDB
+// // // //     await client.connect();
+
+// // // //     // Select the database and collection
+// // // //     const db = client.db(dbName);
+// // // //     const collectionName = 'movement_history_database'; // Replace with your collection name
+// // // //     const collection = db.collection(collectionName);
+
+// // // //     // Your query logic here
+// // // //     // For example, you might query for all documents
+// // // //     const allData = await collection.find({}).toArray();
+
+// // // //     // Log all entries to the console
+// // // //     allData.forEach((entry) => {
+// // // //       console.log('Entry:', entry);
+// // // //     });
+
+// // // //     return allData;
+// // // //   } catch (error) {
+// // // //     console.error('Error querying MongoDB:', error);
+// // // //     throw error;
+// // // //   } finally {
+// // // //     // Close the MongoDB connection when done
+// // // //     client.close();
+// // // //   }
+// // // // }
+
+// // // // // WebSocket server logic for HR namespace
+// // // // wss.on('connection', (ws, req) => {
+// // // //   const pathname = req.url;
+// // // //   const isHRNamespace = pathname === '/hr_namespace';
+// // // //   const isSecurityNamespace = pathname === '/security_namespace';
+
+// // // //   if (isHRNamespace) {
+// // // //     console.log('HR unit connected.');
+
+// // // //     // Listen for messages from HR unit
+// // // //     ws.on('message', (message) => {
+// // // //       // Handle HR unit's messages
+// // // //       console.log(`Received HR message: ${message}`);
+// // // //     });
+// // // //   // Handle errors on WebSocket connection
+// // // //   ws.on('error', (error) => {
+// // // //     console.error('WebSocket error:', error);
+// // // //   });
+
+// // // //     // Handle disconnection
+// // // //     ws.on('close', () => {
+// // // //       console.log('HR unit disconnected.');
+// // // //       hrClients.delete(ws); // Remove the client from the HR set
+// // // //     });
+// // // //   } else if (isSecurityNamespace) {
+// // // //     console.log('Security unit connected.');
+
+// // // //     // Listen for messages from security unit
+// // // //     ws.on('message', (message) => {
+// // // //       // Handle security unit's messages
+// // // //       console.log(`Received security message: ${message}`);
+// // // //     });
+// // // // // Handle errors on WebSocket connection
+// // // // ws.on('error', (error) => {
+// // // //   console.error('WebSocket error:', error);
+// // // // });
+// // // //     // Handle disconnection
+// // // //     ws.on('close', () => {
+// // // //       console.log('Security unit disconnected.');
+// // // //       securityClients.delete(ws); // Remove the client from the security set
+// // // //     });
+// // // //   }
+// // // // });
+
+
+
+
+// // // // function formatTime(hours, minutes) {
+// // // //   // Convert hours to 12-hour format and determine AM/PM
+// // // //   const ampm = hours >= 12 ? 'pm' : 'am';
+// // // //   const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+// // // //   // Pad minutes with leading zero if needed
+// // // //   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+// // // //   // Get the current date for the month and year
+// // // //   const currentDate = new Date();
+// // // //   const month = currentDate.getMonth() + 1; // Month is zero-indexed
+// // // //   const year = currentDate.getFullYear().toString().slice(-2);
+
+// // // //   // Format the date in MM/DD/YY format
+// // // //   const formattedDate = `${month}/${formattedHours}/${year}`;
+
+// // // //   // Combine the formatted time and date
+// // // //   const formattedTime = `${formattedHours}:${formattedMinutes}${ampm} ${formattedDate}`;
+
+// // // //   return formattedTime;
+// // // // }
+
+
+// // // // // Hardcoded group ID
+// // // // //const groupId = '120363194020948049@g.us';
+// // // // // const groupId = groupID;
+// // // // ////////////////////////////////////////////////////////////////////////
+// // // // let userName;
+// // // // app.post('/receive_driver_details', async function (req, res) {
+// // // //   const driverDetails = {
+// // // //     driver_name: req.body.driver_name,
+// // // //     armed_guard: req.body.armed_guard,
+// // // //     target_location: req.body.target_location,
+// // // //     passenger: req.body.passenger,
+// // // //     time_out: req.body.time_out,
+// // // //     vehicle_number: req.body.vehicle_number,
+// // // //     pick_up: req.body.pick_up,
+// // // //   };
+// // // //   const code = req.generatedCode;
+
+// // // //   try {
+// // // //     // Connect to the MongoDB client
+// // // //     await client.connect();
+// // // //     const database = client.db('olukayode_sage');
+// // // //     const kaydata = database.collection('drivers_details');
+
+// // // //     // Save the driver details to the database
+// // // //     const result = await kaydata.insertOne(driverDetails);
+
+// // // //     // Fetch the driver's phone number from the drivers_parameters database
+// // // //     const driversParameters = database.collection('drivers_parameters');
+
+// // // //     // Use driverDetails.driver_name instead of driver_name
+// // // //     const driverRecord = await driversParameters.findOne({ driver_name: driverDetails.driver_name });
+// // // //     // const securityManagerRecord = await expatriatesCollection.findOne({ name: securityManagerName });
+// // // //     const expatriatesCollection = database.collection('expatriates_collection'); // Define expatriatesCollection
+// // // //     // const securityManagerRecord = await expatriatesCollection.findOne({ name: { $regex: new RegExp("^Vitor Leite$", "i") } });
+// // // //     // const securityManagerRecord = await expatriatesCollection.findOne({ name: { $regex: new RegExp("^Vitor Leite$", "i") } });
+// // // //     const securityManagerRecord = manager.phoneNumber
+// // // //     const expatriateName = req.body.passenger;
  
 
-//     // Assuming expatriateName has a format like "Daniel Abang - Unit: Procurement - and 1 other(s)"
-//     const expatriateNameParts = req.body.passenger.split('-')[0].trim().split(' ');
-//     const cleanedExpatriateName = expatriateNameParts.slice(0, 2).join(' ');
+// // // //     // Assuming expatriateName has a format like "Daniel Abang - Unit: Procurement - and 1 other(s)"
+// // // //     const expatriateNameParts = req.body.passenger.split('-')[0].trim().split(' ');
+// // // //     const cleanedExpatriateName = expatriateNameParts.slice(0, 2).join(' ');
 
-//     // Define your condition using the cleanedExpatriateName
-//     const expatriateCondition = { name: { $regex: new RegExp(`^${cleanedExpatriateName}$`, "i") } };
+// // // //     // Define your condition using the cleanedExpatriateName
+// // // //     const expatriateCondition = { name: { $regex: new RegExp(`^${cleanedExpatriateName}$`, "i") } };
 
-//     // Fetch the expatriate record
-//     const movingExpatriateRecord = await expatriatesCollection.findOne(expatriateCondition);
-//     console.log("Moving Expatriate Record:", movingExpatriateRecord);
-
-
-
-//     // Access the number of expatriates (assuming there's a field named 'number' in the collection)
-//     //  console.log(`Number of expatriates for ${expatriateName}: ${numberOfExpatriates}`);
-//     const timeOut = new Date(req.body.time_out);
-//     const currentTime = new Date();
-//     const timeDifferenceInMinutes = Math.floor((timeOut - currentTime) / (1000 * 60));
+// // // //     // Fetch the expatriate record
+// // // //     const movingExpatriateRecord = await expatriatesCollection.findOne(expatriateCondition);
+// // // //     console.log("Moving Expatriate Record:", movingExpatriateRecord);
 
 
-//  // Assuming the escort commander's data has a tag 'EscortCommander' in the database
-//  const escorts_data= database.collection('escorts');
-//  const escortCommanderRecord = await escorts_data.findOne({ designation: "EscortCommander" });
-//  const escortCommanderName = `Mr ${escortCommanderRecord.firstName}`;
+
+// // // //     // Access the number of expatriates (assuming there's a field named 'number' in the collection)
+// // // //     //  console.log(`Number of expatriates for ${expatriateName}: ${numberOfExpatriates}`);
+// // // //     const timeOut = new Date(req.body.time_out);
+// // // //     const currentTime = new Date();
+// // // //     const timeDifferenceInMinutes = Math.floor((timeOut - currentTime) / (1000 * 60));
+
+
+// // // //  // Assuming the escort commander's data has a tag 'EscortCommander' in the database
+// // // //  const escorts_data= database.collection('escorts');
+// // // //  const escortCommanderRecord = await escorts_data.findOne({ designation: "EscortCommander" });
+// // // //  const escortCommanderName = `Mr ${escortCommanderRecord.firstName}`;
 
 
 // //  //////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// console.log("This is the new custom ID 1111:", req.generatedCode);
+// // // console.log("This is the new custom ID 1111:", req.generatedCode);
 
-// if (!req.session.userName) {
-//   // const code = req.generatedCode;
+// // // if (!req.session.userName) {
+// // //   // const code = req.generatedCode;
 
-//   console.log("Custom ID from the request:", code);
+// // //   console.log("Custom ID from the request:", code);
 
-//   if (code) {
-//     const userIdCollection = database.collection('user_id_collection');
-//     const userMapping = await userIdCollection.findOne({ customId: code });
+// // //   if (code) {
+// // //     const userIdCollection = database.collection('user_id_collection');
+// // //     const userMapping = await userIdCollection.findOne({ customId: code });
 
-//     if (!userMapping) {
-//       console.log('User not found in user_id_collection.');
-//       return res.status(404).send('User not found.');
-//     }
+// // //     if (!userMapping) {
+// // //       console.log('User not found in user_id_collection.');
+// // //       return res.status(404).send('User not found.');
+// // //     }
 
-//     const phoneNumber = userMapping.phoneNumber;
+// // //     const phoneNumber = userMapping.phoneNumber;
 
-//     const userCollection = database.collection('registered_user_config_database');
-//     const user = await userCollection.findOne({ phoneNumber });
+// // //     const userCollection = database.collection('registered_user_config_database');
+// // //     const user = await userCollection.findOne({ phoneNumber });
 
-//     console.log('Received userMapping:', userMapping);
+// // //     console.log('Received userMapping:', userMapping);
 
-//     if (!user) {
-//       console.log('User not found in registered_user_config_database.');
-//       return res.status(404).send('User not found.');
-//     }
+// // //     if (!user) {
+// // //       console.log('User not found in registered_user_config_database.');
+// // //       return res.status(404).send('User not found.');
+// // //     }
 
-//     // Save the username in the session
-//     req.session.userName = user.name;
-//     console.log('Saved UserName:', req.session.userName);
-//   } else {
-//     console.log('CustomId not provided.');
-//     return res.status(404).json({ message: 'CustomId not provided' });
-//       }
-//     } else {
-//       console.log('Username already in the session:', req.session.userName);
-//     }
+// // //     // Save the username in the session
+// // //     req.session.userName = user.name;
+// // //     console.log('Saved UserName:', req.session.userName);
+// // //   } else {
+// // //     console.log('CustomId not provided.');
+// // //     return res.status(404).json({ message: 'CustomId not provided' });
+// // //       }
+// // //     } else {
+// // //       console.log('Username already in the session:', req.session.userName);
+// // //     }
 
-// console.log(req.session.userName);
+// // // console.log(req.session.userName);
 
-//  userName = req.session.userName 
-
-
-//     // Notify security unit with a message
-//     for (const securityClient of securityClients) {
-//       securityClient.send('HR unit has a new message');
-//     }
-
-//     // Get driver details for WhatsApp messages
-//     const { driver_name, target_location, time_out, vehicle_number } = driverDetails;
-//     // const expatriateMessage = `${driver_name}: "You have been assigned to take ${req.body.passenger}to ${target_location} by ${time_out}. Find below your passcode and password for gate permit."`;
-
-//     // Use the formatTime function to get the formatted time
-//     const formattedTimeOut = formatTime(new Date(time_out).getHours(), new Date(time_out).getMinutes());
+// // //  userName = req.session.userName 
 
 
-//     let expatriateMessage = `Dear ${driver_name},
+// // //     // Notify security unit with a message
+// // //     for (const securityClient of securityClients) {
+// // //       securityClient.send('HR unit has a new message');
+// // //     }
 
-// You are assigned to transport ${req.body.passenger} from ${req.body.pick_up} to ${target_location} by ${formattedTimeOut}.`;
+// // //     // Get driver details for WhatsApp messages
+// // //     const { driver_name, target_location, time_out, vehicle_number } = driverDetails;
+// // //     // const expatriateMessage = `${driver_name}: "You have been assigned to take ${req.body.passenger}to ${target_location} by ${time_out}. Find below your passcode and password for gate permit."`;
 
-//     // Check if there is at least one escort
-//     if (req.body.armed_guard > 0) {
-//       expatriateMessage += `\n\n${req.body.armed_guard === 1 ? "An armed escort has" : `${req.body.armed_guard} armed escort has`} been assigned to you for the trip.`;
-//     } else {
-//       expatriateMessage += `\n\nYou will NOT need an armed escort for the movement.`;
-//     }
-
-//     // Include the vehicle information
-//     expatriateMessage += `\n\nThe assigned vehicle for this journey is ${vehicle_number}.`;
-
-//     expatriateMessage += `\n\nKindly check your dedicated WhatsApp line for your unique passcode and password. Your access gate pass has been sent to the security unit.
-
-// Thank you.
-// ---
-// *Summary of Movement:*
-// *Driver:* ${driver_name}
-// *Destination:* ${target_location}
-// *Time:* ${formattedTimeOut}
-// *Pickup:* ${req.body.pick_up}
-// *Passenger:* ${req.body.passenger}
-// *Escort:* ${req.body.armed_guard}
-// *Password:* _Sent to your phone._
-// *Gate Pass:* _Sent to Security Unit._
-// `;
-
-// //     // // Remove leading space before "you"
-// //     // expatriateMessage = expatriateMessage.replace(/^ {2}/gm, '');
-
-// //     // console.log(expatriateMessage);
+// // //     // Use the formatTime function to get the formatted time
+// // //     const formattedTimeOut = formatTime(new Date(time_out).getHours(), new Date(time_out).getMinutes());
 
 
-// //     // const securityManagerMessage = `Security Manager: ${JSON.stringify(driverDetails)}`;
+// // //     let expatriateMessage = `Dear ${driver_name},
 
-//     const securityUnitMessage = `
-// *SECURITY UNIT*
+// // // You are assigned to transport ${req.body.passenger} from ${req.body.pick_up} to ${target_location} by ${formattedTimeOut}.`;
+
+// // //     // Check if there is at least one escort
+// // //     if (req.body.armed_guard > 0) {
+// // //       expatriateMessage += `\n\n${req.body.armed_guard === 1 ? "An armed escort has" : `${req.body.armed_guard} armed escort has`} been assigned to you for the trip.`;
+// // //     } else {
+// // //       expatriateMessage += `\n\nYou will NOT need an armed escort for the movement.`;
+// // //     }
+
+// // //     // Include the vehicle information
+// // //     expatriateMessage += `\n\nThe assigned vehicle for this journey is ${vehicle_number}.`;
+
+// // //     expatriateMessage += `\n\nKindly check your dedicated WhatsApp line for your unique passcode and password. Your access gate pass has been sent to the security unit.
+
+// // // Thank you.
+// // // ---
+// // // *Summary of Movement:*
+// // // *Driver:* ${driver_name}
+// // // *Destination:* ${target_location}
+// // // *Time:* ${formattedTimeOut}
+// // // *Pickup:* ${req.body.pick_up}
+// // // *Passenger:* ${req.body.passenger}
+// // // *Escort:* ${req.body.armed_guard}
+// // // *Password:* _Sent to your phone._
+// // // *Gate Pass:* _Sent to Security Unit._
+// // // `;
+
+// // // //     // // Remove leading space before "you"
+// // // //     // expatriateMessage = expatriateMessage.replace(/^ {2}/gm, '');
+
+// // // //     // console.log(expatriateMessage);
+
+
+// // // //     // const securityManagerMessage = `Security Manager: ${JSON.stringify(driverDetails)}`;
+
+// // //     const securityUnitMessage = `
+// // // *SECURITY UNIT*
     
-// Kindly grant access for the movement with the followings:
+// // // Kindly grant access for the movement with the followings:
           
-// *Driver Name:* ${req.body.driver_name}
-// *Vehicle Number:* ${vehicle_number}
-// *Destination:* ${target_location} 
-// *Passengers:* ${req.body.passenger}
+// // // *Driver Name:* ${req.body.driver_name}
+// // // *Vehicle Number:* ${vehicle_number}
+// // // *Destination:* ${target_location} 
+// // // *Passengers:* ${req.body.passenger}
     
-// *Note* The gate pass for the movement has been sent to the security portal.
+// // // *Note* The gate pass for the movement has been sent to the security portal.
           
-// Thank you.
-//         `;
+// // // Thank you.
+// // //         `;
 
 
 
-//     const today = new Date();
-//     const formattedToday = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+// // //     const today = new Date();
+// // //     const formattedToday = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-//     const securityManagerMessage =
-//       `*EXPATRIATES MOVEMENT UPDATE*
+// // //     const securityManagerMessage =
+// // //       `*EXPATRIATES MOVEMENT UPDATE*
 
-// *Date:* ${formattedToday}
+// // // *Date:* ${formattedToday}
 
-// *Name of Expatriate:* ${req.body.passenger}
+// // // *Name of Expatriate:* ${req.body.passenger}
 
-// *Destination:* ${target_location}
+// // // *Destination:* ${target_location}
 
-// *Time Out:* ${formattedTimeOut}
+// // // *Time Out:* ${formattedTimeOut}
 
-// *Time in:* NA
+// // // *Time in:* NA
 
-// *Escort:* ${req.body.armed_guard}
-//     `;
+// // // *Escort:* ${req.body.armed_guard}
+// // //     `;
 
-//     console.log(securityManagerMessage);
-
-
-//     // const expatriateNotification = `Expatriate: Your movement to ${target_location} has been scheduled for ${time_out}, the pilot's number is ${vehicle_number}, thanks`;
+// // //     console.log(securityManagerMessage);
 
 
+// // //     // const expatriateNotification = `Expatriate: Your movement to ${target_location} has been scheduled for ${time_out}, the pilot's number is ${vehicle_number}, thanks`;
 
-//     const tripDescription = timeDifferenceInMinutes < 1
-//     ? `your trip to ${target_location} has been scheduled for ${formattedTimeOut}.`
-//       // ? `your trip to ${target_location} has been scheduled for ${formattedTimeOut} (${formattedToday}).`
-//       : `Your trip with ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location} has been scheduled for ${formattedTimeOut} (${formattedToday}).
-// This will be in ${timeDifferenceInMinutes === 1 ? '1 minute' : `${timeDifferenceInMinutes} minutes`}.`;
 
-//     const expatriateNotification = `
-// Dear ${req.body.passenger.split('-')[0].trim()},
 
-// ${tripDescription}
+// // //     const tripDescription = timeDifferenceInMinutes < 1
+// // //     ? `your trip to ${target_location} has been scheduled for ${formattedTimeOut}.`
+// // //       // ? `your trip to ${target_location} has been scheduled for ${formattedTimeOut} (${formattedToday}).`
+// // //       : `Your trip with ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location} has been scheduled for ${formattedTimeOut} (${formattedToday}).
+// // // This will be in ${timeDifferenceInMinutes === 1 ? '1 minute' : `${timeDifferenceInMinutes} minutes`}.`;
 
-// Your driver is ${req.body.driver_name} (Phone: ${cleanAndFormatPhoneNumber(driverRecord.driverPhone)}), 
-// and the vehicle's number is ${vehicle_number}.
+// // //     const expatriateNotification = `
+// // // Dear ${req.body.passenger.split('-')[0].trim()},
 
-// Have a safe trip and maintain situation awareness.
+// // // ${tripDescription}
 
-// Regards!
-// `;
+// // // Your driver is ${req.body.driver_name} (Phone: ${cleanAndFormatPhoneNumber(driverRecord.driverPhone)}), 
+// // // and the vehicle's number is ${vehicle_number}.
 
-// //     // const escortMessage = `Escort: You have been assigned to escort ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location}, the pilot for the movement is ${driver_name} and the time is ${time_out}. Thank you.`;
-// //     // const escortMessage = `Dear ${escortCommandee},
-// //     // Kindly arrange to escort ${expatriateName} to ${targetLocation} by ${formattedTimeOut}, the pilot for the trip is ${driverName}. Thank you.`;
+// // // Have a safe trip and maintain situation awareness.
+
+// // // Regards!
+// // // `;
+
+// // // //     // const escortMessage = `Escort: You have been assigned to escort ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location}, the pilot for the movement is ${driver_name} and the time is ${time_out}. Thank you.`;
+// // // //     // const escortMessage = `Dear ${escortCommandee},
+// // // //     // Kindly arrange to escort ${expatriateName} to ${targetLocation} by ${formattedTimeOut}, the pilot for the trip is ${driverName}. Thank you.`;
     
-//     const escortMessage = 
-//   `Dear ${escortCommanderName},
-// Kindly arrange to escort ${req.body.passenger.split('-')[0].trim()} and ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location} by  ${formattedTimeOut}.
-// The pilot for the trip is ${req.body.driver_name}, and his phonenumber is ${cleanAndFormatPhoneNumber(driverRecord.driverPhone)}), 
-// Thank you.`;
+// // //     const escortMessage = 
+// // //   `Dear ${escortCommanderName},
+// // // Kindly arrange to escort ${req.body.passenger.split('-')[0].trim()} and ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location} by  ${formattedTimeOut}.
+// // // The pilot for the trip is ${req.body.driver_name}, and his phonenumber is ${cleanAndFormatPhoneNumber(driverRecord.driverPhone)}), 
+// // // Thank you.`;
 
   
 
-//     const groupId = groupIDData.idNumber; // Replace with your group ID
-//     const token =  token1Data.idNumber; 
-//     const sendMessageToGroup2 = async (groupId, message) => {
-//       try {
-//         const response = await axios.post(
-//           'https://gate.whapi.cloud/messages/text',
-//           {
-//             to: groupId,
-//             body: message,
-//             typing_time: 0,
-//           },
-//           {
-//             headers: {
-//               Accept: 'application/json',
-//               'Content-Type': 'application/json',
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
+// // //     const groupId = groupIDData.idNumber; // Replace with your group ID
+// // //     const token =  token1Data.idNumber; 
+// // //     const sendMessageToGroup2 = async (groupId, message) => {
+// // //       try {
+// // //         const response = await axios.post(
+// // //           'https://gate.whapi.cloud/messages/text',
+// // //           {
+// // //             to: groupId,
+// // //             body: message,
+// // //             typing_time: 0,
+// // //           },
+// // //           {
+// // //             headers: {
+// // //               Accept: 'application/json',
+// // //               'Content-Type': 'application/json',
+// // //               Authorization: `Bearer ${token}`,
+// // //             },
+// // //           }
+// // //         );
 
-//         console.log('Message sent successfully:', response.data);
-//       } catch (error) {
-//         console.error('Error sending message:', error.message);
-//       }
-//     };
+// // //         console.log('Message sent successfully:', response.data);
+// // //       } catch (error) {
+// // //         console.error('Error sending message:', error.message);
+// // //       }
+// // //     };
 
-//     // Send messages to the transport group
-//     if (groupId) {
-//       sendMessageToGroup2(groupId, expatriateMessage);
-//     }
-// ////////////////////////////////////////////////////////////////
-// const generatePDF = (pdfData, filename, callback) => {
-//   console.log('Generating PDF...');
+// // //     // Send messages to the transport group
+// // //     if (groupId) {
+// // //       sendMessageToGroup2(groupId, expatriateMessage);
+// // //     }
+// // // ////////////////////////////////////////////////////////////////
+// // // const generatePDF = (pdfData, filename, callback) => {
+// // //   console.log('Generating PDF...');
 
-//   pdf.create(pdfData).toFile(filename, (err, res) => {
-//     if (err) {
-//       console.error('Error during PDF generation:', err);
-//       callback(err);
-//     } else {
-//       console.log('PDF generation completed.');
-//       callback();
-//     }
-//   });
-// };
+// // //   pdf.create(pdfData).toFile(filename, (err, res) => {
+// // //     if (err) {
+// // //       console.error('Error during PDF generation:', err);
+// // //       callback(err);
+// // //     } else {
+// // //       console.log('PDF generation completed.');
+// // //       callback();
+// // //     }
+// // //   });
+// // // };
 
-// const sendMessageToGroup = async (groupId, message, pdfData, pdfFilename) => {
-//   try {
+// // // // const sendMessageToGroup = async (groupId, message, pdfData, pdfFilename) => {
+// // // //   try {
 
-//     const pdfResponse = await axios.post(
-//       'https://gate.whapi.cloud/messages/document',
-//       {
-//         to: groupId,
-//         media: `data:application/octet-stream;name=${pdfFilename};base64,${pdfData}`,
-//       },
-//       {
-//         headers: {
-//           Accept: 'application/json',
-//           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
+// // // //     const pdfResponse = await axios.post(
+// // // //       'https://gate.whapi.cloud/messages/document',
+// // // //       {
+// // // //         to: groupId,
+// // // //         media: `data:application/octet-stream;name=${pdfFilename};base64,${pdfData}`,
+// // // //       },
+// // // //       {
+// // // //         headers: {
+// // // //           Accept: 'application/json',
+// // // //           'Content-Type': 'application/json',
+// // // //           Authorization: `Bearer ${token}`,
+// // // //         },
+// // // //       }
+// // // //     );
 
-//     console.log('PDF file sent successfully:', pdfResponse.data);
-//   } catch (error) {
-//     console.error('Error sending message and PDF:', error.message);
-//   }
-// };
+// // // //     console.log('PDF file sent successfully:', pdfResponse.data);
+// // // //   } catch (error) {
+// // // //     console.error('Error sending message and PDF:', error.message);
+// // // //   }
+// // // // };
 
-// const downloadsFolderPath = "C:\\Users\\Administrator\\Downloads";
-// const formattedDate = formattedToday ;
-// const uniqueFilename = `M.E_Gate_pass_${formattedDate}_${driver_name}_${target_location}.pdf`;
-// const pdfPath = path.join(downloadsFolderPath, uniqueFilename);
+// // // // const downloadsFolderPath = "C:\\Users\\Administrator\\Downloads";
+// // // // const formattedDate = formattedToday ;
+// // // // const uniqueFilename = `M.E_Gate_pass_${formattedDate}_${driver_name}_${target_location}.pdf`;
+// // // // const pdfPath = path.join(downloadsFolderPath, uniqueFilename);
 
-// const signatureImagePath = 'C:/Users/Administrator/OneDrive/Desktop/Development tools/playground/backupVisitor-Movement Management/Visitor-Movement Management6/assets/signature1.png';
+// // // // const signatureImagePath = 'C:/Users/Administrator/OneDrive/Desktop/Development tools/playground/backupVisitor-Movement Management/Visitor-Movement Management6/assets/signature1.png';
 
-//     const gatePassHTML = `
-//     <!DOCTYPE html>
-//     <html lang="en">
-//     <head>
-//         <meta charset="UTF-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>Gate Pass</title>
-//         <style>
-//         @page {
-//           size: landscape;
-//       }
+// // // //     const gatePassHTML = `
+// // // //     <!DOCTYPE html>
+// // // //     <html lang="en">
+// // // //     <head>
+// // // //         <meta charset="UTF-8">
+// // // //         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+// // // //         <title>Gate Pass</title>
+// // // //         <style>
+// // // //         @page {
+// // // //           size: landscape;
+// // // //       }
 
-//             /* Add your CSS styles for the gate pass here */
-//             body {
-//                 font-family: Calibri, sans-serif;
+// // // //             /* Add your CSS styles for the gate pass here */
+// // // //             body {
+// // // //                 font-family: Calibri, sans-serif;
               
-//                 margin: 0;
-//                 padding: 0;
-//             }
+// // // //                 margin: 0;
+// // // //                 padding: 0;
+// // // //             }
     
-//             .container_gatePass {
-//                 border: 2px solid #000;
-//                 padding: 20px;
-//                 margin: 20px;
-//             }
+// // // //             .container_gatePass {
+// // // //                 border: 2px solid #000;
+// // // //                 padding: 20px;
+// // // //                 margin: 20px;
+// // // //             }
     
-//             .header {
-//                 text-align: center;
-//                 margin-bottom: 20px;
-//             }
+// // // //             .header {
+// // // //                 text-align: center;
+// // // //                 margin-bottom: 20px;
+// // // //             }
     
-//             .red-seal {
-//                 position: absolute;
-//                 bottom: 50px;
-//                 right: 50px;
-//                 width: 150px;
-//                 height: 150px;
-//                 background-color: red;
-//                 border-radius: 50%;
-//                 border: 3px solid #fff;
-//                 text-align: center;
-//                 display: flex;
-//                 align-items: center;
-//                 justify-content: center;
-//                 clip-path: polygon(
-//                     50% 0%,
-//                     61.8% 35.4%,
-//                     68.6% 57.3%,
-//                     79.1% 91%,
-//                     50% 70.1%,
-//                     20.9% 91%,
-//                     31.4% 57.3%,
-//                     38.2% 35.4%
-//                 );
-//                 transform: rotate(-45deg);
-//             }
+// // // //             .red-seal {
+// // // //                 position: absolute;
+// // // //                 bottom: 50px;
+// // // //                 right: 50px;
+// // // //                 width: 150px;
+// // // //                 height: 150px;
+// // // //                 background-color: red;
+// // // //                 border-radius: 50%;
+// // // //                 border: 3px solid #fff;
+// // // //                 text-align: center;
+// // // //                 display: flex;
+// // // //                 align-items: center;
+// // // //                 justify-content: center;
+// // // //                 clip-path: polygon(
+// // // //                     50% 0%,
+// // // //                     61.8% 35.4%,
+// // // //                     68.6% 57.3%,
+// // // //                     79.1% 91%,
+// // // //                     50% 70.1%,
+// // // //                     20.9% 91%,
+// // // //                     31.4% 57.3%,
+// // // //                     38.2% 35.4%
+// // // //                 );
+// // // //                 transform: rotate(-45deg);
+// // // //             }
     
-//             .seal-text {
-//               color: white;
-//               font-weight: bold;
-//               text-transform: uppercase;
-//               font-size: 10px;
-//               position: absolute;
-//               top: 70px; /* Adjust this value to move the text down */
-//               left: 30%;
-//               transform: translateX(-50%) rotate(45deg); /* Rotate the text by 45 degrees */
-//           }
-//             table {
-//                 width: 100%;
-//                 border-collapse: collapse;
-//             }
+// // // //             .seal-text {
+// // // //               color: white;
+// // // //               font-weight: bold;
+// // // //               text-transform: uppercase;
+// // // //               font-size: 10px;
+// // // //               position: absolute;
+// // // //               top: 70px; /* Adjust this value to move the text down */
+// // // //               left: 30%;
+// // // //               transform: translateX(-50%) rotate(45deg); /* Rotate the text by 45 degrees */
+// // // //           }
+// // // //             table {
+// // // //                 width: 100%;
+// // // //                 border-collapse: collapse;
+// // // //             }
     
-//             table, th, td {
-//                 border: 1px solid #000;
-//             }
+// // // //             table, th, td {
+// // // //                 border: 1px solid #000;
+// // // //             }
     
-//             th, td {
-//                 padding: 10px;
-//                 text-align: left;
-//                 font-size: 16px;
-//             }
+// // // //             th, td {
+// // // //                 padding: 10px;
+// // // //                 text-align: left;
+// // // //                 font-size: 16px;
+// // // //             }
     
  
-//         </style>
-//     </head>
-//     <body>
-//     <div class="logo-container">
-//     <main>
-//       <!-- Your SVG content here -->
-//       <svg xmlns="http://www.w3.org/2000/svg" height="200" width="400" version="1.0" viewBox="-14.709615 -11.98125 127.48333 71.8875">
-//           <defs>
-//               <!-- Define the clip path -->
-//               <clipPath id="a">
-//                   <path d="M0 841.89h1785.827V0H0z"/>
-//               </clipPath>
-//           </defs>
-//              <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 -1155.7275 543.7908)">
-//               <path d="M924.582 415.8627h19.169v-19.17h-19.169z" fill="#f7a30a" fill-rule="evenodd"/>
-//               <path d="M943.751 435.0327h19.17v-19.169h-19.17z" fill="#005ec4" fill-rule="evenodd"/>
-//               <path d="M942.4095 435.0324h1.342v-19.169h-19.169v1.341h17.827zm1.3418-19.1694h19.17v-1.342h-17.827v-17.828h-1.343v17.828z" fill="#231f20"/>
-//               <path d="M956.972 409.0544h-.851c-.916-1.695-1.841-3.4-2.767-5.196-.832 1.796-1.674 3.501-2.516 5.196h-.972v-6.381h.748v5.195h.019c.252-.837 1.608-3.564 2.42-5.195h.366c.879 1.631 2.365 4.448 2.627 5.195h.019v-5.195h.907zm4.5322-5.9629c-1.691 0-2.271 1.523-2.271 2.771 0 1.196.654 2.553 2.271 2.553 1.618 0 2.272-1.357 2.272-2.553 0-1.248-.579-2.771-2.272-2.771m0-.637c2.021 0 3.273 1.504 3.273 3.408 0 1.788-1.383 3.192-3.273 3.192-1.889 0-3.271-1.404-3.271-3.192 0-1.904 1.251-3.408 3.271-3.408m19.9776 6.5969l-4.021.003v-6.385h4.426v.639l-3.511.002v2.052h3.058v.637h-3.058v2.414h3.106zm7.1982 0h-.752v-5.087h-.019c-.444.638-2.876 3.428-4.329 5.087h-.679v-6.382h.755v5.078h.018c.397-.555 2.858-3.418 4.29-5.078h.716zm5.9082-3.5732v-2.16c-.367-.174-.783-.229-1.339-.229-1.432 0-2.573 1.084-2.573 2.699 0 1.495.961 2.626 2.677 2.626.725 0 1.329-.247 1.725-.511l.377.528c-.396.319-1.15.62-2.111.62-2.377 0-3.678-1.668-3.678-3.282 0-1.75 1.207-3.318 3.555-3.318.839 0 1.64.21 2.282.428v2.599zm3.2888 3.5735h-.914v-6.382h.914zm1.4983-6.3821h3.658v.639h-2.744v5.743h-.914zm-31.3632.0039v5.742l2.139.001v.638h-5.297v-.639h2.203v-5.742z" fill="#333333" fill-rule="evenodd"/>
-//               <path d="M972.3656 409.0544l-2.607-6.381h.974l.945 2.689.225.639.671 1.91 1.987-5.238h1.102l-2.568 6.381z" fill="#333333"/>
-//               <path d="M972.2015 405.362h4.695V406h-4.466z" fill="#333333" fill-rule="evenodd"/>
-//             </g>
-//       </svg>
-//   </main>
-// </div>
+// // // //         </style>
+// // // //     </head>
+// // // //     <body>
+// // // //     <div class="logo-container">
+// // // //     <main>
+// // // //       <!-- Your SVG content here -->
+// // // //       <svg xmlns="http://www.w3.org/2000/svg" height="200" width="400" version="1.0" viewBox="-14.709615 -11.98125 127.48333 71.8875">
+// // // //           <defs>
+// // // //               <!-- Define the clip path -->
+// // // //               <clipPath id="a">
+// // // //                   <path d="M0 841.89h1785.827V0H0z"/>
+// // // //               </clipPath>
+// // // //           </defs>
+// // // //              <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 -1155.7275 543.7908)">
+// // // //               <path d="M924.582 415.8627h19.169v-19.17h-19.169z" fill="#f7a30a" fill-rule="evenodd"/>
+// // // //               <path d="M943.751 435.0327h19.17v-19.169h-19.17z" fill="#005ec4" fill-rule="evenodd"/>
+// // // //               <path d="M942.4095 435.0324h1.342v-19.169h-19.169v1.341h17.827zm1.3418-19.1694h19.17v-1.342h-17.827v-17.828h-1.343v17.828z" fill="#231f20"/>
+// // // //               <path d="M956.972 409.0544h-.851c-.916-1.695-1.841-3.4-2.767-5.196-.832 1.796-1.674 3.501-2.516 5.196h-.972v-6.381h.748v5.195h.019c.252-.837 1.608-3.564 2.42-5.195h.366c.879 1.631 2.365 4.448 2.627 5.195h.019v-5.195h.907zm4.5322-5.9629c-1.691 0-2.271 1.523-2.271 2.771 0 1.196.654 2.553 2.271 2.553 1.618 0 2.272-1.357 2.272-2.553 0-1.248-.579-2.771-2.272-2.771m0-.637c2.021 0 3.273 1.504 3.273 3.408 0 1.788-1.383 3.192-3.273 3.192-1.889 0-3.271-1.404-3.271-3.192 0-1.904 1.251-3.408 3.271-3.408m19.9776 6.5969l-4.021.003v-6.385h4.426v.639l-3.511.002v2.052h3.058v.637h-3.058v2.414h3.106zm7.1982 0h-.752v-5.087h-.019c-.444.638-2.876 3.428-4.329 5.087h-.679v-6.382h.755v5.078h.018c.397-.555 2.858-3.418 4.29-5.078h.716zm5.9082-3.5732v-2.16c-.367-.174-.783-.229-1.339-.229-1.432 0-2.573 1.084-2.573 2.699 0 1.495.961 2.626 2.677 2.626.725 0 1.329-.247 1.725-.511l.377.528c-.396.319-1.15.62-2.111.62-2.377 0-3.678-1.668-3.678-3.282 0-1.75 1.207-3.318 3.555-3.318.839 0 1.64.21 2.282.428v2.599zm3.2888 3.5735h-.914v-6.382h.914zm1.4983-6.3821h3.658v.639h-2.744v5.743h-.914zm-31.3632.0039v5.742l2.139.001v.638h-5.297v-.639h2.203v-5.742z" fill="#333333" fill-rule="evenodd"/>
+// // // //               <path d="M972.3656 409.0544l-2.607-6.381h.974l.945 2.689.225.639.671 1.91 1.987-5.238h1.102l-2.568 6.381z" fill="#333333"/>
+// // // //               <path d="M972.2015 405.362h4.695V406h-4.466z" fill="#333333" fill-rule="evenodd"/>
+// // // //             </g>
+// // // //       </svg>
+// // // //   </main>
+// // // // </div>
 
-//      </div>
-//      <div class="container_gatePass ">
-//         <div class="header">
-//         <div style="color: #333333; font-weight: bold; font-size: 24px; font-family: Arial, sans-serif;">Gate Pass</div>
-//     </div>
+// // // //      </div>
+// // // //      <div class="container_gatePass ">
+// // // //         <div class="header">
+// // // //         <div style="color: #333333; font-weight: bold; font-size: 24px; font-family: Arial, sans-serif;">Gate Pass</div>
+// // // //     </div>
     
-//             <!-- Table for Gate Pass Data -->
-//             <table>
-//                 <tr>
-//                     <th>Driver's Name</th>
-//                     <td>${driver_name}</td>
-//                 </tr>
-//                 <tr>
-//                     <th>Destination</th>
-//                     <td>${target_location}</td>
-//                 </tr>
-//                 <tr>
-//                 <th>Date</th>
-//                 <td>${formattedDate}</td>
-//             </tr>
+// // // //             <!-- Table for Gate Pass Data -->
+// // // //             <table>
+// // // //                 <tr>
+// // // //                     <th>Driver's Name</th>
+// // // //                     <td>${driver_name}</td>
+// // // //                 </tr>
+// // // //                 <tr>
+// // // //                     <th>Destination</th>
+// // // //                     <td>${target_location}</td>
+// // // //                 </tr>
+// // // //                 <tr>
+// // // //                 <th>Date</th>
+// // // //                 <td>${formattedDate}</td>
+// // // //             </tr>
           
-//             <tr>
-//                 <th>Armed Guard</th>
-//                 <td>${req.body.armed_guard}</td>
-//             </tr>
-//             <tr>
-//                 <th>Passenger</th>
-//                 <td>${req.body.passenger}</td>
-//             </tr>
-//             <tr>
-//                 <th>Destination</th>
-//                 <td>${target_location}</td>
-//             </tr>
-//             <tr>
-//                 <th>Vehicle Number</th>
-//                 <td>${vehicle_number}</td>
-//             </tr>
+// // // //             <tr>
+// // // //                 <th>Armed Guard</th>
+// // // //                 <td>${req.body.armed_guard}</td>
+// // // //             </tr>
+// // // //             <tr>
+// // // //                 <th>Passenger</th>
+// // // //                 <td>${req.body.passenger}</td>
+// // // //             </tr>
+// // // //             <tr>
+// // // //                 <th>Destination</th>
+// // // //                 <td>${target_location}</td>
+// // // //             </tr>
+// // // //             <tr>
+// // // //                 <th>Vehicle Number</th>
+// // // //                 <td>${vehicle_number}</td>
+// // // //             </tr>
          
-//             <tr>
-//                 <th>HR Authorization</th>
-//               <td>${userName}</td>
-//             </tr
+// // // //             <tr>
+// // // //                 <th>HR Authorization</th>
+// // // //               <td>${userName}</td>
+// // // //             </tr
             
            
-//             <tr>
-//             <th>Authorizer's Signature</th>
-//             <td><img src="file:///C:/Users/Administrator/OneDrive/Desktop/Development tools/playground/backupVisitor-Movement Management/Visitor-Movement Management6/assets/signature1.png" alt="Authorizer's Signature" /></td>
-//           </tr>
+// // // //             <tr>
+// // // //             <th>Authorizer's Signature</th>
+// // // //             <td><img src="file:///C:/Users/Administrator/OneDrive/Desktop/Development tools/playground/backupVisitor-Movement Management/Visitor-Movement Management6/assets/signature1.png" alt="Authorizer's Signature" /></td>
+// // // //           </tr>
 
-//     <div class="red-seal">
-//                 <div class="seal-text">Authorized</div>
-//             </div>
-//             </tr
-//         </table>
-//     </div>
-// </body>
-// </html>
-// `;
-
-
-// generatePDF(gatePassHTML, pdfPath, (error) => {
-//   if (error) {
-//     console.error('PDF generation failed:', error);
-//   } else {
-//     const pdfData = fs.readFileSync(pdfPath, { encoding: 'base64' });
-
-//     // Send message with PDF only (no additional descriptive message)
-//     sendMessageToGroup(groupId, '', pdfData, uniqueFilename);
-//   }
-// });
-
-// //////////////////////////////////////////////////////////////////////////////////
-//     //send to driver
-//     const sendMessageToNumber = async (phoneNumber, message, callback) => {
-//       try {
-//         const response = await axios.post(
-//           'https://gate.whapi.cloud/messages/text',
-//           {
-//             to: `${phoneNumber}@s.whatsapp.net`,
-//             body: message,
-//             typing_time: 0,
-//           },
-//           {
-//             headers: {
-//               Accept: 'application/json',
-//               'Content-Type': 'application/json',
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
-
-//         console.log(`Message sent to ${phoneNumber} successfully:`, response.data);
-//         if (callback) {
-//           callback(null, response.data);
-//         }
-//       } catch (error) {
-//         console.error(`Error sending message to ${phoneNumber}:`, error.message);
-//         if (callback) {
-//           callback(error, null);
-//         }
-//       }
-//     };
-
-//     // Example of using the callback
-//     if (driverRecord) {
-//       const driverPhoneNumber = cleanAndFormatPhoneNumber(driverRecord.driverPhone);
-
-//       // const driverMessage = `Hi ${driverDetails.driver_name},\n\n${expatriateMessage}`;
-//       const driverMessage = `${expatriateMessage}`;
-//       sendMessageToNumber(driverPhoneNumber, driverMessage, (error, responseData) => {
-//         if (error) {
-//           console.error('Error occurred:', error);
-//         } else {
-//           console.log('Driver message sent successfully.', responseData);
-//         }
-//       });
-//     } else {
-//       console.error('Driver record not found.');
-//     }
+// // // //     <div class="red-seal">
+// // // //                 <div class="seal-text">Authorized</div>
+// // // //             </div>
+// // // //             </tr
+// // // //         </table>
+// // // //     </div>
+// // // // </body>
+// // // // </html>
+// // // // `;
 
 
-// /////////////////////////////////////////////////////////////////
-// const newsecurityManagerNumber = manager.phoneNumber
-//     /////Send to manager
-//     const sendMessageToManager = async (newsecurityManagerNumber, message, callback) => {
-//       try {
-//         const response = await axios.post(
-//           'https://gate.whapi.cloud/messages/text',
-//           {
-//             // to: `${securityManagerNumber}@s.whatsapp.net`,
-//             to: `${newsecurityManagerNumber}@s.whatsapp.net`,
+// // // // generatePDF(gatePassHTML, pdfPath, (error) => {
+// // // //   if (error) {
+// // // //     console.error('PDF generation failed:', error);
+// // // //   } else {
+// // // //     const pdfData = fs.readFileSync(pdfPath, { encoding: 'base64' });
+
+// // // //     // Send message with PDF only (no additional descriptive message)
+// // // //     sendMessageToGroup(groupId, '', pdfData, uniqueFilename);
+// // // //   }
+// // // // });
+
+// // // // //////////////////////////////////////////////////////////////////////////////////
+// // // //     //send to driver
+// // // //     const sendMessageToNumber = async (phoneNumber, message, callback) => {
+// // // //       try {
+// // // //         const response = await axios.post(
+// // // //           'https://gate.whapi.cloud/messages/text',
+// // // //           {
+// // // //             to: `${phoneNumber}@s.whatsapp.net`,
+// // // //             body: message,
+// // // //             typing_time: 0,
+// // // //           },
+// // // //           {
+// // // //             headers: {
+// // // //               Accept: 'application/json',
+// // // //               'Content-Type': 'application/json',
+// // // //               Authorization: `Bearer ${token}`,
+// // // //             },
+// // // //           }
+// // // //         );
+
+// // // //         console.log(`Message sent to ${phoneNumber} successfully:`, response.data);
+// // // //         if (callback) {
+// // // //           callback(null, response.data);
+// // // //         }
+// // // //       } catch (error) {
+// // // //         console.error(`Error sending message to ${phoneNumber}:`, error.message);
+// // // //         if (callback) {
+// // // //           callback(error, null);
+// // // //         }
+// // // //       }
+// // // //     };
+
+// // // //     // Example of using the callback
+// // // //     if (driverRecord) {
+// // // //       const driverPhoneNumber = cleanAndFormatPhoneNumber(driverRecord.driverPhone);
+
+// // // //       // const driverMessage = `Hi ${driverDetails.driver_name},\n\n${expatriateMessage}`;
+// // // //       const driverMessage = `${expatriateMessage}`;
+// // // //       sendMessageToNumber(driverPhoneNumber, driverMessage, (error, responseData) => {
+// // // //         if (error) {
+// // // //           console.error('Error occurred:', error);
+// // // //         } else {
+// // // //           console.log('Driver message sent successfully.', responseData);
+// // // //         }
+// // // //       });
+// // // //     } else {
+// // // //       console.error('Driver record not found.');
+// // // //     }
+
+
+// // // // /////////////////////////////////////////////////////////////////
+// // // // const newsecurityManagerNumber = manager.phoneNumber
+// // // //     /////Send to manager
+// // // //     const sendMessageToManager = async (newsecurityManagerNumber, message, callback) => {
+// // // //       try {
+// // // //         const response = await axios.post(
+// // // //           'https://gate.whapi.cloud/messages/text',
+// // // //           {
+// // // //             // to: `${securityManagerNumber}@s.whatsapp.net`,
+// // // //             to: `${newsecurityManagerNumber}@s.whatsapp.net`,
             
-//             body: message,
-//             typing_time: 0,
-//           },
-//           {
-//             headers: {
-//               Accept: 'application/json',
-//               'Content-Type': 'application/json',
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
+// // // //             body: message,
+// // // //             typing_time: 0,
+// // // //           },
+// // // //           {
+// // // //             headers: {
+// // // //               Accept: 'application/json',
+// // // //               'Content-Type': 'application/json',
+// // // //               Authorization: `Bearer ${token}`,
+// // // //             },
+// // // //           }
+// // // //         );
 
-//         console.log(`Message sent to ${newsecurityManagerNumber} successfully:`, response.data);
-//         if (callback) {
-//           callback(null, response.data);
-//         }
-//       } catch (error) {
-//         console.error(`Error sending message to ${newsecurityManagerNumber}:`, error.message);
-//         if (callback) {
-//           callback(error, null);
-//         }
-//       }
-//     };
+// // // //         console.log(`Message sent to ${newsecurityManagerNumber} successfully:`, response.data);
+// // // //         if (callback) {
+// // // //           callback(null, response.data);
+// // // //         }
+// // // //       } catch (error) {
+// // // //         console.error(`Error sending message to ${newsecurityManagerNumber}:`, error.message);
+// // // //         if (callback) {
+// // // //           callback(error, null);
+// // // //         }
+// // // //       }
+// // // //     };
 
-//     if (newsecurityManagerNumber) {
+// // // //     if (newsecurityManagerNumber) {
 
-//       const newsecurityManagerNumber= manager.phoneNumber;
+// // // //       const newsecurityManagerNumber= manager.phoneNumber;
 
-//       sendMessageToManager(newsecurityManagerNumber, securityManagerMessage, (error, responseData) => {
-//         if (error) {
-//           console.error('Error occurred:', error);
-//         } else {
-//           console.log('Driver message sent successfully.', responseData);
-//         }
-//       });
-//     } else {
-//       console.error('Driver record not found.');
-//     }
+// // // //       sendMessageToManager(newsecurityManagerNumber, securityManagerMessage, (error, responseData) => {
+// // // //         if (error) {
+// // // //           console.error('Error occurred:', error);
+// // // //         } else {
+// // // //           console.log('Driver message sent successfully.', responseData);
+// // // //         }
+// // // //       });
+// // // //     } else {
+// // // //       console.error('Driver record not found.');
+// // // //     }
 
   
-//     ////////////////send to expatriate
-//     const send_moving_expatriate = async (movingExpatriatePhoneNumber, message, callback) => {
-//       try {
-//         const response = await axios.post(
-//           'https://gate.whapi.cloud/messages/text',
-//           {
-//             to: `${movingExpatriatePhoneNumber}@s.whatsapp.net`,
-//             body: message,
-//             typing_time: 0,
-//           },
-//           {
-//             headers: {
-//               Accept: 'application/json',
-//               'Content-Type': 'application/json',
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
+// // // //     ////////////////send to expatriate
+// // // //     const send_moving_expatriate = async (movingExpatriatePhoneNumber, message, callback) => {
+// // // //       try {
+// // // //         const response = await axios.post(
+// // // //           'https://gate.whapi.cloud/messages/text',
+// // // //           {
+// // // //             to: `${movingExpatriatePhoneNumber}@s.whatsapp.net`,
+// // // //             body: message,
+// // // //             typing_time: 0,
+// // // //           },
+// // // //           {
+// // // //             headers: {
+// // // //               Accept: 'application/json',
+// // // //               'Content-Type': 'application/json',
+// // // //               Authorization: `Bearer ${token}`,
+// // // //             },
+// // // //           }
+// // // //         );
 
-//         console.log(`Message sent to ${movingExpatriatePhoneNumber} successfully:`, response.data);
-//         if (callback) {
-//           callback(null, response.data);
-//         }
-//       } catch (error) {
-//         console.error(`Error sending message to ${movingExpatriatePhoneNumber}:`, error.message);
-//         if (callback) {
-//           callback(error, null);
-//         }
-//       }
-//     };
+// // // //         console.log(`Message sent to ${movingExpatriatePhoneNumber} successfully:`, response.data);
+// // // //         if (callback) {
+// // // //           callback(null, response.data);
+// // // //         }
+// // // //       } catch (error) {
+// // // //         console.error(`Error sending message to ${movingExpatriatePhoneNumber}:`, error.message);
+// // // //         if (callback) {
+// // // //           callback(error, null);
+// // // //         }
+// // // //       }
+// // // //     };
 
 
 
-//     if (movingExpatriateRecord) {
-//       // Use the phoneNumber field from the expatriate record
-//       const movingExpatriatePhoneNumber = cleanAndFormatPhoneNumber(movingExpatriateRecord.phoneNumber);
-//       console.log('Moving Expatriate Phone Number:', movingExpatriatePhoneNumber);
+// // // //     if (movingExpatriateRecord) {
+// // // //       // Use the phoneNumber field from the expatriate record
+// // // //       const movingExpatriatePhoneNumber = cleanAndFormatPhoneNumber(movingExpatriateRecord.phoneNumber);
+// // // //       console.log('Moving Expatriate Phone Number:', movingExpatriatePhoneNumber);
 
-//       // Notify the expatriate
-//       send_moving_expatriate(movingExpatriatePhoneNumber, expatriateNotification, (error, responseData) => {
-//         if (error) {
-//           console.error('Error occurred while sending expatriate message:', error);
-//           res.status(500).send(`Error sending expatriate message: ${error.message}`);
-//         } else {
-//           console.log('Expatriate message sent successfully.', responseData);
-//         }
-//       });
-//     } else {
-//       console.log('Moving expatriate record not found.');
-//       // Handle the case where there is no movingExpatriateRecord, e.g., send an error response
-//       res.status(404).send('Moving expatriate record not found.');
-//     }
+// // // //       // Notify the expatriate
+// // // //       send_moving_expatriate(movingExpatriatePhoneNumber, expatriateNotification, (error, responseData) => {
+// // // //         if (error) {
+// // // //           console.error('Error occurred while sending expatriate message:', error);
+// // // //           res.status(500).send(`Error sending expatriate message: ${error.message}`);
+// // // //         } else {
+// // // //           console.log('Expatriate message sent successfully.', responseData);
+// // // //         }
+// // // //       });
+// // // //     } else {
+// // // //       console.log('Moving expatriate record not found.');
+// // // //       // Handle the case where there is no movingExpatriateRecord, e.g., send an error response
+// // // //       res.status(404).send('Moving expatriate record not found.');
+// // // //     }
 
-// //     ... (rest of your code)
+// // // // //     ... (rest of your code)
 
-// //   } catch (error) {
-// //     console.error('Error occurred:', error);
-// //     res.status(500).send(`An error occurred while uploading visitor details: ${error.message}`);
-// //   } finally {
-// //     await client.close();
-// //   }
-// // })
-// ////////////////////send to security unit/////////////////////////////////////////////////
+// // // // //   } catch (error) {
+// // // // //     console.error('Error occurred:', error);
+// // // // //     res.status(500).send(`An error occurred while uploading visitor details: ${error.message}`);
+// // // // //   } finally {
+// // // // //     await client.close();
+// // // // //   }
+// // // // // })
+// // // // ////////////////////send to security unit/////////////////////////////////////////////////
 
-//   // const security_unit_n="2349010400099" 
-//   const security_unit_n = supervisor.phoneNumber
+// // // //   // const security_unit_n="2349010400099" 
+// // // //   const security_unit_n = supervisor.phoneNumber
 
-//       const token2 = token; // Replace with your actual token
-//       // const token2 = 'notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX'; // Replace with your actual token
-//       const sendMessageToSecurity_unit = async (security_unit_n, message) => {
-//         try {
-//           const response = await axios.post(
-//             'https://gate.whapi.cloud/messages/text',
-//             {
-//               to: security_unit_n,
-//               body: message,
-//               typing_time: 0,
-//             },
-//             {
-//               headers: {
-//                 Accept: 'application/json',
-//                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${token2}`,
-//               },
-//             }
-//           );
+// // // //       const token2 = token; // Replace with your actual token
+// // // //       // const token2 = 'notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX'; // Replace with your actual token
+// // // //       const sendMessageToSecurity_unit = async (security_unit_n, message) => {
+// // // //         try {
+// // // //           const response = await axios.post(
+// // // //             'https://gate.whapi.cloud/messages/text',
+// // // //             {
+// // // //               to: security_unit_n,
+// // // //               body: message,
+// // // //               typing_time: 0,
+// // // //             },
+// // // //             {
+// // // //               headers: {
+// // // //                 Accept: 'application/json',
+// // // //                 'Content-Type': 'application/json',
+// // // //                 Authorization: `Bearer ${token2}`,
+// // // //               },
+// // // //             }
+// // // //           );
   
-//           console.log('Message sent successfully:', response.data);
-//         } catch (error) {
-//           console.error('Error sending message:', error.message);
-//         }
-//       };
+// // // //           console.log('Message sent successfully:', response.data);
+// // // //         } catch (error) {
+// // // //           console.error('Error sending message:', error.message);
+// // // //         }
+// // // //       };
   
-//       // Send messages to the transport group
-//       if (security_unit_n) {
-//         sendMessageToSecurity_unit(security_unit_n, securityUnitMessage);
-//       }
+// // // //       // Send messages to the transport group
+// // // //       if (security_unit_n) {
+// // // //         sendMessageToSecurity_unit(security_unit_n, securityUnitMessage);
+// // // //       }
   
 
-// //////////////////////////////////////////////////////////////////////////////
-// /////Send to Escort Commander
-// ////////////////send to expatriate
-// const send_to_escort= async (escort_commander_phone_number, message, callback) => {
-//   try {
-//     const response = await axios.post(
-//       'https://gate.whapi.cloud/messages/text',
-//       {
-//         to: `${escort_commander_phone_number}@s.whatsapp.net`,
-//         body: message,
-//         typing_time: 0,
-//       },
-//       {
-//         headers: {
-//           Accept: 'application/json',
-//           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
+// // // // //////////////////////////////////////////////////////////////////////////////
+// // // // /////Send to Escort Commander
+// // // // ////////////////send to expatriate
+// // // // const send_to_escort= async (escort_commander_phone_number, message, callback) => {
+// // // //   try {
+// // // //     const response = await axios.post(
+// // // //       'https://gate.whapi.cloud/messages/text',
+// // // //       {
+// // // //         to: `${escort_commander_phone_number}@s.whatsapp.net`,
+// // // //         body: message,
+// // // //         typing_time: 0,
+// // // //       },
+// // // //       {
+// // // //         headers: {
+// // // //           Accept: 'application/json',
+// // // //           'Content-Type': 'application/json',
+// // // //           Authorization: `Bearer ${token}`,
+// // // //         },
+// // // //       }
+// // // //     );
 
-//     console.log(`Message sent to ${escort_commander_phone_number} successfully:`, response.data);
-//     if (callback) {
-//       callback(null, response.data);
-//     }
-//   } catch (error) {
-//     console.error(`Error sending message to ${escort_commander_phone_number}:`, error.message);
-//     if (callback) {
-//       callback(error, null);
-//     }
-//   }
-// };
-
-
+// // // //     console.log(`Message sent to ${escort_commander_phone_number} successfully:`, response.data);
+// // // //     if (callback) {
+// // // //       callback(null, response.data);
+// // // //     }
+// // // //   } catch (error) {
+// // // //     console.error(`Error sending message to ${escort_commander_phone_number}:`, error.message);
+// // // //     if (callback) {
+// // // //       callback(error, null);
+// // // //     }
+// // // //   }
+// // // // };
 
 
-// // Add the escort commander's phone number to the driverDetails object
-// if (escortCommanderRecord) {
-
-//   const  escort_commander_phone_number = cleanAndFormatPhoneNumber(escortCommanderRecord.phoneNumber);
-//   console.log('Escort commander Phone Number:', escort_commander_phone_number);
-
-//   // Notify the expatriate
-//   send_to_escort(escort_commander_phone_number, escortMessage , (error, responseData) => {
-//     if (error) {
-//       console.error('Error occurred while sending escortMessage:', error);
-//       res.status(500).send(`Error sending escortMessage: ${error.message}`);
-//     } else {
-//       console.log('escort message sent successfully.', responseData);
-//     }
-//   });
-// } else {
-//   console.log('escortcommander record not found.');
-//   // Handle the case where there is no movingExpatriateRecord, e.g., send an error response
-//   res.status(404).send('escortcommander record not found.');
-// }
-
-// } catch (error) {
-//   console.error('Error occurred:', error);
-//   res.status(500).send(`An error occurred while uploading visitor details: ${error.message}`);
 
 
-// } finally {
-//   await client.close();
-// }
-// })
+// // // // // Add the escort commander's phone number to the driverDetails object
+// // // // if (escortCommanderRecord) {
+
+// // // //   const  escort_commander_phone_number = cleanAndFormatPhoneNumber(escortCommanderRecord.phoneNumber);
+// // // //   console.log('Escort commander Phone Number:', escort_commander_phone_number);
+
+// // // //   // Notify the expatriate
+// // // //   send_to_escort(escort_commander_phone_number, escortMessage , (error, responseData) => {
+// // // //     if (error) {
+// // // //       console.error('Error occurred while sending escortMessage:', error);
+// // // //       res.status(500).send(`Error sending escortMessage: ${error.message}`);
+// // // //     } else {
+// // // //       console.log('escort message sent successfully.', responseData);
+// // // //     }
+// // // //   });
+// // // // } else {
+// // // //   console.log('escortcommander record not found.');
+// // // //   // Handle the case where there is no movingExpatriateRecord, e.g., send an error response
+// // // //   res.status(404).send('escortcommander record not found.');
+// // // // }
+
+// // // // } catch (error) {
+// // // //   console.error('Error occurred:', error);
+// // // //   res.status(500).send(`An error occurred while uploading visitor details: ${error.message}`);
+
+
+// // // // } finally {
+// // // //   await client.close();
+// // // // }
+// // // // })
 
 // // ////////////////////pdf//////////////////////////////////////////////////////////////
 
@@ -5637,6 +5637,1173 @@ app.post('/upload_visitor_details', async (req, res) => {
     await client.close();
   }
 });
+/////////////////////////////////////////////////////////////////////////////////
+
+app.post('/authorize_driver', async (req, res) => {
+  const driverData = req.body;
+
+  try {
+    await client.connect();
+    const database = client.db(dbName);
+    const collection = database.collection('authorize_driver');
+
+    // Save the driver data to the "authorize_driver" collection
+    const result = await collection.insertOne(driverData);
+
+    // Notify HR unit with a message using SSE
+    sseClients.forEach(client => {
+      const message = {
+        type: 'authorization',
+        driverName: driverData.driver_name,
+        timeOut: driverData.time_out,
+        destination: driverData.target_location,
+        passenger: driverData.passenger,
+      };
+      client.write(`data: ${JSON.stringify(message)}\n\n`);
+    });
+
+    res.json({ success: true, message: 'Driver details authorized successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'An error occurred while authorizing driver details' });
+  } finally {
+    await client.close();
+  }
+});
+
+
+
+app.get('/sse', (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+  });
+
+  res.write('\n');
+
+  // Add the client to the array
+  sseClients.push(res);
+
+  // Remove the client when the connection is closed
+  req.on('close', () => {
+    const index = sseClients.indexOf(res);
+    if (index !== -1) {
+      sseClients.splice(index, 1);
+    }
+  });
+});
+// Function to send SSE updates to all connected clients
+function sendSSEUpdate(message) {
+  sseClients.forEach(client => {
+    client.write(`data: ${JSON.stringify(message)}\n\n`);
+  });
+}
+
+
+
+app.post('/awaiting_visitor', async function (req, res) {
+  const registrationDate = new Date();
+
+  // Format the registration date
+  const formattedDate = registrationDate.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+    day: 'numeric',
+    month: 'short', // Use 'short' to get abbreviated month names
+    year: '2-digit',
+  });
+
+  const awaiting_visitorDetails = {
+    registrationDate: formattedDate, // Save the formatted date to the database
+    name: req.body.name,
+    address: req.body.company,
+    whomToSee: req.body.whomToSee,
+    purposeOfVisit: req.body.purposeOfVisit,
+  };
+
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db("olukayode_sage");
+    const collection = database.collection('New_visitors_details_Database');
+
+    // Save the visitor details to the database
+    const result = await collection.insertOne(awaiting_visitorDetails);
+
+    console.log(' New visitors :', result);
+
+    // Send SSE to receptionist page
+    sendSSEUpdate({
+      type: 'new_visitor',
+      visitorName: awaiting_visitorDetails.name,
+      registrationDate: formattedDate,
+      whomToSee: awaiting_visitorDetails.whomToSee,
+      purposeOfVisit: awaiting_visitorDetails.purposeOfVisit,
+    });
+
+    res.send(`Visitor details uploaded successfully at ${formattedDate}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while uploading awaiting visitor details');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+
+app.get('/get_new__visitor_details', async function (req, res) {
+  try {
+    await client.connect(); // Connect to the MongoDB client
+    const database = client.db('olukayode_sage');
+    const collection = database.collection('New_visitors_details_Database');
+
+    // Fetch all visitor details from the database
+    const visitorDetails = await collection.find().toArray();
+
+    res.json(visitorDetails); // Send the visitor details as a JSON response
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while fetching visitor details');
+  } finally {
+    await client.close(); // Close the MongoDB client connection
+  }
+});
+
+
+
+
+app.get('/get_expected_visitors', async function (req, res) {
+  try {
+    await client.connect();
+    const database = client.db('olukayode_sage');
+    // const collection = database.collection('olukayode_collection');
+    const collection = database.collection('Visitors_details_Database');
+    const expectedVisitors = await collection.find({}).toArray();
+    console.log(' Expected visitors :', expectedVisitors);
+
+    res.json(expectedVisitors);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while retrieving expected visitors');
+  } finally {
+    await client.close();
+  }
+})
+  ;
+
+
+
+
+app.post('/notify_the_host', (req, res) => {
+  // Extract data from the request body
+  const { name, whomToSee, company, purposeOfVisit, phoneNumber, status, date, time } = req.body;
+
+  // You can do something with the received data here, for example, logging it
+  console.log('Received notification:');
+  console.log('Name:', name);
+  console.log('Whom to See:', whomToSee);
+  console.log('Address:', company);
+  console.log('Purpose of Visit:', purposeOfVisit);
+  console.log('Phone Number:', phoneNumber);
+  console.log('Status:', status);
+  console.log('Date:', date);
+  console.log('Time:', time);
+
+  // Send a response back to the client
+  res.status(200).json({ message: 'Notification received successfully' });
+});
+
+
+
+app.get('/get_driver_details', async function (req, res) {
+  try {
+    await client.connect();
+    const database = client.db('olukayode_sage');
+    const collection = database.collection('drivers_details');
+    // const collection = database.collection('Visitors_details_Database');
+    const drivers_details = await collection.find({}).toArray();
+    console.log(' Expected visitors :', drivers_details);
+
+    res.json(drivers_details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while retrieving drivers details');
+  } finally {
+    await client.close();
+  }
+})
+
+
+////////////////////////perfect use
+
+app.post('/movement_history', async function (req, res) {
+  const driverDetails = {
+    driver_name: req.body.driver_name,
+    armed_guard: req.body.armed_guard,
+    target_location: req.body.target_location,
+    passenger: req.body.passenger,
+    vehicle_number: req.body.vehicle_number,
+    time_out: req.body.time_out,
+  };
+
+  try {
+    const client = new MongoClient(uri);
+    await client.connect();
+
+    const database = client.db('olukayode_sage');
+    const kaydata = database.collection('movement_history_database');
+    const drivers_details = database.collection('drivers_details');
+
+    const result = await kaydata.insertOne(driverDetails);
+
+    console.log('Movement added to history:', result.insertedId);
+
+    console.log('Before deletion: Trying to delete', driverDetails.driver_name);
+    const deleteResult = await drivers_details.deleteOne({ driver_name: driverDetails.driver_name });
+    console.log('Deletion result:', deleteResult);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while adding the movement to history and deleting from drivers');
+  } finally {
+    await client.close();
+  }
+});
+
+
+
+app.get('/get_movement_history', async function (req, res) {
+  try {
+    await client.connect();
+    const database = client.db('olukayode_sage');
+    // const collection = database.collection('olukayode_collection');
+    const collection = database.collection('movement_history_database');
+    const movementHistory = await collection.find({}).toArray();
+    console.log(' movement History :', movementHistory);
+
+    res.json(movementHistory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while retrieving emovementHistory');
+  } finally {
+    await client.close();
+  }
+})
+
+
+
+client.connect();
+const database = client.db('olukayode_sage');
+const visitorDataCollection = database.collection('Visitorshistory');
+const movementDataCollection = database.collection('movement_history_database');
+
+// Set up the Express app
+
+
+app.get('/get_visitor_counts', async (req, res) => {
+  try {
+    await client.connect();
+    const totalCount = await visitorDataCollection.countDocuments();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const todayCount = await visitorDataCollection.countDocuments({ date: { $gte: today } });
+    const weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate() - 7);
+    const weekCount = await visitorDataCollection.countDocuments({ date: { $gte: weekAgo } });
+
+    res.json({ todayCount, weekCount, totalCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while fetching visitor counts.');
+  }
+});
+
+
+
+app.get('/get_movements_counts', async (req, res) => {
+  try {
+    await client.connect();
+    const totalCount = await movementDataCollection.countDocuments();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const todayCount = await movementDataCollection.countDocuments({ date: { $gte: today } });
+    const weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate() - 7);
+    const weekCount = await movementDataCollection.countDocuments({ date: { $gte: weekAgo } });
+
+    res.json({ todayCount, weekCount, totalCount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while fetching movement counts.');
+  }
+});
+
+
+
+
+// Function to query MongoDB for all data and log entries
+async function queryMongoForAllDataAndLog() {
+  const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+
+  try {
+    // Connect to MongoDB
+    await client.connect();
+
+    // Select the database and collection
+    const db = client.db(dbName);
+    const collectionName = 'movement_history_database'; // Replace with your collection name
+    const collection = db.collection(collectionName);
+
+    // Your query logic here
+    // For example, you might query for all documents
+    const allData = await collection.find({}).toArray();
+
+    // Log all entries to the console
+    allData.forEach((entry) => {
+      console.log('Entry:', entry);
+    });
+
+    return allData;
+  } catch (error) {
+    console.error('Error querying MongoDB:', error);
+    throw error;
+  } finally {
+    // Close the MongoDB connection when done
+    client.close();
+  }
+}
+
+// WebSocket server logic for HR namespace
+wss.on('connection', (ws, req) => {
+  const pathname = req.url;
+  const isHRNamespace = pathname === '/hr_namespace';
+  const isSecurityNamespace = pathname === '/security_namespace';
+
+  if (isHRNamespace) {
+    console.log('HR unit connected.');
+
+    // Listen for messages from HR unit
+    ws.on('message', (message) => {
+      // Handle HR unit's messages
+      console.log(`Received HR message: ${message}`);
+    });
+  // Handle errors on WebSocket connection
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+  });
+
+    // Handle disconnection
+    ws.on('close', () => {
+      console.log('HR unit disconnected.');
+      hrClients.delete(ws); // Remove the client from the HR set
+    });
+  } else if (isSecurityNamespace) {
+    console.log('Security unit connected.');
+
+    // Listen for messages from security unit
+    ws.on('message', (message) => {
+      // Handle security unit's messages
+      console.log(`Received security message: ${message}`);
+    });
+// Handle errors on WebSocket connection
+ws.on('error', (error) => {
+  console.error('WebSocket error:', error);
+});
+    // Handle disconnection
+    ws.on('close', () => {
+      console.log('Security unit disconnected.');
+      securityClients.delete(ws); // Remove the client from the security set
+    });
+  }
+});
+
+
+
+
+function formatTime(hours, minutes) {
+  // Convert hours to 12-hour format and determine AM/PM
+  const ampm = hours >= 12 ? 'pm' : 'am';
+  const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+
+  // Pad minutes with leading zero if needed
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  // Get the current date for the month and year
+  const currentDate = new Date();
+  const month = currentDate.getMonth() + 1; // Month is zero-indexed
+  const year = currentDate.getFullYear().toString().slice(-2);
+
+  // Format the date in MM/DD/YY format
+  const formattedDate = `${month}/${formattedHours}/${year}`;
+
+  // Combine the formatted time and date
+  const formattedTime = `${formattedHours}:${formattedMinutes}${ampm} ${formattedDate}`;
+
+  return formattedTime;
+}
+
+
+// Hardcoded group ID
+//const groupId = '120363194020948049@g.us';
+// const groupId = groupID;
+////////////////////////////////////////////////////////////////////////
+let userName;
+app.post('/receive_driver_details', async function (req, res) {
+  const driverDetails = {
+    driver_name: req.body.driver_name,
+    armed_guard: req.body.armed_guard,
+    target_location: req.body.target_location,
+    passenger: req.body.passenger,
+    time_out: req.body.time_out,
+    vehicle_number: req.body.vehicle_number,
+    pick_up: req.body.pick_up,
+  };
+  const code = req.generatedCode;
+
+  try {
+    // Connect to the MongoDB client
+    await client.connect();
+    const database = client.db('olukayode_sage');
+    const kaydata = database.collection('drivers_details');
+
+    // Save the driver details to the database
+    const result = await kaydata.insertOne(driverDetails);
+
+    // Fetch the driver's phone number from the drivers_parameters database
+    const driversParameters = database.collection('drivers_parameters');
+
+    // Use driverDetails.driver_name instead of driver_name
+    const driverRecord = await driversParameters.findOne({ driver_name: driverDetails.driver_name });
+    // const securityManagerRecord = await expatriatesCollection.findOne({ name: securityManagerName });
+    const expatriatesCollection = database.collection('expatriates_collection'); // Define expatriatesCollection
+    // const securityManagerRecord = await expatriatesCollection.findOne({ name: { $regex: new RegExp("^Vitor Leite$", "i") } });
+    // const securityManagerRecord = await expatriatesCollection.findOne({ name: { $regex: new RegExp("^Vitor Leite$", "i") } });
+    const securityManagerRecord = manager.phoneNumber
+    const expatriateName = req.body.passenger;
+ 
+
+    // Assuming expatriateName has a format like "Daniel Abang - Unit: Procurement - and 1 other(s)"
+    const expatriateNameParts = req.body.passenger.split('-')[0].trim().split(' ');
+    const cleanedExpatriateName = expatriateNameParts.slice(0, 2).join(' ');
+
+    // Define your condition using the cleanedExpatriateName
+    const expatriateCondition = { name: { $regex: new RegExp(`^${cleanedExpatriateName}$`, "i") } };
+
+    // Fetch the expatriate record
+    const movingExpatriateRecord = await expatriatesCollection.findOne(expatriateCondition);
+    console.log("Moving Expatriate Record:", movingExpatriateRecord);
+
+
+
+    // Access the number of expatriates (assuming there's a field named 'number' in the collection)
+    //  console.log(`Number of expatriates for ${expatriateName}: ${numberOfExpatriates}`);
+    const timeOut = new Date(req.body.time_out);
+    const currentTime = new Date();
+    const timeDifferenceInMinutes = Math.floor((timeOut - currentTime) / (1000 * 60));
+
+
+ // Assuming the escort commander's data has a tag 'EscortCommander' in the database
+ const escorts_data= database.collection('escorts');
+ const escortCommanderRecord = await escorts_data.findOne({ designation: "EscortCommander" });
+ const escortCommanderName = `Mr ${escortCommanderRecord.firstName}`;
+
+console.log("This is the new custom ID 1111:", req.generatedCode);
+
+if (!req.session.userName) {
+  // const code = req.generatedCode;
+
+  console.log("Custom ID from the request:", code);
+
+  if (code) {
+    const userIdCollection = database.collection('user_id_collection');
+    const userMapping = await userIdCollection.findOne({ customId: code });
+
+    if (!userMapping) {
+      console.log('User not found in user_id_collection.');
+      return res.status(404).send('User not found.');
+    }
+
+    const phoneNumber = userMapping.phoneNumber;
+
+    const userCollection = database.collection('registered_user_config_database');
+    const user = await userCollection.findOne({ phoneNumber });
+
+    console.log('Received userMapping:', userMapping);
+
+    if (!user) {
+      console.log('User not found in registered_user_config_database.');
+      return res.status(404).send('User not found.');
+    }
+
+    // Save the username in the session
+    req.session.userName = user.name;
+    console.log('Saved UserName:', req.session.userName);
+  } else {
+    console.log('CustomId not provided.');
+    return res.status(404).json({ message: 'CustomId not provided' });
+      }
+    } else {
+      console.log('Username already in the session:', req.session.userName);
+    }
+
+console.log(req.session.userName);
+
+ userName = req.session.userName 
+
+
+    // Notify security unit with a message
+    for (const securityClient of securityClients) {
+      securityClient.send('HR unit has a new message');
+    }
+
+    // Get driver details for WhatsApp messages
+    const { driver_name, target_location, time_out, vehicle_number } = driverDetails;
+    // const expatriateMessage = `${driver_name}: "You have been assigned to take ${req.body.passenger}to ${target_location} by ${time_out}. Find below your passcode and password for gate permit."`;
+
+    // Use the formatTime function to get the formatted time
+    const formattedTimeOut = formatTime(new Date(time_out).getHours(), new Date(time_out).getMinutes());
+
+
+    let expatriateMessage = `Dear ${driver_name},
+
+You are assigned to transport ${req.body.passenger} from ${req.body.pick_up} to ${target_location} by ${formattedTimeOut}.`;
+
+    // Check if there is at least one escort
+    if (req.body.armed_guard > 0) {
+      expatriateMessage += `\n\n${req.body.armed_guard === 1 ? "An armed escort has" : `${req.body.armed_guard} armed escort has`} been assigned to you for the trip.`;
+    } else {
+      expatriateMessage += `\n\nYou will NOT need an armed escort for the movement.`;
+    }
+
+    // Include the vehicle information
+    expatriateMessage += `\n\nThe assigned vehicle for this journey is ${vehicle_number}.`;
+
+    expatriateMessage += `\n\nKindly check your dedicated WhatsApp line for your unique passcode and password. Your access gate pass has been sent to the security unit.
+
+Thank you.
+---
+*Summary of Movement:*
+*Driver:* ${driver_name}
+*Destination:* ${target_location}
+*Time:* ${formattedTimeOut}
+*Pickup:* ${req.body.pick_up}
+*Passenger:* ${req.body.passenger}
+*Escort:* ${req.body.armed_guard}
+*Password:* _Sent to your phone._
+*Gate Pass:* _Sent to Security Unit._
+`;
+
+//     // // Remove leading space before "you"
+//     // expatriateMessage = expatriateMessage.replace(/^ {2}/gm, '');
+
+//     // console.log(expatriateMessage);
+
+
+//     // const securityManagerMessage = `Security Manager: ${JSON.stringify(driverDetails)}`;
+
+    const securityUnitMessage = `
+*SECURITY UNIT*
+    
+Kindly grant access for the movement with the followings:
+          
+*Driver Name:* ${req.body.driver_name}
+*Vehicle Number:* ${vehicle_number}
+*Destination:* ${target_location} 
+*Passengers:* ${req.body.passenger}
+    
+*Note* The gate pass for the movement has been sent to the security portal.
+          
+Thank you.
+        `;
+
+
+
+    const today = new Date();
+    const formattedToday = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const securityManagerMessage =
+      `*EXPATRIATES MOVEMENT UPDATE*
+
+*Date:* ${formattedToday}
+
+*Name of Expatriate:* ${req.body.passenger}
+
+*Destination:* ${target_location}
+
+*Time Out:* ${formattedTimeOut}
+
+*Time in:* NA
+
+*Escort:* ${req.body.armed_guard}
+    `;
+
+    console.log(securityManagerMessage);
+
+
+    // const expatriateNotification = `Expatriate: Your movement to ${target_location} has been scheduled for ${time_out}, the pilot's number is ${vehicle_number}, thanks`;
+
+
+
+    const tripDescription = timeDifferenceInMinutes < 1
+    ? `your trip to ${target_location} has been scheduled for ${formattedTimeOut}.`
+      // ? `your trip to ${target_location} has been scheduled for ${formattedTimeOut} (${formattedToday}).`
+      : `Your trip with ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location} has been scheduled for ${formattedTimeOut} (${formattedToday}).
+This will be in ${timeDifferenceInMinutes === 1 ? '1 minute' : `${timeDifferenceInMinutes} minutes`}.`;
+
+    const expatriateNotification = `
+Dear ${req.body.passenger.split('-')[0].trim()},
+
+${tripDescription}
+
+Your driver is ${req.body.driver_name} (Phone: ${cleanAndFormatPhoneNumber(driverRecord.driverPhone)}), 
+and the vehicle's number is ${vehicle_number}.
+
+Have a safe trip and maintain situation awareness.
+
+Regards!
+`;
+
+//     // const escortMessage = `Escort: You have been assigned to escort ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location}, the pilot for the movement is ${driver_name} and the time is ${time_out}. Thank you.`;
+//     // const escortMessage = `Dear ${escortCommandee},
+//     // Kindly arrange to escort ${expatriateName} to ${targetLocation} by ${formattedTimeOut}, the pilot for the trip is ${driverName}. Thank you.`;
+    
+    const escortMessage = 
+  `Dear ${escortCommanderName},
+Kindly arrange to escort ${req.body.passenger.split('-')[0].trim()} and ${req.body.passenger.split('-')[2].trim().replace('and', '').trim()}, to ${target_location} by  ${formattedTimeOut}.
+The pilot for the trip is ${req.body.driver_name}, and his phonenumber is ${cleanAndFormatPhoneNumber(driverRecord.driverPhone)}), 
+Thank you.`;
+
+  
+
+    const groupId = groupIDData.idNumber; // Replace with your group ID
+    const token =  token1Data.idNumber; 
+    const sendMessageToGroup2 = async (groupId, message) => {
+      try {
+        const response = await axios.post(
+          'https://gate.whapi.cloud/messages/text',
+          {
+            to: groupId,
+            body: message,
+            typing_time: 0,
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log('Message sent successfully:', response.data);
+      } catch (error) {
+        console.error('Error sending message:', error.message);
+      }
+    };
+
+    // Send messages to the transport group
+    if (groupId) {
+      sendMessageToGroup2(groupId, expatriateMessage);
+    }
+////////////////////////////////////////////////////////////////
+const generatePDF = (pdfData, filename, callback) => {
+  console.log('Generating PDF...');
+
+  pdf.create(pdfData).toFile(filename, (err, res) => {
+    if (err) {
+      console.error('Error during PDF generation:', err);
+      callback(err);
+    } else {
+      console.log('PDF generation completed.');
+      callback();
+    }
+  });
+};
+
+const sendMessageToGroup = async (groupId, message, pdfData, pdfFilename) => {
+  try {
+
+    const pdfResponse = await axios.post(
+      'https://gate.whapi.cloud/messages/document',
+      {
+        to: groupId,
+        media: `data:application/octet-stream;name=${pdfFilename};base64,${pdfData}`,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log('PDF file sent successfully:', pdfResponse.data);
+  } catch (error) {
+    console.error('Error sending message and PDF:', error.message);
+  }
+};
+
+const downloadsFolderPath = "C:\\Users\\Administrator\\Downloads";
+const formattedDate = formattedToday ;
+const uniqueFilename = `M.E_Gate_pass_${formattedDate}_${driver_name}_${target_location}.pdf`;
+const pdfPath = path.join(downloadsFolderPath, uniqueFilename);
+
+const signatureImagePath = 'C:/Users/Administrator/OneDrive/Desktop/Development tools/playground/backupVisitor-Movement Management/Visitor-Movement Management6/assets/signature1.png';
+
+    const gatePassHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gate Pass</title>
+        <style>
+        @page {
+          size: landscape;
+      }
+
+            /* Add your CSS styles for the gate pass here */
+            body {
+                font-family: Calibri, sans-serif;
+              
+                margin: 0;
+                padding: 0;
+            }
+    
+            .container_gatePass {
+                border: 2px solid #000;
+                padding: 20px;
+                margin: 20px;
+            }
+    
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+    
+            .red-seal {
+                position: absolute;
+                bottom: 50px;
+                right: 50px;
+                width: 150px;
+                height: 150px;
+                background-color: red;
+                border-radius: 50%;
+                border: 3px solid #fff;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                clip-path: polygon(
+                    50% 0%,
+                    61.8% 35.4%,
+                    68.6% 57.3%,
+                    79.1% 91%,
+                    50% 70.1%,
+                    20.9% 91%,
+                    31.4% 57.3%,
+                    38.2% 35.4%
+                );
+                transform: rotate(-45deg);
+            }
+    
+            .seal-text {
+              color: white;
+              font-weight: bold;
+              text-transform: uppercase;
+              font-size: 10px;
+              position: absolute;
+              top: 70px; /* Adjust this value to move the text down */
+              left: 30%;
+              transform: translateX(-50%) rotate(45deg); /* Rotate the text by 45 degrees */
+          }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+    
+            table, th, td {
+                border: 1px solid #000;
+            }
+    
+            th, td {
+                padding: 10px;
+                text-align: left;
+                font-size: 16px;
+            }
+    
+ 
+        </style>
+    </head>
+    <body>
+    <div class="logo-container">
+    <main>
+      <!-- Your SVG content here -->
+      <svg xmlns="http://www.w3.org/2000/svg" height="200" width="400" version="1.0" viewBox="-14.709615 -11.98125 127.48333 71.8875">
+          <defs>
+              <!-- Define the clip path -->
+              <clipPath id="a">
+                  <path d="M0 841.89h1785.827V0H0z"/>
+              </clipPath>
+          </defs>
+             <g clip-path="url(#a)" transform="matrix(1.25 0 0 -1.25 -1155.7275 543.7908)">
+              <path d="M924.582 415.8627h19.169v-19.17h-19.169z" fill="#f7a30a" fill-rule="evenodd"/>
+              <path d="M943.751 435.0327h19.17v-19.169h-19.17z" fill="#005ec4" fill-rule="evenodd"/>
+              <path d="M942.4095 435.0324h1.342v-19.169h-19.169v1.341h17.827zm1.3418-19.1694h19.17v-1.342h-17.827v-17.828h-1.343v17.828z" fill="#231f20"/>
+              <path d="M956.972 409.0544h-.851c-.916-1.695-1.841-3.4-2.767-5.196-.832 1.796-1.674 3.501-2.516 5.196h-.972v-6.381h.748v5.195h.019c.252-.837 1.608-3.564 2.42-5.195h.366c.879 1.631 2.365 4.448 2.627 5.195h.019v-5.195h.907zm4.5322-5.9629c-1.691 0-2.271 1.523-2.271 2.771 0 1.196.654 2.553 2.271 2.553 1.618 0 2.272-1.357 2.272-2.553 0-1.248-.579-2.771-2.272-2.771m0-.637c2.021 0 3.273 1.504 3.273 3.408 0 1.788-1.383 3.192-3.273 3.192-1.889 0-3.271-1.404-3.271-3.192 0-1.904 1.251-3.408 3.271-3.408m19.9776 6.5969l-4.021.003v-6.385h4.426v.639l-3.511.002v2.052h3.058v.637h-3.058v2.414h3.106zm7.1982 0h-.752v-5.087h-.019c-.444.638-2.876 3.428-4.329 5.087h-.679v-6.382h.755v5.078h.018c.397-.555 2.858-3.418 4.29-5.078h.716zm5.9082-3.5732v-2.16c-.367-.174-.783-.229-1.339-.229-1.432 0-2.573 1.084-2.573 2.699 0 1.495.961 2.626 2.677 2.626.725 0 1.329-.247 1.725-.511l.377.528c-.396.319-1.15.62-2.111.62-2.377 0-3.678-1.668-3.678-3.282 0-1.75 1.207-3.318 3.555-3.318.839 0 1.64.21 2.282.428v2.599zm3.2888 3.5735h-.914v-6.382h.914zm1.4983-6.3821h3.658v.639h-2.744v5.743h-.914zm-31.3632.0039v5.742l2.139.001v.638h-5.297v-.639h2.203v-5.742z" fill="#333333" fill-rule="evenodd"/>
+              <path d="M972.3656 409.0544l-2.607-6.381h.974l.945 2.689.225.639.671 1.91 1.987-5.238h1.102l-2.568 6.381z" fill="#333333"/>
+              <path d="M972.2015 405.362h4.695V406h-4.466z" fill="#333333" fill-rule="evenodd"/>
+            </g>
+      </svg>
+  </main>
+</div>
+
+     </div>
+     <div class="container_gatePass ">
+        <div class="header">
+        <div style="color: #333333; font-weight: bold; font-size: 24px; font-family: Arial, sans-serif;">Gate Pass</div>
+    </div>
+    
+            <!-- Table for Gate Pass Data -->
+            <table>
+                <tr>
+                    <th>Driver's Name</th>
+                    <td>${driver_name}</td>
+                </tr>
+                <tr>
+                    <th>Destination</th>
+                    <td>${target_location}</td>
+                </tr>
+                <tr>
+                <th>Date</th>
+                <td>${formattedDate}</td>
+            </tr>
+          
+            <tr>
+                <th>Armed Guard</th>
+                <td>${req.body.armed_guard}</td>
+            </tr>
+            <tr>
+                <th>Passenger</th>
+                <td>${req.body.passenger}</td>
+            </tr>
+            <tr>
+                <th>Destination</th>
+                <td>${target_location}</td>
+            </tr>
+            <tr>
+                <th>Vehicle Number</th>
+                <td>${vehicle_number}</td>
+            </tr>
+         
+            <tr>
+                <th>HR Authorization</th>
+              <td>${userName}</td>
+            </tr
+            
+           
+            <tr>
+            <th>Authorizer's Signature</th>
+            <td><img src="file:///C:/Users/Administrator/OneDrive/Desktop/Development tools/playground/backupVisitor-Movement Management/Visitor-Movement Management6/assets/signature1.png" alt="Authorizer's Signature" /></td>
+          </tr>
+
+    <div class="red-seal">
+                <div class="seal-text">Authorized</div>
+            </div>
+            </tr
+        </table>
+    </div>
+</body>
+</html>
+`;
+
+
+generatePDF(gatePassHTML, pdfPath, (error) => {
+  if (error) {
+    console.error('PDF generation failed:', error);
+  } else {
+    const pdfData = fs.readFileSync(pdfPath, { encoding: 'base64' });
+
+    // Send message with PDF only (no additional descriptive message)
+    sendMessageToGroup(groupId, '', pdfData, uniqueFilename);
+  }
+});
+
+//////////////////////////////////////////////////////////////////////////////////
+    //send to driver
+    const sendMessageToNumber = async (phoneNumber, message, callback) => {
+      try {
+        const response = await axios.post(
+          'https://gate.whapi.cloud/messages/text',
+          {
+            to: `${phoneNumber}@s.whatsapp.net`,
+            body: message,
+            typing_time: 0,
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(`Message sent to ${phoneNumber} successfully:`, response.data);
+        if (callback) {
+          callback(null, response.data);
+        }
+      } catch (error) {
+        console.error(`Error sending message to ${phoneNumber}:`, error.message);
+        if (callback) {
+          callback(error, null);
+        }
+      }
+    };
+
+    // Example of using the callback
+    if (driverRecord) {
+      const driverPhoneNumber = cleanAndFormatPhoneNumber(driverRecord.driverPhone);
+
+      // const driverMessage = `Hi ${driverDetails.driver_name},\n\n${expatriateMessage}`;
+      const driverMessage = `${expatriateMessage}`;
+      sendMessageToNumber(driverPhoneNumber, driverMessage, (error, responseData) => {
+        if (error) {
+          console.error('Error occurred:', error);
+        } else {
+          console.log('Driver message sent successfully.', responseData);
+        }
+      });
+    } else {
+      console.error('Driver record not found.');
+    }
+
+
+/////////////////////////////////////////////////////////////////
+const newsecurityManagerNumber = manager.phoneNumber
+    /////Send to manager
+    const sendMessageToManager = async (newsecurityManagerNumber, message, callback) => {
+      try {
+        const response = await axios.post(
+          'https://gate.whapi.cloud/messages/text',
+          {
+            // to: `${securityManagerNumber}@s.whatsapp.net`,
+            to: `${newsecurityManagerNumber}@s.whatsapp.net`,
+            
+            body: message,
+            typing_time: 0,
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(`Message sent to ${newsecurityManagerNumber} successfully:`, response.data);
+        if (callback) {
+          callback(null, response.data);
+        }
+      } catch (error) {
+        console.error(`Error sending message to ${newsecurityManagerNumber}:`, error.message);
+        if (callback) {
+          callback(error, null);
+        }
+      }
+    };
+
+    if (newsecurityManagerNumber) {
+
+      const newsecurityManagerNumber= manager.phoneNumber;
+
+      sendMessageToManager(newsecurityManagerNumber, securityManagerMessage, (error, responseData) => {
+        if (error) {
+          console.error('Error occurred:', error);
+        } else {
+          console.log('Driver message sent successfully.', responseData);
+        }
+      });
+    } else {
+      console.error('Driver record not found.');
+    }
+
+  
+    ////////////////send to expatriate
+    const send_moving_expatriate = async (movingExpatriatePhoneNumber, message, callback) => {
+      try {
+        const response = await axios.post(
+          'https://gate.whapi.cloud/messages/text',
+          {
+            to: `${movingExpatriatePhoneNumber}@s.whatsapp.net`,
+            body: message,
+            typing_time: 0,
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(`Message sent to ${movingExpatriatePhoneNumber} successfully:`, response.data);
+        if (callback) {
+          callback(null, response.data);
+        }
+      } catch (error) {
+        console.error(`Error sending message to ${movingExpatriatePhoneNumber}:`, error.message);
+        if (callback) {
+          callback(error, null);
+        }
+      }
+    };
+
+
+
+    if (movingExpatriateRecord) {
+      // Use the phoneNumber field from the expatriate record
+      const movingExpatriatePhoneNumber = cleanAndFormatPhoneNumber(movingExpatriateRecord.phoneNumber);
+      console.log('Moving Expatriate Phone Number:', movingExpatriatePhoneNumber);
+
+      // Notify the expatriate
+      send_moving_expatriate(movingExpatriatePhoneNumber, expatriateNotification, (error, responseData) => {
+        if (error) {
+          console.error('Error occurred while sending expatriate message:', error);
+          res.status(500).send(`Error sending expatriate message: ${error.message}`);
+        } else {
+          console.log('Expatriate message sent successfully.', responseData);
+        }
+      });
+    } else {
+      console.log('Moving expatriate record not found.');
+      // Handle the case where there is no movingExpatriateRecord, e.g., send an error response
+      res.status(404).send('Moving expatriate record not found.');
+    }
+
+//     ... (rest of your code)
+
+//   } catch (error) {
+//     console.error('Error occurred:', error);
+//     res.status(500).send(`An error occurred while uploading visitor details: ${error.message}`);
+//   } finally {
+//     await client.close();
+//   }
+// })
+////////////////////send to security unit/////////////////////////////////////////////////
+
+  // const security_unit_n="2349010400099" 
+  const security_unit_n = supervisor.phoneNumber
+
+      const token2 = token; // Replace with your actual token
+      // const token2 = 'notWeiRdf4mmY2CWf1Lk1Iz1W7hysaCX'; // Replace with your actual token
+      const sendMessageToSecurity_unit = async (security_unit_n, message) => {
+        try {
+          const response = await axios.post(
+            'https://gate.whapi.cloud/messages/text',
+            {
+              to: security_unit_n,
+              body: message,
+              typing_time: 0,
+            },
+            {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token2}`,
+              },
+            }
+          );
+  
+          console.log('Message sent successfully:', response.data);
+        } catch (error) {
+          console.error('Error sending message:', error.message);
+        }
+      };
+  
+      // Send messages to the transport group
+      if (security_unit_n) {
+        sendMessageToSecurity_unit(security_unit_n, securityUnitMessage);
+      }
+  
+
+//////////////////////////////////////////////////////////////////////////////
+/////Send to Escort Commander
+////////////////send to expatriate
+const send_to_escort= async (escort_commander_phone_number, message, callback) => {
+  try {
+    const response = await axios.post(
+      'https://gate.whapi.cloud/messages/text',
+      {
+        to: `${escort_commander_phone_number}@s.whatsapp.net`,
+        body: message,
+        typing_time: 0,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(`Message sent to ${escort_commander_phone_number} successfully:`, response.data);
+    if (callback) {
+      callback(null, response.data);
+    }
+  } catch (error) {
+    console.error(`Error sending message to ${escort_commander_phone_number}:`, error.message);
+    if (callback) {
+      callback(error, null);
+    }
+  }
+};
+
+
+// Add the escort commander's phone number to the driverDetails object
+if (escortCommanderRecord) {
+
+  const  escort_commander_phone_number = cleanAndFormatPhoneNumber(escortCommanderRecord.phoneNumber);
+  console.log('Escort commander Phone Number:', escort_commander_phone_number);
+
+  // Notify the expatriate
+  send_to_escort(escort_commander_phone_number, escortMessage , (error, responseData) => {
+    if (error) {
+      console.error('Error occurred while sending escortMessage:', error);
+      res.status(500).send(`Error sending escortMessage: ${error.message}`);
+    } else {
+      console.log('escort message sent successfully.', responseData);
+    }
+  });
+} else {
+  console.log('escortcommander record not found.');
+  // Handle the case where there is no movingExpatriateRecord, e.g., send an error response
+  res.status(404).send('escortcommander record not found.');
+}
+
+} catch (error) {
+  console.error('Error occurred:', error);
+  res.status(500).send(`An error occurred while uploading visitor details: ${error.message}`);
+
+
+} finally {
+  await client.close();
+}
+})
+////////////////////////////////////////////////////////////////////////
+
+
+
+
 // // // serverWebSocket.on('connection', (ws) => {
 // // //   console.log('WebSocket connection established');
 
